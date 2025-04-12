@@ -49,7 +49,7 @@ def achievements():
     certificates = [
         {
             "title": "Google Android Development",
-            "image": "portfolio\\api\\static\\assets\\imgs\\project1.png",
+            "image": "static\\assets\\imgs\\project1.png",
             "description": "Completed official Android app development course using Java and Kotlin."
         },
         {
