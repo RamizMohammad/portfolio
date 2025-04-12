@@ -64,7 +64,7 @@ def achievements():
         },
         # Add more certificates here!
     ]
-    return render_template("achievements.html", certificates=certificates)
+    return render_template("achive.html", certificates=certificates)
 
 @app.route("/")
 def home():
