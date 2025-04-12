@@ -9,6 +9,42 @@ app.secret_key = os.getenv("SECRET_KEY")
 EMAIL_ADDRESS = os.getenv("EMAIL_ADDRESS")
 APP_PASSWORD = os.getenv("APP_PASS")
 
+from flask import Flask, Response
+from datetime import datetime
+
+app = Flask(__name__)
+
+@app.route('/sitemap.xml', methods=['GET'])
+def sitemap():
+    pages = [
+        {'loc': 'https://www.mohammadramiz.in/', 'priority': '1.00'},
+        {'loc': 'https://www.mohammadramiz.in/#about', 'priority': '0.90'},
+        {'loc': 'https://www.mohammadramiz.in/#service', 'priority': '0.90'},
+        {'loc': 'https://www.mohammadramiz.in/#portfolio', 'priority': '0.80'},
+        {'loc': 'https://www.mohammadramiz.in/#contact', 'priority': '0.80'},
+    ]
+
+    sitemap_xml = '<?xml version="1.0" encoding="UTF-8"?>\n'
+    sitemap_xml += '<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">\n'
+
+    lastmod = datetime.now().strftime('%Y-%m-%d')
+
+    for page in pages:
+        sitemap_xml += f"""  <url>
+    <loc>{page['loc']}</loc>
+    <lastmod>{lastmod}</lastmod>
+    <priority>{page['priority']}</priority>
+  </url>\n"""
+
+    sitemap_xml += '</urlset>'
+
+    return Response(sitemap_xml, mimetype='application/xml')
+
+@app.route('/robots.txt')
+def robots():
+    return Response("User-agent: *\nAllow: /\nSitemap: https://www.mohammadramiz.in/sitemap.xml", mimetype='text/plain')
+
+
 @app.route("/")
 def home():
     return render_template('index.html')
