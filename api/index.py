@@ -44,6 +44,27 @@ def sitemap():
 def robots():
     return Response("User-agent: *\nAllow: /\nSitemap: https://www.mohammadramiz.in/sitemap.xml", mimetype='text/plain')
 
+@app.route("/achievements")
+def achievements():
+    certificates = [
+        {
+            "title": "Google Android Development",
+            "image": "portfolio\\api\\static\\assets\\imgs\\project1.png",
+            "description": "Completed official Android app development course using Java and Kotlin."
+        },
+        {
+            "title": "Python for Data Science",
+            "image": "assets/imgs/certificate2.jpg",
+            "description": "Certified by IBM with real-time data science projects."
+        },
+        {
+            "title": "Hackathon Finalist",
+            "image": "assets/imgs/certificate3.jpg",
+            "description": "Finalist in Smart India Hackathon 2024 with an AI-driven EdTech solution."
+        },
+        # Add more certificates here!
+    ]
+    return render_template("achievements.html", certificates=certificates)
 
 @app.route("/")
 def home():
