@@ -53,14 +53,19 @@ def achievements():
             "description": "Finalist in the 56 hours long hackathon organised at KRMU university in Gurgaon"
         },
         {
-            "title": "Python for Data Science",
-            "image": "assets/imgs/certificate2.jpg",
-            "description": "Certified by IBM with real-time data science projects."
+            "title": "24 Hours Hackathon",
+            "image": "assets/Certificate/Sharda.jpg",
+            "description": "6th Finalist in the 24 hours long hackathon organised at Sharda University university in Greater Noida"
         },
         {
-            "title": "Hackathon Finalist",
-            "image": "assets/imgs/certificate3.jpg",
-            "description": "Finalist in Smart India Hackathon 2024 with an AI-driven EdTech solution."
+            "title": "Participant in Hacakathon - Build With India",
+            "image": "assets/Certificate/BuildWithIndia.png",
+            "description": "Particiapnt in the Build With India Hackathon organised at Goolge Office"
+        },
+        {
+            "title": "Certificate of Completion",
+            "image": "assets/Certificate/AWS.jpg",
+            "description": "Completed the Deep Drive on AWS certificate held over Amazon AWS"
         },
         # Add more certificates here!
     ]
