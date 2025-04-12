@@ -48,9 +48,9 @@ def robots():
 def achievements():
     certificates = [
         {
-            "title": "Google Android Development",
-            "image": "static\\assets\\imgs\\project1.png",
-            "description": "Completed official Android app development course using Java and Kotlin."
+            "title": "56 Hours Hackathon",
+            "image": "assets/Certificate/KRMU.jpg",
+            "description": "Finalist in the 56 hours long hackathon organised at KRMU university in Gurgaon"
         },
         {
             "title": "Python for Data Science",
