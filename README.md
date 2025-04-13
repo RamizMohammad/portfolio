@@ -69,6 +69,7 @@ certificates = [
     },
     ...
 ]
+```
 
 Developed with ❤️ by Mohammad Ramiz
 Android & Python Developer | Hackathon Enthusiast | Problem Solver
