@@ -1,28 +1,43 @@
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fexamples%2Ftree%2Fmain%2Fpython%2Fflask3&demo-title=Flask%203%20%2B%20Vercel&demo-description=Use%20Flask%203%20on%20Vercel%20with%20Serverless%20Functions%20using%20the%20Python%20Runtime.&demo-url=https%3A%2F%2Fflask3-python-template.vercel.app%2F&demo-image=https://assets.vercel.com/image/upload/v1669994156/random/flask.png)
+<h1 align="center">🚀 Mohammad Ramiz | Developer Portfolio</h1>
 
-# Flask + Vercel
+<p align="center">
+  👋 Hey there! I'm <strong>Mohammad Ramiz</strong>, an Android and Python developer passionate about building clean UIs, powerful backends, and intelligent tech experiences.
+</p>
 
-This example shows how to use Flask 3 on Vercel with Serverless Functions using the [Python Runtime](https://vercel.com/docs/concepts/functions/serverless-functions/runtimes/python).
+<p align="center">
+  <a href="https://www.mohammadramiz.in" target="_blank">🌐 Visit My Live Portfolio</a> |
+  <a href="#-features">✨ Features</a> |
+  <a href="#-setup--installation">⚙️ Setup</a> |
+  <a href="#-achievements-section">🏆 Achievements</a>
+</p>
 
-## Demo
+---
 
-https://flask-python-template.vercel.app/
+## ✨ Features
 
-## How it Works
+✅ **Sleek, Modern Design** – Built using Bootstrap + custom CSS  
+✅ **Dynamic Achievements Page** – Show off certificates with ease  
+✅ **Contact Form** – Reach out via Gmail with one click  
+✅ **Responsive Layout** – Works on phones, tablets, desktops  
+✅ **Ready for Deployment** – Compatible with Vercel, Render, or VPS  
 
-This example uses the Web Server Gateway Interface (WSGI) with Flask to enable handling requests on Vercel with Serverless Functions.
+---
 
-## Running Locally
+## 🖼️ Live Preview
 
-```bash
-npm i -g vercel
-vercel dev
-```
+> Check out the live website:  
+> 🌐 **[www.mohammadramiz.in](https://www.mohammadramiz.in)**  
+> Built with ❤️ using Flask + Bootstrap + pure dedication!
 
-Your Flask application is now available at `http://localhost:3000`.
+---
 
-## One-Click Deploy
+## 🛠️ Built With
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=vercel-examples):
+- 🐍 **Python 3**
+- 🔥 **Flask** (Backend & Routing)
+- 🎨 **Bootstrap 5**
+- 💌 **smtplib** (for sending contact form emails)
+- 🌿 **dotenv** (secure credential management)
+- 💻 **HTML/CSS/JS**
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fexamples%2Ftree%2Fmain%2Fpython%2Fflask3&demo-title=Flask%203%20%2B%20Vercel&demo-description=Use%20Flask%203%20on%20Vercel%20with%20Serverless%20Functions%20using%20the%20Python%20Runtime.&demo-url=https%3A%2F%2Fflask3-python-template.vercel.app%2F&demo-image=https://assets.vercel.com/image/upload/v1669994156/random/flask.png)
+---
