@@ -41,3 +41,49 @@
 - 💻 **HTML/CSS/JS**
 
 ---
+
+
+---
+
+## ⚙️ Setup & Installation
+
+### 🔧 1. Clone the project
+
+```bash
+git clone https://github.com/your-username/ramiz-portfolio.git
+cd ramiz-portfolio
+
+pip install flask python-dotenv
+
+SECRET_KEY=your-secret-key
+EMAIL_ADDRESS=your-email@gmail.com
+APP_PASS=your-app-password  # Use Gmail App Password (2FA enabled)
+
+python server.py
+
+certificates = [
+    {
+        "title": "Android Development",
+        "image": "assets/imgs/cert1.jpg",
+        "description": "Google-certified Android developer"
+    },
+    ...
+]
+
+Developed with ❤️ by Mohammad Ramiz
+Android & Python Developer | Hackathon Enthusiast | Problem Solver
+📧 Email: mohammadramiz.in@gmail.com
+🐙 GitHub: @KobraOp
+
+
+---
+
+Let me know if you want:
+
+- A GitHub-flavored markdown badge version  
+- A downloadable PDF version  
+- Or automatic README updates when you add more certificates  
+
+Happy shipping, Ramiz! 🚀
+
+
