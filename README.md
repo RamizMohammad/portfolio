@@ -7,9 +7,6 @@
 <p align="center">
   <a href="https://www.mohammadramiz.in" target="_blank">🌐 Visit My Live Portfolio</a> |
   <a href="#-features">✨ Features</a> |
-  <a href="#-setup--installation">⚙️ Setup</a> |
-  <a href="#-achievements-section">🏆 Achievements</a>
-</p>
 
 ---
 
@@ -78,13 +75,5 @@ Android & Python Developer | Hackathon Enthusiast | Problem Solver
 
 
 ---
-
-Let me know if you want:
-
-- A GitHub-flavored markdown badge version  
-- A downloadable PDF version  
-- Or automatic README updates when you add more certificates  
-
-Happy shipping, Ramiz! 🚀
 
 
