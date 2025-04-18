@@ -62,6 +62,11 @@ def achievements():
             "description": "6th Finalist in the 24 hours long hackathon organized at Sharda University in Greater Noida"
         },
         {
+            "title": "Participation in Hackathon",
+            "image": "assets/Certificate/NHAI.jpg",
+            "description": "Participated in the hackathon oragnised National Highway Authority of India and HOAI"
+        },
+        {
             "title": "Participant in Hackathon - Build With India",
             "image": "assets/Certificate/BuildWithIndia.png",
             "description": "Participant in the Build With India Hackathon organized at Google Office"
@@ -70,6 +75,11 @@ def achievements():
             "title": "Certificate of Completion",
             "image": "assets/Certificate/AWS.jpg",
             "description": "Completed the Deep Dive on AWS certification held over Amazon AWS"
+        },
+        {
+            "title": "Certificate of Participation",
+            "image": "assets/Certificate/Flipkart.jpg",
+            "description": "Participated in Level 1: E-Commerce & Tech Quiz of Flipkart GRid 6.0 - Software Development Track"
         },
         # Add more certificates here!
     ]
