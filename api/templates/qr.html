@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mohammad Ramiz</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="steller.css"> <!-- Your existing steller.css -->
+  <style>
+    body {
+      margin: 0;
+      background: #ffffff;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 1rem;
+      color: #343a40;
+    }
+
+    h1 {
+      text-align: center;
+      color: var(--primary);
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .card-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .card {
+      background: #f8f9fa;
+      border-radius: 1rem;
+      padding: 1rem;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: all 0.4s ease;
+      overflow: hidden;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card h3 {
+      font-size: 1.2rem;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .card i {
+      color: var(--primary);
+    }
+
+    .card .details {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: all 0.4s ease;
+      margin-top: 0.5rem;
+    }
+
+    .card.active {
+      transform: scale(1.05);
+      z-index: 10;
+    }
+
+    .card.active .details {
+      max-height: 200px;
+      opacity: 1;
+    }
+
+    .card.inactive {
+      transform: translateY(10px) scale(0.95);
+      opacity: 0.8;
+      z-index: 0;
+    }
+
+    a.btn {
+      display: inline-block;
+      margin-top: 0.5rem;
+      color: #fff;
+      background: var(--primary);
+      padding: 0.4rem 0.8rem;
+      border-radius: 0.5rem;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+
+    @media (min-width: 768px) {
+      body {
+        max-width: 480px;
+        margin: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<h1>Mohammad Ramiz</h1>
+<div class="card-container" id="cardContainer"></div>
+
+<script>
+  const socials = [
+    {
+      title: "GitHub",
+      icon: "fab fa-github",
+      description: "Explore my open-source projects and contributions.",
+      link: "https://github.com/KobraOp"
+    },
+    {
+      title: "Google Developer",
+      icon: "fab fa-google",
+      description: "View my developer profile and certifications.",
+      link: "https://developers.google.com/profile/u/MohammadRamiz"
+    },
+    {
+      title: "Portfolio",
+      icon: "fas fa-globe",
+      description: "See my projects, blog, and achievements.",
+      link: "https://your-portfolio.com"
+    },
+    {
+      title: "LinkedIn",
+      icon: "fab fa-linkedin-in",
+      description: "Connect with me professionally.",
+      link: "https://linkedin.com/in/mohammad-ramiz-886468217"
+    }
+  ];
+
+  const container = document.getElementById("cardContainer");
+
+  socials.forEach((item, index) => {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `
+      <h3><i class="${item.icon}"></i> ${item.title}</h3>
+      <div class="details">
+        <p>${item.description}</p>
+        <a class="btn" href="${item.link}" target="_blank">Visit</a>
+      </div>
+    `;
+
+    card.addEventListener("click", () => {
+      document.querySelectorAll(".card").forEach(c => {
+        if (c === card) {
+          c.classList.toggle("active");
+          c.classList.remove("inactive");
+        } else {
+          c.classList.remove("active");
+          c.classList.add("inactive");
+        }
+      });
+
+      // If no card is active after clicking, reset all to default
+      if (!card.classList.contains("active")) {
+        document.querySelectorAll(".card").forEach(c => c.classList.remove("inactive"));
+      }
+    });
+
+    container.appendChild(card);
+  });
+</script>
+
+</body>
+</html>
