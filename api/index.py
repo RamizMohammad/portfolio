@@ -11,10 +11,15 @@ app.secret_key = os.getenv("SECRET_KEY")
 EMAIL_ADDRESS = os.getenv("EMAIL_ADDRESS")
 APP_PASSWORD = os.getenv("APP_PASS")
 
-# Home Route
 @app.route("/")
 def home():
-    return render_template('index.html')
+    image_folder = os.path.join(app.static_folder, 'assets', 'scrolling')
+    profile_images = [
+        img for img in os.listdir(image_folder)
+        if img.lower().endswith(('.jpg', '.jpeg', '.png', '.gif'))
+    ]
+    profile_images.sort()
+    return render_template('index.html', profile_images=profile_images)
 
 # Sitemap Route
 @app.route('/sitemap.xml', methods=['GET'])
@@ -111,3 +116,6 @@ def email():
         # Optional: log the error for debugging
         print(f"Error sending email: {e}")
         return jsonify({"success": False, "message": "Something went wrong."})
+    
+if __name__ == "__main__":
+    app.run()
