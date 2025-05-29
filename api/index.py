@@ -117,5 +117,3 @@ def email():
         print(f"Error sending email: {e}")
         return jsonify({"success": False, "message": "Something went wrong."})
     
-if __name__ == "__main__":
-    app.run()
