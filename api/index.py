@@ -106,14 +106,14 @@ def email():
         email['Subject'] = "Connecting To Work With Ramiz"
         email.set_content(full_message)
 
-        with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+        # 🔁 Switch to Zoho's SMTP
+        with smtplib.SMTP('smtp.zoho.com', 587) as smtp:
+            smtp.starttls()
             smtp.login(EMAIL_ADDRESS, APP_PASSWORD)
             smtp.send_message(email)
 
         return jsonify({"success": True, "message": "Message sent successfully!"})
 
     except Exception as e:
-        # Optional: log the error for debugging
         print(f"Error sending email: {e}")
         return jsonify({"success": False, "message": "Something went wrong."})
-    
