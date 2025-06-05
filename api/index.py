@@ -107,7 +107,7 @@ def email():
         email.set_content(full_message)
 
         # 🔁 Switch to Zoho's SMTP
-        with smtplib.SMTP('smtp.zoho.com', 465) as smtp:
+        with smtplib.SMTP('smtp.zoho.com', 587) as smtp:
             smtp.starttls()
             smtp.login("workwithramiz@mohammadramiz.in", "cNgKUTZga7Z7")
             smtp.send_message(email)
