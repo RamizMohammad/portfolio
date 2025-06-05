@@ -107,9 +107,9 @@ def email():
         email.set_content(full_message)
 
         # 🔁 Switch to Zoho's SMTP
-        with smtplib.SMTP('smtp.zoho.com', 587) as smtp:
+        with smtplib.SMTP('smtp.zoho.com', 465) as smtp:
             smtp.starttls()
-            smtp.login("workwithramiz@mohammadramiz.in", "cNgKUTZga7Z7")
+            smtp.login("workwithramiz@mohammadramiz.in", "0FCjP05qsrSt")
             smtp.send_message(email)
 
         return jsonify({"success": True, "message": "Message sent successfully!"})
