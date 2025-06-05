@@ -94,22 +94,25 @@ def achievements():
 @app.route('/send', methods=['POST'])
 def email():
     try:
+        # Retrieve form data
         name = request.form['name']
         user_email = request.form['email']
         message = request.form['message']
 
+        # Create the full message
         full_message = f"From: {name}\nEmail: {user_email}\n\n{message}"
 
+        # Create an EmailMessage object
         email = EmailMessage()
         email['From'] = user_email
-        email['To'] = EMAIL_ADDRESS
+        email['To'] = EMAIL_ADDRESS  # Send the email to your Gmail address
         email['Subject'] = "Connecting To Work With Ramiz"
         email.set_content(full_message)
 
-        # 🔁 Switch to Zoho's SMTP
-        with smtplib.SMTP('smtp.zoho.com', 465) as smtp:
-            smtp.starttls()
-            smtp.login("workwithramiz@mohammadramiz.in", "0FCjP05qsrSt")
+        # Use Gmail SMTP (465 for SSL or 587 for TLS)
+        with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+            # Login to Gmail using your email and app password
+            smtp.login(EMAIL_ADDRESS, APP_PASSWORD)
             smtp.send_message(email)
 
         return jsonify({"success": True, "message": "Message sent successfully!"})
