@@ -112,7 +112,7 @@ def email():
         # Use Gmail SMTP (465 for SSL or 587 for TLS)
         with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
             # Login to Gmail using your email and app password
-            smtp.login(EMAIL_ADDRESS, APP_PASSWORD)
+            smtp.login(EMAIL_ADDRESS, APP_PASSWORD )
             smtp.send_message(email)
 
         return jsonify({"success": True, "message": "Message sent successfully!"})
