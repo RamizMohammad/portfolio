@@ -16,7 +16,7 @@ def home():
     image_folder = os.path.join(app.static_folder, 'assets', 'scrolling')
     profile_images = [
         img for img in os.listdir(image_folder)
-        if img.lower().endswith(('.jpg', '.jpeg', '.png', '.gif'))
+        if img.lower().endswith(('.jpg', '.jpeg', '.png', '.gif','.HEIC'))
     ]
     profile_images.sort()
     return render_template('index.html', profile_images=profile_images)
