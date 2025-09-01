@@ -19,7 +19,7 @@ def home():
         if img.lower().endswith(('.jpg', '.jpeg', '.png', '.gif','.HEIC'))
     ]
     profile_images.sort()
-    return render_template('index.html', profile_images=profile_images)
+    return render_template('newIndex.html', profile_images=profile_images)
 
 # Sitemap Route
 @app.route('/sitemap.xml', methods=['GET'])
@@ -93,7 +93,7 @@ def achievements():
         },
         # Add more certificates here!
     ]
-    return render_template("achive.html", certificates=certificates)
+    return render_template("newAchive.html", certificates=certificates)
 
 # Contact Form Email Route
 @app.route('/send', methods=['POST'])
