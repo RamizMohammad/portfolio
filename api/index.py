@@ -57,6 +57,11 @@ def robots():
 def achievements():
     certificates = [
         {
+            "title": "Patent for METHOD AND SYSTEM FOR REAL-TIME USER SAFETY DURING VEHICLE COMMUTES",
+            "image": "assets/Certificate/patent.png",
+            "description": "I also got a petent from indian goverment for my project Application No: 202511053637 A Publication Date: 27 June 2025"
+        },
+        {
             "title": "56 Hours Hackathon",
             "image": "assets/Certificate/KRMU.jpg",
             "description": "Finalist in the 56 hours long hackathon organized at KRMU University in Gurgaon"
