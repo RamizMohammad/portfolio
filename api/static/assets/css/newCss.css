@@ -677,6 +677,367 @@ html {
   background: var(--darker-bg);
 }
 
+.project-category {
+  margin-bottom: clamp(4rem, 8vw, 6rem);
+}
+
+.category-title {
+  font-size: clamp(1.5rem, 3.5vw, 2rem);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: clamp(2rem, 4vw, 3rem);
+}
+
+.category-title i {
+  color: var(--primary-color);
+}
+
+/* Android Projects - Mobile Mockups */
+.android-projects-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(2rem, 4vw, 3rem);
+  margin-bottom: clamp(2rem, 4vw, 3rem);
+}
+
+.mobile-project-card {
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.mobile-project-card:hover {
+  transform: translateY(-10px);
+}
+
+.mobile-mockup {
+  position: relative;
+  display: inline-block;
+  margin-bottom: clamp(1rem, 2vw, 1.5rem);
+}
+
+.mobile-frame {
+  width: clamp(180px, 25vw, 220px);
+  height: clamp(360px, 50vw, 440px);
+  background: linear-gradient(145deg, #2a2a3e, #1a1a2e);
+  border-radius: 25px;
+  padding: 15px;
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.3),
+    inset 0 2px 4px rgba(255, 255, 255, 0.1);
+  position: relative;
+}
+
+.mobile-frame::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 4px;
+  background: #333;
+  border-radius: 2px;
+}
+
+.mobile-frame::after {
+  content: '';
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 4px;
+  background: #333;
+  border-radius: 2px;
+}
+
+.mobile-screen {
+  width: 100%;
+  height: 100%;
+  background: #000;
+  border-radius: 15px;
+  overflow: hidden;
+  position: relative;
+}
+
+.mobile-screen img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.mobile-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.mobile-project-card:hover .mobile-overlay {
+  opacity: 1;
+}
+
+.mobile-project-card:hover .mobile-screen img {
+  transform: scale(1.05);
+}
+
+.mobile-project-info h4 {
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.mobile-project-info p {
+  font-size: clamp(0.8rem, 2vw, 0.9rem);
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+/* Desktop Projects - Desktop Mockups */
+.desktop-projects-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(2rem, 4vw, 3rem);
+  margin-bottom: clamp(2rem, 4vw, 3rem);
+}
+
+.desktop-project-card {
+  transition: all 0.3s ease;
+}
+
+.desktop-project-card:hover {
+  transform: translateY(-10px);
+}
+
+.desktop-mockup {
+  position: relative;
+  margin-bottom: clamp(1rem, 2vw, 1.5rem);
+}
+
+.desktop-frame {
+  width: 100%;
+  max-width: clamp(400px, 60vw, 500px);
+  margin: 0 auto;
+  background: linear-gradient(145deg, #2a2a3e, #1a1a2e);
+  border-radius: 15px;
+  padding: 8px;
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.3),
+    inset 0 2px 4px rgba(255, 255, 255, 0.1);
+}
+
+.desktop-header {
+  background: #1a1a2e;
+  border-radius: 8px 8px 0 0;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.desktop-controls {
+  display: flex;
+  gap: 6px;
+}
+
+.control {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.control.red {
+  background: #ff5f57;
+}
+
+.control.yellow {
+  background: #ffbd2e;
+}
+
+.control.green {
+  background: #28ca42;
+}
+
+.desktop-url {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 4px 12px;
+  border-radius: 15px;
+  font-size: clamp(0.7rem, 1.5vw, 0.8rem);
+  color: var(--text-secondary);
+  font-family: 'Courier New', monospace;
+}
+
+.desktop-screen {
+  width: 100%;
+  aspect-ratio: 16/10;
+  background: #000;
+  border-radius: 0 0 8px 8px;
+  overflow: hidden;
+  position: relative;
+}
+
+.desktop-screen img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.desktop-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.desktop-project-card:hover .desktop-overlay {
+  opacity: 1;
+}
+
+.desktop-project-card:hover .desktop-screen img {
+  transform: scale(1.05);
+}
+
+.desktop-project-info {
+  text-align: center;
+}
+
+.desktop-project-info h4 {
+  font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.desktop-project-info p {
+  font-size: clamp(0.8rem, 2vw, 0.9rem);
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+/* Tech Stack Tags */
+.tech-stack {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.tech-tag {
+  background: var(--gradient-primary);
+  color: var(--dark-bg);
+  padding: 0.25rem 0.75rem;
+  border-radius: 15px;
+  font-size: clamp(0.7rem, 1.5vw, 0.8rem);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* Project Links */
+.project-links {
+  display: flex;
+  gap: clamp(0.8rem, 2vw, 1rem);
+}
+
+.project-links a {
+  width: clamp(45px, 8vw, 55px);
+  height: clamp(45px, 8vw, 55px);
+  background: var(--primary-color);
+  color: var(--dark-bg);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-size: clamp(1rem, 2vw, 1.2rem);
+}
+
+.project-links a:hover {
+  background: var(--accent-color);
+  transform: scale(1.1);
+}
+
+/* Responsive Design for Projects */
+@media (max-width: 1200px) {
+  .android-projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+  
+  .desktop-projects-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .android-projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+  
+  .mobile-frame {
+    width: clamp(140px, 35vw, 180px);
+    height: clamp(280px, 70vw, 360px);
+    padding: 10px;
+  }
+  
+  .desktop-frame {
+    max-width: 100%;
+  }
+  
+  .desktop-url {
+    font-size: 0.7rem;
+    padding: 3px 8px;
+  }
+  
+  .control {
+    width: 10px;
+    height: 10px;
+  }
+  
+  .desktop-header {
+    padding: 6px 10px;
+  }
+}
+
+@media (max-width: 576px) {
+  .android-projects-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .mobile-frame {
+    width: clamp(160px, 40vw, 200px);
+    height: clamp(320px, 80vw, 400px);
+  }
+  
+  .project-category {
+    margin-bottom: 3rem;
+  }
+}
+
 /* Achievements Section */
 .achievements-section {
   padding: var(--section-padding) 0;
