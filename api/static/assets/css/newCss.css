@@ -677,6 +677,339 @@ html {
   background: var(--darker-bg);
 }
 
+/* Project Categories */
+.project-categories {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(4rem, 8vw, 6rem);
+}
+
+.category-section {
+  position: relative;
+}
+
+.category-header {
+  text-align: center;
+  margin-bottom: clamp(2rem, 5vw, 3rem);
+  position: relative;
+}
+
+.category-icon {
+  width: clamp(60px, 12vw, 80px);
+  height: clamp(60px, 12vw, 80px);
+  background: var(--gradient-primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto clamp(1rem, 3vw, 1.5rem);
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  color: var(--dark-bg);
+  box-shadow: var(--shadow-primary);
+}
+
+.category-title {
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.category-subtitle {
+  color: var(--text-secondary);
+  font-size: clamp(0.9rem, 2.5vw, 1rem);
+  margin: 0;
+}
+
+/* Android Projects Grid */
+.android-projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(clamp(200px, 35vw, 280px), 1fr));
+  gap: clamp(1rem, 2.5vw, 1.5rem);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Python Projects Grid */
+.python-projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(clamp(300px, 45vw, 400px), 1fr));
+  gap: clamp(1.5rem, 3vw, 2rem);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Project Cards */
+.project-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.project-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-primary);
+  border-color: var(--primary-color);
+}
+
+/* Android Card Specific Styles */
+.android-card {
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+.android-card.featured {
+  grid-column: span 2;
+  max-width: none;
+  margin: 0;
+}
+
+.android-image {
+  height: clamp(180px, 30vw, 220px);
+  position: relative;
+  overflow: hidden;
+}
+
+.android-card.featured .android-image {
+  height: clamp(200px, 35vw, 280px);
+}
+
+/* Python Card Specific Styles */
+.python-card {
+  min-height: 400px;
+}
+
+.python-card.featured {
+  grid-column: span 2;
+  min-height: 450px;
+}
+
+.python-image {
+  height: clamp(200px, 35vw, 250px);
+  position: relative;
+  overflow: hidden;
+}
+
+.python-card.featured .python-image {
+  height: clamp(220px, 40vw, 300px);
+}
+
+/* Project Image Styles */
+.project-image {
+  position: relative;
+  overflow: hidden;
+}
+
+.project-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.project-card:hover .project-image img {
+  transform: scale(1.05);
+}
+
+/* Project Overlay */
+.project-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(0, 255, 136, 0.9), rgba(0, 102, 255, 0.9));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: all 0.4s ease;
+}
+
+.project-card:hover .project-overlay {
+  opacity: 1;
+}
+
+.project-links {
+  display: flex;
+  gap: clamp(0.8rem, 2vw, 1rem);
+}
+
+.project-links a {
+  width: clamp(45px, 9vw, 55px);
+  height: clamp(45px, 9vw, 55px);
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--text-primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.project-links a:hover {
+  background: var(--text-primary);
+  color: var(--dark-bg);
+  transform: scale(1.1);
+}
+
+/* Project Badge */
+.project-badge {
+  position: absolute;
+  top: clamp(0.8rem, 2vw, 1rem);
+  right: clamp(0.8rem, 2vw, 1rem);
+  background: var(--accent-color);
+  color: var(--dark-bg);
+  padding: clamp(0.3rem, 1vw, 0.4rem) clamp(0.6rem, 2vw, 0.8rem);
+  border-radius: 15px;
+  font-size: clamp(0.7rem, 1.5vw, 0.8rem);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  z-index: 3;
+  box-shadow: 0 4px 15px rgba(255, 255, 0, 0.3);
+}
+
+.featured-badge {
+  background: var(--gradient-secondary);
+  color: var(--text-primary);
+}
+
+/* Project Info */
+.project-info {
+  padding: clamp(1rem, 3vw, 1.5rem);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.project-info h3 {
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  font-weight: 700;
+  margin-bottom: clamp(0.5rem, 1.5vw, 0.8rem);
+  color: var(--text-primary);
+}
+
+.project-info p {
+  color: var(--text-secondary);
+  font-size: clamp(0.8rem, 2vw, 0.9rem);
+  line-height: 1.6;
+  margin-bottom: clamp(1rem, 2.5vw, 1.5rem);
+  flex: 1;
+}
+
+/* Tech Stack */
+.tech-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(0.4rem, 1vw, 0.6rem);
+  margin-top: auto;
+}
+
+.tech-tag {
+  background: rgba(0, 255, 136, 0.1);
+  color: var(--primary-color);
+  padding: clamp(0.2rem, 0.5vw, 0.3rem) clamp(0.6rem, 1.5vw, 0.8rem);
+  border-radius: 12px;
+  font-size: clamp(0.7rem, 1.5vw, 0.8rem);
+  font-weight: 500;
+  border: 1px solid rgba(0, 255, 136, 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .android-projects-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+  
+  .python-projects-grid {
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  }
+}
+
+@media (max-width: 992px) {
+  .project-categories {
+    gap: 3rem;
+  }
+  
+  .android-projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+  
+  .python-projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+  
+  .android-card.featured,
+  .python-card.featured {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 768px) {
+  .android-projects-grid,
+  .python-projects-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .android-card.featured,
+  .python-card.featured {
+    grid-column: span 1;
+  }
+  
+  .android-card {
+    max-width: none;
+  }
+  
+  .python-card {
+    min-height: auto;
+  }
+  
+  .category-header {
+    margin-bottom: 2rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .project-categories {
+    gap: 2.5rem;
+  }
+  
+  .android-image,
+  .python-image {
+    height: clamp(160px, 35vw, 200px);
+  }
+  
+  .android-card.featured .android-image,
+  .python-card.featured .python-image {
+    height: clamp(180px, 40vw, 220px);
+  }
+  
+  .tech-stack {
+    gap: 0.4rem;
+  }
+  
+  .tech-tag {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.6rem;
+  }
+}
+
+/* Remove old project grid styles */
 /* Achievements Section */
 .achievements-section {
   padding: var(--section-padding) 0;
@@ -773,100 +1106,9 @@ html {
 }
 
 .projects-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(clamp(280px, 40vw, 350px), 1fr));
-  gap: clamp(1.5rem, 3vw, 2rem);
-  margin-bottom: clamp(2rem, 5vw, 3rem);
+  display: none; /* Hide old grid */
 }
 
-.project-card {
-  background: var(--card-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 25px;
-  overflow: hidden;
-  transition: all 0.3s ease;
-  position: relative;
-}
-
-.project-card:hover {
-  transform: translateY(-10px);
-  box-shadow: var(--shadow-primary);
-}
-
-.project-image {
-  position: relative;
-  overflow: hidden;
-  height: clamp(200px, 40vw, 250px);
-}
-
-.project-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.3s ease;
-}
-
-.project-card:hover .project-image img {
-  transform: scale(1.1);
-}
-
-.project-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.8);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: all 0.3s ease;
-}
-
-.project-card:hover .project-overlay {
-  opacity: 1;
-}
-
-.project-links {
-  display: flex;
-  gap: clamp(0.8rem, 2vw, 1rem);
-}
-
-.project-links a {
-  width: clamp(40px, 8vw, 50px);
-  height: clamp(40px, 8vw, 50px);
-  background: var(--primary-color);
-  color: var(--dark-bg);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  font-size: clamp(0.9rem, 2vw, 1rem);
-}
-
-.project-links a:hover {
-  background: var(--accent-color);
-  transform: scale(1.1);
-}
-
-.project-info {
-  padding: clamp(1rem, 3vw, 1.5rem);
-}
-
-.project-info h3 {
-  font-size: clamp(1.1rem, 3vw, 1.3rem);
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  color: var(--text-primary);
-}
-
-.project-info p {
-  color: var(--text-secondary);
-  font-size: clamp(0.8rem, 2vw, 0.9rem);
-}
 
 /* Contact Section */
 .contact-section {
