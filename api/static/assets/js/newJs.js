@@ -18,7 +18,7 @@ function initializeTypedText() {
             strings: [
                 'Android Developer',
                 'Python Backend',
-                'Hackathon Enthusiast',
+                'Hackathons',
                 'Problem Solver'
             ],
             typeSpeed: 80,
