@@ -457,204 +457,29 @@
 
             <!-- Achievements Grid -->
             <div class="achievements-grid">
-                <!-- Sample Achievement Cards -->
-                <div class="achievement-card" data-category="patents">
+                {% for cert in certificates %}
+                <div class="achievement-card" data-category="{{ cert.category }}">
                     <div class="achievement-image">
-                        <img src="https://images.pexels.com/photos/5668858/pexels-photo-5668858.jpeg" alt="Patent Certificate" loading="lazy">
+                        <img src="{{ url_for('static', filename=cert.image) }}" alt="{{ cert.title }}" loading="lazy">
                         <div class="achievement-overlay">
                             <div class="achievement-icon">
-                                <i class="fas fa-lightbulb"></i>
+                                <i class="{{ cert.icon }}"></i>
                             </div>
                         </div>
                     </div>
                     <div class="achievement-content">
-                        <span class="achievement-category">Patent</span>
-                        <h3 class="achievement-title">Innovation Patent</h3>
+                        <span class="achievement-category">{{ cert.category }}</span>
+                        <h3 class="achievement-title">{{ cert.title }}</h3>
                         <p class="achievement-description">
-                            Filed a patent for innovative mobile application architecture that enhances user experience and performance optimization.
+                            {{ cert.description }}
                         </p>
                         <div class="achievement-meta">
-                            <span class="achievement-date">2024</span>
-                            <span class="achievement-badge">Filed</span>
+                            <span class="achievement-date">{{ cert.date }}</span>
+                            <span class="achievement-badge">{{ cert.status }}</span>
                         </div>
                     </div>
                 </div>
-
-                <div class="achievement-card" data-category="hackathons">
-                    <div class="achievement-image">
-                        <img src="https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg" alt="Hackathon Winner" loading="lazy">
-                        <div class="achievement-overlay">
-                            <div class="achievement-icon">
-                                <i class="fas fa-trophy"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="achievement-content">
-                        <span class="achievement-category">Hackathon</span>
-                        <h3 class="achievement-title">Smart India Hackathon</h3>
-                        <p class="achievement-description">
-                            Winner of Smart India Hackathon for developing an innovative solution addressing real-world problems using cutting-edge technology.
-                        </p>
-                        <div class="achievement-meta">
-                            <span class="achievement-date">2023</span>
-                            <span class="achievement-badge">Winner</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="achievement-card" data-category="certifications">
-                    <div class="achievement-image">
-                        <img src="https://images.pexels.com/photos/4050315/pexels-photo-4050315.jpeg" alt="Android Certification" loading="lazy">
-                        <div class="achievement-overlay">
-                            <div class="achievement-icon">
-                                <i class="fab fa-android"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="achievement-content">
-                        <span class="achievement-category">Certification</span>
-                        <h3 class="achievement-title">Android Developer Certification</h3>
-                        <p class="achievement-description">
-                            Google certified Android developer with expertise in modern Android development practices and architecture patterns.
-                        </p>
-                        <div class="achievement-meta">
-                            <span class="achievement-date">2023</span>
-                            <span class="achievement-badge">Certified</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="achievement-card" data-category="certifications">
-                    <div class="achievement-image">
-                        <img src="https://images.pexels.com/photos/1181671/pexels-photo-1181671.jpeg" alt="Python Certification" loading="lazy">
-                        <div class="achievement-overlay">
-                            <div class="achievement-icon">
-                                <i class="fab fa-python"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="achievement-content">
-                        <span class="achievement-category">Certification</span>
-                        <h3 class="achievement-title">Python Backend Development</h3>
-                        <p class="achievement-description">
-                            Advanced certification in Python backend development, covering Flask, Django, and modern API development practices.
-                        </p>
-                        <div class="achievement-meta">
-                            <span class="achievement-date">2023</span>
-                            <span class="achievement-badge">Certified</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="achievement-card" data-category="hackathons">
-                    <div class="achievement-image">
-                        <img src="https://images.pexels.com/photos/3184339/pexels-photo-3184339.jpeg" alt="Tech Hackathon" loading="lazy">
-                        <div class="achievement-overlay">
-                            <div class="achievement-icon">
-                                <i class="fas fa-code"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="achievement-content">
-                        <span class="achievement-category">Hackathon</span>
-                        <h3 class="achievement-title">Tech Innovation Challenge</h3>
-                        <p class="achievement-description">
-                            Second place in a 48-hour hackathon focused on developing AI-powered solutions for healthcare management systems.
-                        </p>
-                        <div class="achievement-meta">
-                            <span class="achievement-date">2023</span>
-                            <span class="achievement-badge">2nd Place</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="achievement-card" data-category="projects">
-                    <div class="achievement-image">
-                        <img src="https://images.pexels.com/photos/4164418/pexels-photo-4164418.jpeg" alt="Published App" loading="lazy">
-                        <div class="achievement-overlay">
-                            <div class="achievement-icon">
-                                <i class="fab fa-google-play"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="achievement-content">
-                        <span class="achievement-category">Project</span>
-                        <h3 class="achievement-title">Play Store Publication</h3>
-                        <p class="achievement-description">
-                            Successfully published Confess App on Google Play Store, reaching thousands of users with a 4.5+ star rating.
-                        </p>
-                        <div class="achievement-meta">
-                            <span class="achievement-date">2024</span>
-                            <span class="achievement-badge">Published</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="achievement-card" data-category="certifications">
-                    <div class="achievement-image">
-                        <img src="https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg" alt="Cloud Certification" loading="lazy">
-                        <div class="achievement-overlay">
-                            <div class="achievement-icon">
-                                <i class="fas fa-cloud"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="achievement-content">
-                        <span class="achievement-category">Certification</span>
-                        <h3 class="achievement-title">Cloud Computing Fundamentals</h3>
-                        <p class="achievement-description">
-                            Comprehensive certification covering AWS services, cloud architecture, and deployment strategies for scalable applications.
-                        </p>
-                        <div class="achievement-meta">
-                            <span class="achievement-date">2023</span>
-                            <span class="achievement-badge">Certified</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="achievement-card" data-category="hackathons">
-                    <div class="achievement-image">
-                        <img src="https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg" alt="Coding Competition" loading="lazy">
-                        <div class="achievement-overlay">
-                            <div class="achievement-icon">
-                                <i class="fas fa-medal"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="achievement-content">
-                        <span class="achievement-category">Hackathon</span>
-                        <h3 class="achievement-title">University Coding Championship</h3>
-                        <p class="achievement-description">
-                            First place in university-wide coding competition, demonstrating exceptional problem-solving and algorithmic thinking skills.
-                        </p>
-                        <div class="achievement-meta">
-                            <span class="achievement-date">2022</span>
-                            <span class="achievement-badge">1st Place</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="achievement-card" data-category="certifications">
-                    <div class="achievement-image">
-                        <img src="https://images.pexels.com/photos/3861958/pexels-photo-3861958.jpeg" alt="Full Stack Certification" loading="lazy">
-                        <div class="achievement-overlay">
-                            <div class="achievement-icon">
-                                <i class="fas fa-layer-group"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="achievement-content">
-                        <span class="achievement-category">Certification</span>
-                        <h3 class="achievement-title">Full Stack Development</h3>
-                        <p class="achievement-description">
-                            Complete full-stack development certification covering modern web technologies, databases, and deployment practices.
-                        </p>
-                        <div class="achievement-meta">
-                            <span class="achievement-date">2022</span>
-                            <span class="achievement-badge">Certified</span>
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
 
             <!-- Call to Action -->
