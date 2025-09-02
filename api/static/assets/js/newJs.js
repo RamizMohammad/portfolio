@@ -17,8 +17,7 @@ function initializeTypedText() {
         new Typed('#typed', {
             strings: [
                 'Android Developer',
-                'Python Backend Engineer', 
-                'Full Stack Developer',
+                'Python Backend',
                 'Hackathon Enthusiast',
                 'Problem Solver'
             ],
