@@ -1,102 +1,888 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#0a0a0f" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="author" content="Mohammad Ramiz" />
+    <title>Mohammad Ramiz</title>
+    <meta
+      name="description"
+      content="Explore about Mohammad Ramiz – an Android Developer"
+    />
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Achievements | Mohammad Ramiz</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/newCss.css') }}">
-    <link rel="icon" href="{{ url_for('static', filename='assets/imgs/portImage.png') }}" type="image/x-icon">
-    <style>
-        body {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
 
-        main {
-            flex: 1;
-        }
+    <!-- Primary Meta Tags -->
+    <title>Mohammad Ramiz | Android & Python Developer Portfolio</title>
+    <meta
+      name="title"
+      content="Mohammad Ramiz | Android & Python Developer Portfolio"
+    />
+    <meta
+      name="description"
+      content="Official portfolio of Mohammad Ramiz – Android Developer, Python Backend Engineer, and Hackathon Enthusiast. Explore projects, skills, and connect."
+    />
+    <meta
+      name="keywords"
+      content="Mohammad Ramiz, Android Developer, Python Developer, Node.js Developer, Full Stack Developer, Hackathon, Portfolio, Software Engineer India, Backend Developer"
+    />
+    <meta
+      name="title"
+      content="Mohammad Ramiz | Android & Python Developer Portfolio"
+    />
+    <meta
+      name="description"
+      content="Official portfolio of Mohammad Ramiz – Android Developer, Python Backend Engineer, and Hackathon Enthusiast. Explore projects, skills, and connect."
+    />
+    <meta
+      name="keywords"
+      content="Mohammad Ramiz, Android Developer, Python Developer, Node.js Developer, Full Stack Developer, Hackathon, Portfolio, Software Engineer India, Backend Developer"
+    />
+    <meta name="author" content="Mohammad Ramiz" />
+    <meta name="author" content="mohammad ramiz" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://www.mohammadramiz.in/" />
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.mohammadramiz.in/" />
+    <meta
+      property="og:title"
+      content="Mohammad Ramiz | Android & Python Developer Portfolio"
+    />
+    <meta
+      property="og:description"
+      content="Explore Mohammad Ramiz's developer portfolio – Android apps, Python backends, and full-stack solutions."
+    />
+    <meta
+      property="og:image"
+      content="https://www.mohammadramiz.in/static/assets/imgs/portImage.png"
+    />
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://www.mohammadramiz.in/" />
+    <meta
+      property="twitter:title"
+      content="Mohammad Ramiz | Android & Python Developer Portfolio"
+    />
+    <meta
+      property="twitter:description"
+      content="Explore Android and Python projects by Mohammad Ramiz. Connect with a passionate full-stack developer."
+    />
+    <meta
+      property="twitter:image"
+      content="https://www.mohammadramiz.in/static/assets/imgs/portImage.png"
+    />
 
-        .card img {
-            object-fit: cover;
-            height: 220px;
-        }
-    </style>
-</head>
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.mohammadramiz.in/" />
+    <meta
+      property="og:title"
+      content="Mohammad Ramiz | Android & Python Developer Portfolio"
+    />
+    <meta
+      property="og:description"
+      content="Explore Mohammad Ramiz's developer portfolio – Android apps, Python backends, and full-stack solutions."
+    />
 
-<body>
+    <!-- Font Icons -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css"
+      media="print"
+      onload="this.media='all'"
+    />
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="/"><img src="{{ url_for('static', filename='assets/imgs/logoPort.png') }}" alt=""></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto align-items-center">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">Achievements</a>
-                    </li>
-                </ul>
-            </div>
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="newCss.css" />
+    <link
+      rel="icon"
+      href="../static/assets/imgs/portImage.png"
+      type="image/x-icon"
+    />
+
+    <!-- Fallback for non-JS users -->
+    <noscript>
+      <link
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+        rel="stylesheet"
+      />
+      <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+      />
+    </noscript>
+  </head>
+
+  <body id="home">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="#">
+          <span class="brand-text">RAMIZ</span>
+        </a>
+
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#home">HOME</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#about">ABOUT ME</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#skills">SKILLS</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#projects">PROJECTS</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/achievements">ACHIEVEMENTS</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#contact">CONTACT</a>
+            </li>
+          </ul>
         </div>
+      </div>
     </nav>
 
-    <!-- Main -->
-    <main class="pt-5 mt-5">
-        <section class="section">
-            <div class="container text-center">
-                <h6 class="subtitle">My Journey</h6>
-                <h6 class="section-title mb-4">Achievements & Certifications</h6>
-                <p class="mb-5 pb-4">Some proud highlights from my career and learning path.</p>
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-6">
+            <div class="hero-content">
+              <h1 class="hero-title">
+                I'm <span class="highlight">Mohammad Ramiz</span><br />
+                <span class="typed-text" id="typed"></span>
+              </h1>
 
-                <div class="row">
-                    {% for cert in certificates %}
-                    <div class="col-md-4 mb-4">
-                        <div class="card shadow-sm h-100">
-                            <img src="{{ url_for('static', filename=cert.image) }}" class="card-img-top" alt="{{ cert.title }}">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ cert.title }}</h5>
-                                <p class="card-text">{{ cert.description }}</p>
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
+              <div class="hero-stats">
+                <div class="stat-card">
+                  <div class="stat-number">1</div>
+                  <div class="stat-label">Patents</div>
                 </div>
+                <div class="stat-card">
+                  <div class="stat-number">3</div>
+                  <div class="stat-label">Hackathons</div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-number">15+</div>
+                  <div class="stat-label">Projects</div>
+                </div>
+              </div>
+
+              <div class="hero-buttons">
+                <a href="#contact" class="btn btn-primary">
+                  <i class="fas fa-briefcase me-2"></i>HIRE ME
+                </a>
+                <a
+                  href="{{ url_for('static', filename='assets/resume/resume3.pdf') }}"
+                  class="btn btn-outline"
+                >
+                  <i class="fas fa-download me-2"></i>DOWNLOAD CV
+                </a>
+              </div>
+
+              <div class="social-links">
+                <a
+                  href="https://www.linkedin.com/in/mohammad-ramiz-886468217/"
+                  class="social-link"
+                  aria-label="LinkedIn"
+                >
+                  <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a
+                  href="https://github.com/RamizMohammad"
+                  class="social-link"
+                  aria-label="GitHub"
+                >
+                  <i class="fab fa-github"></i>
+                </a>
+                <a
+                  href="https://developers.google.com/profile/u/MohammadRamiz"
+                  class="social-link"
+                  aria-label="Google Developer"
+                >
+                  <i class="fab fa-google"></i>
+                </a>
+                <a
+                  href="https://x.com/Mohammad__Ramiz"
+                  class="social-link"
+                  aria-label="Twitter"
+                >
+                  <i class="fab fa-twitter"></i>
+                </a>
+              </div>
             </div>
-        </section>
-    </main>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="hero-image">
+              <div class="image-container">
+                <img
+                  src="../static/assets/imgs/portImage.png"
+                  alt="Mohammad Ramiz - Android Developer"
+                  class="profile-img"
+                  loading="eager"
+                />
+                <div class="floating-card card-1">
+                  <i class="fab fa-android"></i>
+                  <span>Android Expert</span>
+                </div>
+                <div class="floating-card card-2">
+                  <i class="fab fa-python"></i>
+                  <span>Python Backend</span>
+                </div>
+              </div>
+              <div class="floating-card card-3">
+                <i class="fas fa-trophy"></i>
+                <span>Hackathon Enthusiast</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="scroll-indicator">
+        <div class="scroll-text">Scroll Down</div>
+        <div class="scroll-arrow">
+          <i class="fas fa-chevron-down"></i>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="about-content">
+              <h2 class="section-title">
+                <span class="highlight">WHO AM I ?</span>
+              </h2>
+
+              <p class="about-text">
+                I am a passionate developer specializing in Android development
+                and backend engineering. With expertise in Java, Python, and
+                modern frameworks, I create robust mobile applications and
+                scalable server solutions.
+              </p>
+
+              <p class="about-text">
+                My journey in programming started with a curiosity for
+                problem-solving, which has evolved into a career focused on
+                building innovative solutions. I thrive in hackathon
+                environments and enjoy collaborating on challenging projects.
+              </p>
+
+              <div class="experience-badge">
+                <div class="exp-number">3+</div>
+                <div class="exp-text">Years Experience<br />Working</div>
+              </div>
+
+              <a href="#projects" class="btn btn-accent mt-4">
+                <i class="fas fa-eye me-2"></i>VIEW MY PROJECTS
+              </a>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="about-image">
+              <div id="profileCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+                <div class="carousel-inner">
+                  <div class="carousel-item active">
+                    <img src="../static/assets/imgs/portImage.png" class="d-block w-100 img-thumbnail rounded-4" alt="Profile image 1">
+                  </div>
+                  <div class="carousel-item">
+                    <img src="../static/assets/imgs/portImage.png" class="d-block w-100 img-thumbnail rounded-4" alt="Profile image 2">
+                  </div>
+                  <div class="carousel-item">
+                    <img src="../static/assets/imgs/portImage.png" class="d-block w-100 img-thumbnail rounded-4" alt="Profile image 3">
+                  </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#profileCarousel" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#profileCarousel" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="skills-section">
+      <div class="container">
+        <div class="text-center mb-5">
+          <h2 class="section-title">
+            <span class="highlight">MY SKILLS</span>
+          </h2>
+          <p class="section-subtitle">Technologies I work with</p>
+        </div>
+
+        <div class="skills-grid">
+          <div class="skill-card">
+            <div class="skill-icon">
+              <i class="fab fa-android"></i>
+            </div>
+            <h4>Android</h4>
+          </div>
+
+          <div class="skill-card">
+            <div class="skill-icon">
+              <i class="fab fa-python"></i>
+            </div>
+            <h4>Python</h4>
+          </div>
+
+          <div class="skill-card">
+            <div class="skill-icon">
+              <i class="fab fa-java"></i>
+            </div>
+            <h4>Java</h4>
+          </div>
+
+          <div class="skill-card">
+            <div class="skill-icon">
+              <i class="fab fa-node-js"></i>
+            </div>
+            <h4>Node.js</h4>
+          </div>
+
+          <div class="skill-card">
+            <div class="skill-icon">
+              <i class="fas fa-database"></i>
+            </div>
+            <h4>MongoDB</h4>
+          </div>
+
+          <div class="skill-card">
+            <div class="skill-icon">
+              <i class="fab fa-react"></i>
+            </div>
+            <h4>React</h4>
+          </div>
+
+          <div class="skill-card">
+            <div class="skill-icon">
+              <i class="fas fa-server"></i>
+            </div>
+            <h4>Flask</h4>
+          </div>
+
+          <div class="skill-card">
+            <div class="skill-icon">
+              <i class="fas fa-robot"></i>
+            </div>
+            <h4>AI/ML</h4>
+          </div>
+        </div>
+
+        <div class="additional-skills">
+          <h3>ADDITIONAL SKILLS</h3>
+          <div class="additional-skills-grid">
+            <div class="additional-skill" title="Git">
+              <i class="fab fa-git-alt"></i>
+            </div>
+            <div class="additional-skill" title="Docker">
+              <i class="fab fa-docker"></i>
+            </div>
+            <div class="additional-skill" title="Cloud Computing">
+              <i class="fas fa-cloud"></i>
+            </div>
+            <div class="additional-skill" title="AWS">
+              <i class="fab fa-aws"></i>
+            </div>
+            <div class="additional-skill" title="Figma">
+              <i class="fab fa-figma"></i>
+            </div>
+            <div class="additional-skill" title="WordPress">
+              <i class="fab fa-wordpress"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="experience-section">
+          <div class="experience-card">
+            <div class="exp-number">3+</div>
+            <div class="exp-details">
+              <h3>Years Experience</h3>
+              <p>Working</p>
+            </div>
+            <a href="#contact" class="btn btn-accent">CONTACT ME NOW</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects-section">
+      <div class="container">
+        <div class="text-center mb-5">
+          <h2 class="section-title">
+            THE WORKS CLOSEST TO<br />
+            <span class="highlight">MY HEART</span>
+          </h2>
+        </div>
+
+        <div class="projects-grid">
+          <div class="project-card">
+            <div class="project-image">
+              <img
+                src="../static/assets/imgs/Pro5.png"
+                alt="Confess App - Android Application"
+                loading="lazy"
+              />
+              <div class="project-overlay">
+                <div class="project-links">
+                  <a
+                    href="https://play.google.com/store/apps/details?id=in.mohammad.ramiz.confess&pcampaignid=web_share"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="View Confess App on Play Store"
+                  >
+                    <i class="fas fa-external-link-alt"></i>
+                  </a>
+                  <a
+                    href="https://github.com/RamizMohammad/ConfessApp.git"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="View Confess App source code"
+                  >
+                    <i class="fab fa-github"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="project-info">
+              <h3>Confess App</h3>
+              <p>Android Application</p>
+            </div>
+          </div>
+
+          <div class="project-card">
+            <div class="project-image">
+              <img
+                src="../static/assets/imgs/shot1.png"
+                alt="BuddyCode - Online Code Editor"
+                loading="lazy"
+              />
+              <div class="project-overlay">
+                <div class="project-links">
+                  <a
+                    href="https://www.buddycode.online"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="Visit BuddyCode website"
+                  >
+                    <i class="fas fa-external-link-alt"></i>
+                  </a>
+                  <a
+                    href="https://github.com/RamizMohammad/BuddyCoderWeb.git"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="View BuddyCode source code"
+                  >
+                    <i class="fab fa-github"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="project-info">
+              <h3>BuddyCode</h3>
+              <p>Online Code Editor</p>
+            </div>
+          </div>
+
+          <div class="project-card">
+            <div class="project-image">
+              <img
+                src="../static/assets/imgs/Pro6.png"
+                alt="Share Wheels - Ride Sharing App"
+                loading="lazy"
+              />
+              <div class="project-overlay">
+                <div class="project-links">
+                  <a
+                    href="https://github.com/RamizMohammad/FinalYearProject---RideShiled.git"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="View Share Wheels source code"
+                  >
+                    <i class="fab fa-github"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="project-info">
+              <h3>Share Wheels</h3>
+              <p>Ride Sharing App</p>
+            </div>
+          </div>
+
+          <div class="project-card">
+            <div class="project-image">
+              <img
+                src="../static/assets/imgs/Pro1.jpg"
+                alt="Work Management App"
+                loading="lazy"
+              />
+              <div class="project-overlay">
+                <div class="project-links">
+                  <a
+                    href="https://github.com/RamizMohammad/Mr.-Manager.git"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="View Work Management App source code"
+                  >
+                    <i class="fab fa-github"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="project-info">
+              <h3>Work Management App</h3>
+              <p>Task Scheduling & Management</p>
+            </div>
+          </div>
+
+          <div class="project-card">
+            <div class="project-image">
+              <img
+                src="../static/assets/imgs/Pro3.png"
+                alt="Hotel Management App"
+                loading="lazy"
+              />
+              <div class="project-overlay">
+                <div class="project-links">
+                  <a
+                    href="https://github.com/RamizMohammad/Hotel_manager"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="View Hotel Management App source code"
+                  >
+                    <i class="fab fa-github"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="project-info">
+              <h3>Hotel Management App</h3>
+              <p>Staff & Guest Operations</p>
+            </div>
+          </div>
+
+          <div class="project-card">
+            <div class="project-image">
+              <img
+                src="../static/assets/imgs/confessServer.png"
+                alt="Confess Server - Python Backend"
+                loading="lazy"
+              />
+              <div class="project-overlay">
+                <div class="project-links">
+                  <a
+                    href="https://github.com/RamizMohammad/Confess.git"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="View Confess Server source code"
+                  >
+                    <i class="fab fa-github"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="project-info">
+              <h3>Confess Server</h3>
+              <p>Python Backend with Firestore</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center mt-5">
+          <a
+            href="https://github.com/RamizMohammad"
+            target="_blank"
+            rel="noopener"
+            class="btn btn-accent"
+          >
+            <i class="fas fa-eye me-2"></i>VIEW ALL PROJECTS
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Achievements Section -->
+    <section id="achievements" class="achievements-section">
+      <div class="container">
+        <div class="text-center mb-5">
+          <h2 class="section-title">
+            MY <span class="highlight">ACHIEVEMENTS</span>
+          </h2>
+          <p class="section-subtitle">Certifications, awards, and milestones</p>
+        </div>
+
+        <div class="row justify-content-center">
+          <div class="col-lg-8">
+            <div class="achievements-preview">
+              <div class="achievement-highlights">
+                <div class="highlight-card">
+                  <div class="highlight-icon">
+                    <i class="fas fa-trophy"></i>
+                  </div>
+                  <div class="highlight-content">
+                    <h4>Hackathon Winner</h4>
+                    <p>
+                      Multiple hackathon victories showcasing innovation and
+                      problem-solving skills
+                    </p>
+                  </div>
+                </div>
+
+                <div class="highlight-card">
+                  <div class="highlight-icon">
+                    <i class="fas fa-certificate"></i>
+                  </div>
+                  <div class="highlight-content">
+                    <h4>Professional Certifications</h4>
+                    <p>
+                      Industry-recognized certifications in development and
+                      cloud technologies
+                    </p>
+                  </div>
+                </div>
+
+                <div class="highlight-card">
+                  <div class="highlight-icon">
+                    <i class="fas fa-lightbulb"></i>
+                  </div>
+                  <div class="highlight-content">
+                    <h4>Patent Holder</h4>
+                    <p>
+                      Innovative solutions recognized with intellectual property
+                      protection
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="text-center mt-4">
+                <a href="achive.html" class="btn btn-accent">
+                  <i class="fas fa-medal me-2"></i>VIEW ALL ACHIEVEMENTS
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-8">
+            <div class="contact-card">
+              <h2 class="contact-title">LET'S HAVE A CHAT</h2>
+
+              <form class="contact-form" action="/send" method="post">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    name="name"
+                    class="form-control"
+                    placeholder="YOUR NAME"
+                    autocomplete="name"
+                    required
+                  />
+                </div>
+
+                <div class="form-group">
+                  <input
+                    type="email"
+                    name="email"
+                    class="form-control"
+                    placeholder="EMAIL ADDRESS"
+                    autocomplete="email"
+                    required
+                  />
+                </div>
+
+                <div class="form-group">
+                  <textarea
+                    name="message"
+                    class="form-control"
+                    rows="5"
+                    placeholder="CHAT HERE"
+                    required
+                  ></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-submit" id="submitButton">
+                  SUBMIT HERE
+                </button>
+              </form>
+
+              <div class="contact-info">
+                <div class="contact-item">
+                  <i class="fas fa-map-marker-alt"></i>
+                  <div>
+                    <h5>Location</h5>
+                    <p>Greater Noida, Uttar Pradesh</p>
+                  </div>
+                </div>
+
+                <div class="contact-item">
+                  <i class="fas fa-phone"></i>
+                  <div>
+                    <h5>Phone</h5>
+                    <p>
+                      <a
+                        href="tel:+919517028373"
+                        style="color: inherit; text-decoration: none"
+                        >+91 9517028373</a
+                      >
+                    </p>
+                  </div>
+                </div>
+
+                <div class="contact-item">
+                  <i class="fas fa-envelope"></i>
+                  <div>
+                    <h5>Email</h5>
+                    <p>
+                      <a
+                        href="mailto:ramizanas6@gmail.com"
+                        style="color: inherit; text-decoration: none"
+                        >ramizanas6@gmail.com</a
+                      >
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- Footer -->
-    <footer class="page-footer mt-auto py-3 bg-light">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-sm-6">
-                    <p>&copy; <script>document.write(new Date().getFullYear())</script> Mohammad Ramiz</p>
-                </div>
-                <div class="col-sm-6 text-end">
-                    <div class="socials">
-                        <a class="social-item" href="https://www.linkedin.com/in/mohammad-ramiz-886468217/"><i class="fab fa-linkedin-in"></i></a>
-                        <a class="social-item" href="https://developers.google.com/profile/u/MohammadRamiz"><i
-                            class="fab fa-google"></i></a>
-                        <a class="social-item" href="https://github.com/KobraOp"><i class="fab fa-github"></i></a>
-                        <a class="social-item" href="https://x.com/Mohammad__Ramiz"><i class="fab fa-twitter"></i></a>
-                    </div>
-                </div>
+    <footer class="footer">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-md-6">
+            <p>
+              &copy; <span id="currentYear"></span> Mohammad Ramiz. All rights
+              reserved.
+            </p>
+          </div>
+          <div class="col-md-6">
+            <div class="footer-socials">
+              <a
+                href="https://www.linkedin.com/in/mohammad-ramiz-886468217/"
+                class="social-link"
+                aria-label="LinkedIn"
+              >
+                <i class="fab fa-linkedin-in"></i>
+              </a>
+              <a
+                href="https://github.com/RamizMohammad"
+                class="social-link"
+                aria-label="GitHub"
+              >
+                <i class="fab fa-github"></i>
+              </a>
+              <a
+                href="https://developers.google.com/profile/u/MohammadRamiz"
+                class="social-link"
+                aria-label="Google Developer"
+              >
+                <i class="fab fa-google"></i>
+              </a>
+              <a
+                href="https://x.com/Mohammad__Ramiz"
+                class="social-link"
+                aria-label="Twitter"
+              >
+                <i class="fab fa-twitter"></i>
+              </a>
             </div>
+          </div>
         </div>
+      </div>
     </footer>
 
-    <!-- JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+    <!-- Toast Notification -->
+    <div
+      class="toast-container position-fixed top-0 end-0 p-3"
+      style="z-index: 9999"
+    >
+      <div
+        id="liveToast"
+        class="toast align-items-center"
+        role="alert"
+        aria-live="assertive"
+        aria-atomic="true"
+      >
+        <div class="d-flex">
+          <div class="toast-body" id="toastMsg">Message sent!</div>
+          <button
+            type="button"
+            class="btn-close me-2 m-auto"
+            data-bs-dismiss="toast"
+            aria-label="Close"
+          ></button>
+        </div>
+      </div>
+    </div>
 
+    <!-- Scripts -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      defer
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12" defer></script>
+    <script src="newJs.js"></script>
+  </body>
 </html>

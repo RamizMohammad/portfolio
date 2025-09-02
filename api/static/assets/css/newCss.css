@@ -344,8 +344,8 @@ html {
 }
 
 .card-3 {
-  top: clamp(50%, 15vw, 60%);
-  right: clamp(5%, 3vw, 10%);
+  bottom: clamp(10%, 5vw, 15%);
+  right: clamp(-30%, -10vw, -20%);
   animation-delay: 2s;
 }
 
@@ -487,6 +487,39 @@ html {
 .info-card p {
   font-size: clamp(0.8rem, 2vw, 0.9rem);
   color: var(--text-secondary);
+  margin: 0;
+}
+
+/* Carousel Styles for About Section */
+#profileCarousel {
+  max-width: clamp(300px, 60vw, 500px);
+  margin: 0 auto;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--shadow-primary);
+}
+
+#profileCarousel .carousel-item img {
+  height: clamp(300px, 60vw, 500px);
+  object-fit: cover;
+  border-radius: 20px;
+}
+
+#profileCarousel .carousel-control-prev,
+#profileCarousel .carousel-control-next {
+  width: 10%;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 50%;
+  height: 50px;
+  top: 50%;
+  transform: translateY(-50%);
+  margin: 0 10px;
+}
+
+#profileCarousel .carousel-control-prev-icon,
+#profileCarousel .carousel-control-next-icon {
+  background-size: 20px 20px;
+  filter: invert(1);
 }
 
 /* Skills Section */
@@ -1065,8 +1098,8 @@ html {
   }
   
   .card-3 {
-    right: 5%;
-    top: 55%;
+    right: -25%;
+    bottom: 15%;
   }
   
   .experience-card {
@@ -1084,6 +1117,10 @@ html {
   
   .about-image {
     margin-bottom: 2rem;
+  }
+  
+  #profileCarousel {
+    max-width: 100%;
   }
 }
 
@@ -1139,6 +1176,10 @@ html {
   
   .footer .row {
     text-align: center;
+  }
+  
+  #profileCarousel .carousel-item img {
+    height: clamp(250px, 50vw, 350px);
   }
 }
 
@@ -1231,6 +1272,11 @@ html {
   .scroll-indicator {
     display: block;
     bottom: 1rem;
+  }
+  
+  #profileCarousel .carousel-control-prev,
+  #profileCarousel .carousel-control-next {
+    display: none;
   }
 }
 
