@@ -10,6 +10,8 @@
 
 ---
 
+<img width="1918" height="928" alt="portfolio" src="https://github.com/user-attachments/assets/f06327bb-5c06-4300-b284-33b8927c22f5" />
+
 ## ✨ Features
 
 ✅ **Sleek, Modern Design** – Built using Bootstrap + custom CSS  
