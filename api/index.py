@@ -121,21 +121,23 @@ def email():
         # Create the full message
         full_message = f"From: {name}\nEmail: {user_email}\n\n{message}"
 
-        # Create an EmailMessage object
-        email = EmailMessage()
-        email['From'] = user_email
-        email['To'] = EMAIL_ADDRESS  # Send the email to your Gmail address
-        email['Subject'] = "Connecting To Work With Ramiz"
-        email.set_content(full_message)
+        # Create EmailMessage
+        msg = EmailMessage()
+        msg['From'] = EMAIL_ADDRESS
+        msg['To'] = EMAIL_ADDRESS
+        msg['Subject'] = "Connecting To Work With Ramiz"
+        msg['Reply-To'] = user_email
+        msg.set_content(full_message)
 
-        # Use Gmail SMTP (465 for SSL or 587 for TLS)
+        # Gmail SMTP
         with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
-            # Login to Gmail using your email and app password
-            smtp.login(EMAIL_ADDRESS, APP_PASSWORD )
-            smtp.send_message(email)
+            smtp.login(EMAIL_ADDRESS, APP_PASSWORD)
+            smtp.send_message(msg)
 
         return jsonify({"success": True, "message": "Message sent successfully!"})
 
     except Exception as e:
-        print(f"Error sending email: {e}")
+        import traceback
+        print("Error sending email:", e)
+        traceback.print_exc()
         return jsonify({"success": False, "message": "Something went wrong."})
