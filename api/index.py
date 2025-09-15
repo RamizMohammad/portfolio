@@ -23,17 +23,9 @@ def home():
 
 @app.route('/sitemap.xml', methods=['GET'])
 def sitemap():
-    pages = []
     lastmod = datetime.now().strftime('%Y-%m-%d')
 
-    # Loop through all Flask routes
-    for rule in app.url_map.iter_rules():
-        # Skip Flask internals and API routes (customize as needed)
-        if "GET" in rule.methods and not rule.rule.startswith(("/static", "/api")):
-            url = f"https://www.mohammadramiz.in{rule.rule}"
-            pages.append({'loc': url, 'priority': '0.80', 'lastmod': lastmod})
-
-    # Manually adjust priority for key pages
+    # Define custom priorities for important pages
     priority_map = {
         '/': '1.00',
         '/about': '0.90',
@@ -43,15 +35,26 @@ def sitemap():
         '/achievements': '0.85',
     }
 
+    # Routes to skip
+    exclude_routes = ['/sitemap.xml', '/robots.txt']
+
+    pages = []
+    for rule in app.url_map.iter_rules():
+        if "GET" in rule.methods and not rule.rule.startswith(("/static", "/api")):
+            if rule.rule not in exclude_routes:
+                url = f"https://www.mohammadramiz.in{rule.rule}"
+                priority = priority_map.get(rule.rule, "0.70")
+                pages.append({'loc': url, 'priority': priority, 'lastmod': lastmod})
+
+    # Build XML
     sitemap_xml = '<?xml version="1.0" encoding="UTF-8"?>\n'
     sitemap_xml += '<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">\n'
 
     for page in pages:
-        priority = priority_map.get(page['loc'].replace("https://www.mohammadramiz.in", ""), "0.70")
         sitemap_xml += f"""  <url>
     <loc>{page['loc']}</loc>
     <lastmod>{page['lastmod']}</lastmod>
-    <priority>{priority}</priority>
+    <priority>{page['priority']}</priority>
   </url>\n"""
 
     sitemap_xml += '</urlset>'
