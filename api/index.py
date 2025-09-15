@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, Response
+from flask import Flask, render_template, request, jsonify, Response, url_for
 import smtplib
 import os
 from email.message import EmailMessage
@@ -21,26 +21,37 @@ def home():
     profile_images.sort()
     return render_template('newIndex.html', profile_images=profile_images)
 
-# Sitemap Route
 @app.route('/sitemap.xml', methods=['GET'])
 def sitemap():
-    pages = [
-        {'loc': 'https://www.mohammadramiz.in/', 'priority': '1.00'},
-        {'loc': 'https://www.mohammadramiz.in/#about', 'priority': '0.90'},
-        {'loc': 'https://www.mohammadramiz.in/#service', 'priority': '0.90'},
-        {'loc': 'https://www.mohammadramiz.in/#portfolio', 'priority': '0.80'},
-        {'loc': 'https://www.mohammadramiz.in/#contact', 'priority': '0.80'},
-    ]
-
+    pages = []
     lastmod = datetime.now().strftime('%Y-%m-%d')
+
+    # Loop through all Flask routes
+    for rule in app.url_map.iter_rules():
+        # Skip Flask internals and API routes (customize as needed)
+        if "GET" in rule.methods and not rule.rule.startswith(("/static", "/api")):
+            url = f"https://www.mohammadramiz.in{rule.rule}"
+            pages.append({'loc': url, 'priority': '0.80', 'lastmod': lastmod})
+
+    # Manually adjust priority for key pages
+    priority_map = {
+        '/': '1.00',
+        '/about': '0.90',
+        '/service': '0.90',
+        '/portfolio': '0.80',
+        '/contact': '0.80',
+        '/achievements': '0.85',
+    }
+
     sitemap_xml = '<?xml version="1.0" encoding="UTF-8"?>\n'
     sitemap_xml += '<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">\n'
 
     for page in pages:
+        priority = priority_map.get(page['loc'].replace("https://www.mohammadramiz.in", ""), "0.70")
         sitemap_xml += f"""  <url>
     <loc>{page['loc']}</loc>
-    <lastmod>{lastmod}</lastmod>
-    <priority>{page['priority']}</priority>
+    <lastmod>{page['lastmod']}</lastmod>
+    <priority>{priority}</priority>
   </url>\n"""
 
     sitemap_xml += '</urlset>'
