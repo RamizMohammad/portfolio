@@ -1353,7 +1353,7 @@ html {
   outline: none;
   border-color: var(--primary-color);
   box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.1);
-  background: rgba(255, 255, 255, 0.08);
+  background: rgb(255, 255, 255);
 }
 
 .btn-submit {
