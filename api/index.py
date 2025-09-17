@@ -77,7 +77,7 @@ def achievements():
         },
         {
             "title": "Internship - Bluestock Fintech",
-            "image": "assets/Certificate/bluestock.png",
+            "image": "assets/Certificate/bluestock.jpg",
             "description": "Worked as Software Development Engineering(SDE) in which our team have developed the admin panel using Flask python"
         },
         {
