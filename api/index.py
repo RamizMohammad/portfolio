@@ -76,6 +76,16 @@ def achievements():
             "description": "I also got a petent from indian goverment for my project Application No: 202511053637 A Publication Date: 27 June 2025"
         },
         {
+            "title": "Internship - Bluestock Fintech",
+            "image": "assets/Certificate/bluestock.png",
+            "description": "Worked as Software Development Engineering(SDE) in which our team have developed the admin panel using Flask python"
+        },
+        {
+            "title": "Machine Learning A-Z",
+            "image": "assets/Certificate/udemy.jpg",
+            "description": "Completed the certification over udemy on Machine Learing Using Python & R"
+        },
+        {
             "title": "56 Hours Hackathon",
             "image": "assets/Certificate/KRMU.jpg",
             "description": "Finalist in the 56 hours long hackathon organized at KRMU University in Gurgaon"
