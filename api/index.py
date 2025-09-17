@@ -109,17 +109,18 @@ def achievements():
     ]
     return render_template("newAchive.html", certificates=certificates)
 
-# Contact Form Email Route
 @app.route('/send', methods=['POST'])
 def email():
     try:
-        # Retrieve form data
         name = request.form['name']
         user_email = request.form['email']
         message = request.form['message']
 
-        # Create the full message
         full_message = f"From: {name}\nEmail: {user_email}\n\n{message}"
+
+        # Debug log (so you can check if request reached backend)
+        print("📩 New Contact Request:")
+        print(full_message)
 
         # Create EmailMessage
         msg = EmailMessage()
@@ -134,10 +135,16 @@ def email():
             smtp.login(EMAIL_ADDRESS, APP_PASSWORD)
             smtp.send_message(msg)
 
+        # 🔔 Local WhatsApp test (opens browser WhatsApp chat with prefilled message)
+        import webbrowser
+        whatsapp_url = f"https://wa.me/919517028373?text={full_message}"
+        webbrowser.open(whatsapp_url)
+
         return jsonify({"success": True, "message": "Message sent successfully!"})
 
     except Exception as e:
         import traceback
-        print("Error sending email:", e)
+        print("❌ Error sending email:", e)
         traceback.print_exc()
         return jsonify({"success": False, "message": "Something went wrong."})
+
