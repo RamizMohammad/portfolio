@@ -16,16 +16,18 @@ def home():
     image_folder = os.path.join(app.static_folder, 'assets', 'scrolling')
     profile_images = [
         img for img in os.listdir(image_folder)
-        if img.lower().endswith(('.jpg', '.jpeg', '.png', '.gif','.HEIC'))
+        if img.lower().endswith(('.jpg', '.jpeg', '.png', '.gif','.heic'))
     ]
     profile_images.sort()
-    return render_template('newIndex.html', profile_images=profile_images)
+    # Cache homepage for 3 days
+    response = Response(render_template('newIndex.html', profile_images=profile_images))
+    response.headers["Cache-Control"] = "s-maxage=259200"  # 3 days
+    return response
 
 @app.route('/sitemap.xml', methods=['GET'])
 def sitemap():
     lastmod = datetime.now().strftime('%Y-%m-%d')
 
-    # Define custom priorities for important pages
     priority_map = {
         '/': '1.00',
         '/about': '0.90',
@@ -35,7 +37,6 @@ def sitemap():
         '/achievements': '0.85',
     }
 
-    # Routes to skip
     exclude_routes = ['/sitemap.xml', '/robots.txt']
 
     pages = []
@@ -46,7 +47,6 @@ def sitemap():
                 priority = priority_map.get(rule.rule, "0.70")
                 pages.append({'loc': url, 'priority': priority, 'lastmod': lastmod})
 
-    # Build XML
     sitemap_xml = '<?xml version="1.0" encoding="UTF-8"?>\n'
     sitemap_xml += '<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">\n'
 
@@ -58,15 +58,17 @@ def sitemap():
   </url>\n"""
 
     sitemap_xml += '</urlset>'
-    return Response(sitemap_xml, mimetype='application/xml')
+    response = Response(sitemap_xml, mimetype='application/xml')
+    response.headers["Cache-Control"] = "s-maxage=86400"  # 1 day
+    return response
 
-# Robots.txt Route
 @app.route('/robots.txt')
 def robots():
     content = "User-agent: *\nAllow: /\nSitemap: https://www.mohammadramiz.in/sitemap.xml"
-    return Response(content, mimetype='text/plain')
+    response = Response(content, mimetype='text/plain')
+    response.headers["Cache-Control"] = "s-maxage=86400"  # 1 day
+    return response
 
-# Achievements Route
 @app.route("/achievements")
 def achievements():
     certificates = [
@@ -117,7 +119,9 @@ def achievements():
         },
         # Add more certificates here!
     ]
-    return render_template("newAchive.html", certificates=certificates)
+    response = Response(render_template("newAchive.html", certificates=certificates))
+    response.headers["Cache-Control"] = "s-maxage=259200"  # 3 days
+    return response
 
 @app.route('/send', methods=['POST'])
 def email():
@@ -128,11 +132,9 @@ def email():
 
         full_message = f"From: {name}\nEmail: {user_email}\n\n{message}"
 
-        # Debug log (so you can check if request reached backend)
         print("📩 New Contact Request:")
         print(full_message)
 
-        # Create EmailMessage
         msg = EmailMessage()
         msg['From'] = EMAIL_ADDRESS
         msg['To'] = EMAIL_ADDRESS
@@ -140,15 +142,14 @@ def email():
         msg['Reply-To'] = user_email
         msg.set_content(full_message)
 
-        # Gmail SMTP
         with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
             smtp.login(EMAIL_ADDRESS, APP_PASSWORD)
             smtp.send_message(msg)
 
-        # 🔔 Local WhatsApp test (opens browser WhatsApp chat with prefilled message)
-        import webbrowser
-        whatsapp_url = f"https://wa.me/919517028373?text={full_message}"
-        webbrowser.open(whatsapp_url)
+        # Optional: remove WhatsApp auto-open for production
+        # import webbrowser
+        # whatsapp_url = f"https://wa.me/919517028373?text={full_message}"
+        # webbrowser.open(whatsapp_url)
 
         return jsonify({"success": True, "message": "Message sent successfully!"})
 
@@ -157,4 +158,3 @@ def email():
         print("❌ Error sending email:", e)
         traceback.print_exc()
         return jsonify({"success": False, "message": "Something went wrong."})
-
