@@ -24,6 +24,10 @@ def home():
     response.headers["Cache-Control"] = "s-maxage=259200"  # 3 days
     return response
 
+@app.route("/windowapps")
+def winApps():
+    return render_template('windowstore.html')
+
 @app.route('/sitemap.xml', methods=['GET'])
 def sitemap():
     lastmod = datetime.now().strftime('%Y-%m-%d')

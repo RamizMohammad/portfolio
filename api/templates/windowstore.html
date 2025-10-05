@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Windows Apps Portfolio</title>
+    <link rel="stylesheet" href="../static/assets/css/windowstore.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-text">Windows<span class="highlight">Apps</span></span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#apps" class="nav-link">My Apps</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <section id="home" class="hero">
+        <div class="hero-background">
+            <div class="grid-pattern"></div>
+            <div class="gradient-orb orb-1"></div>
+            <div class="gradient-orb orb-2"></div>
+        </div>
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <span class="greeting">Hi, I'm</span>
+                <span class="name">Mohammad Ramiz</span>
+            </h1>
+            <p class="hero-subtitle">I build powerful desktop applications for Windows.</p>
+            <p class="hero-description">Crafting innovative software solutions that enhance productivity and user experience.</p>
+            <a href="#apps" class="cta-button">
+                <span>Download My Apps</span>
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path d="M10 3V17M10 17L16 11M10 17L4 11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </a>
+        </div>
+    </section>
+
+    <section id="apps" class="apps-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">My Applications</h2>
+                <p class="section-subtitle">Explore and download my latest Windows applications</p>
+            </div>
+
+            <div class="search-container">
+                <svg class="search-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path d="M9 17C13.4183 17 17 13.4183 17 9C17 4.58172 13.4183 1 9 1C4.58172 1 1 4.58172 1 9C1 13.4183 4.58172 17 9 17Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M19 19L14.65 14.65" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <input type="text" id="searchInput" class="search-input" placeholder="Search applications...">
+            </div>
+
+            <div class="apps-grid" id="appsGrid">
+                <div class="app-card" data-name="productivity suite">
+                    <div class="app-icon">
+                        <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+                            <rect width="60" height="60" rx="12" fill="url(#grad1)"/>
+                            <path d="M20 30L27 37L40 24" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <defs>
+                            <linearGradient id="grad1" x1="0" y1="0" x2="60" y2="60">
+                                <stop offset="0%" style="stop-color:#00FFCC"/>
+                                <stop offset="100%" style="stop-color:#007BFF"/>
+                            </linearGradient>
+                        </defs>
+                    </div>
+                    <h3 class="app-name">Productivity Suite</h3>
+                    <p class="app-description">A powerful all-in-one productivity tool for managing tasks, notes, and projects efficiently.</p>
+                    <div class="app-stats">
+                        <span class="stat">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M8 14C11.3137 14 14 11.3137 14 8C14 4.68629 11.3137 2 8 2C4.68629 2 2 4.68629 2 8C2 11.3137 4.68629 14 8 14Z" stroke="currentColor" stroke-width="1.5"/>
+                                <path d="M8 5V8L10 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                            v2.5.0
+                        </span>
+                        <span class="stat">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M8 1L10 6H15L11 9.5L13 15L8 11.5L3 15L5 9.5L1 6H6L8 1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                            </svg>
+                            4.8
+                        </span>
+                    </div>
+                    <button class="download-btn">
+                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                            <path d="M9 2V12M9 12L13 8M9 12L5 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M2 12V14C2 15.1046 2.89543 16 4 16H14C15.1046 16 16 15.1046 16 14V12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        <span>Download</span>
+                    </button>
+                </div>
+
+                <div class="app-card" data-name="file manager pro">
+                    <div class="app-icon">
+                        <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+                            <rect width="60" height="60" rx="12" fill="url(#grad2)"/>
+                            <path d="M20 25H40V40C40 41.1046 39.1046 42 38 42H22C20.8954 42 20 41.1046 20 40V25Z" stroke="white" stroke-width="3" stroke-linejoin="round"/>
+                            <path d="M20 25V22C20 20.8954 20.8954 20 22 20H28L32 25H38C39.1046 25 40 25.8954 40 27" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <defs>
+                            <linearGradient id="grad2" x1="0" y1="0" x2="60" y2="60">
+                                <stop offset="0%" style="stop-color:#007BFF"/>
+                                <stop offset="100%" style="stop-color:#00FFCC"/>
+                            </linearGradient>
+                        </defs>
+                    </div>
+                    <h3 class="app-name">File Manager Pro</h3>
+                    <p class="app-description">Advanced file management system with dual-pane interface and batch operations support.</p>
+                    <div class="app-stats">
+                        <span class="stat">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M8 14C11.3137 14 14 11.3137 14 8C14 4.68629 11.3137 2 8 2C4.68629 2 2 4.68629 2 8C2 11.3137 4.68629 14 8 14Z" stroke="currentColor" stroke-width="1.5"/>
+                                <path d="M8 5V8L10 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                            v3.1.2
+                        </span>
+                        <span class="stat">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M8 1L10 6H15L11 9.5L13 15L8 11.5L3 15L5 9.5L1 6H6L8 1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                            </svg>
+                            4.9
+                        </span>
+                    </div>
+                    <button class="download-btn">
+                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                            <path d="M9 2V12M9 12L13 8M9 12L5 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M2 12V14C2 15.1046 2.89543 16 4 16H14C15.1046 16 16 15.1046 16 14V12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        <span>Download</span>
+                    </button>
+                </div>
+
+                <div class="app-card" data-name="code editor plus">
+                    <div class="app-icon">
+                        <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+                            <rect width="60" height="60" rx="12" fill="url(#grad3)"/>
+                            <path d="M23 22L17 30L23 38" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M37 22L43 30L37 38" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M32 18L28 42" stroke="white" stroke-width="3" stroke-linecap="round"/>
+                        </svg>
+                        <defs>
+                            <linearGradient id="grad3" x1="0" y1="0" x2="60" y2="60">
+                                <stop offset="0%" style="stop-color:#00FFCC"/>
+                                <stop offset="100%" style="stop-color:#007BFF"/>
+                            </linearGradient>
+                        </defs>
+                    </div>
+                    <h3 class="app-name">Code Editor Plus</h3>
+                    <p class="app-description">Lightweight code editor with syntax highlighting and intelligent auto-completion features.</p>
+                    <div class="app-stats">
+                        <span class="stat">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M8 14C11.3137 14 14 11.3137 14 8C14 4.68629 11.3137 2 8 2C4.68629 2 2 4.68629 2 8C2 11.3137 4.68629 14 8 14Z" stroke="currentColor" stroke-width="1.5"/>
+                                <path d="M8 5V8L10 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                            v1.8.5
+                        </span>
+                        <span class="stat">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M8 1L10 6H15L11 9.5L13 15L8 11.5L3 15L5 9.5L1 6H6L8 1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                            </svg>
+                            4.7
+                        </span>
+                    </div>
+                    <button class="download-btn">
+                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                            <path d="M9 2V12M9 12L13 8M9 12L5 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M2 12V14C2 15.1046 2.89543 16 4 16H14C15.1046 16 16 15.1046 16 14V12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        <span>Download</span>
+                    </button>
+                </div>
+
+                <div class="app-card" data-name="media converter">
+                    <div class="app-icon">
+                        <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+                            <rect width="60" height="60" rx="12" fill="url(#grad4)"/>
+                            <path d="M25 22V38L38 30L25 22Z" stroke="white" stroke-width="3" stroke-linejoin="round"/>
+                            <circle cx="30" cy="30" r="15" stroke="white" stroke-width="3"/>
+                        </svg>
+                        <defs>
+                            <linearGradient id="grad4" x1="0" y1="0" x2="60" y2="60">
+                                <stop offset="0%" style="stop-color:#007BFF"/>
+                                <stop offset="100%" style="stop-color:#00FFCC"/>
+                            </linearGradient>
+                        </defs>
+                    </div>
+                    <h3 class="app-name">Media Converter</h3>
+                    <p class="app-description">Fast and reliable media conversion tool supporting all major audio and video formats.</p>
+                    <div class="app-stats">
+                        <span class="stat">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M8 14C11.3137 14 14 11.3137 14 8C14 4.68629 11.3137 2 8 2C4.68629 2 2 4.68629 2 8C2 11.3137 4.68629 14 8 14Z" stroke="currentColor" stroke-width="1.5"/>
+                                <path d="M8 5V8L10 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                            v4.2.1
+                        </span>
+                        <span class="stat">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M8 1L10 6H15L11 9.5L13 15L8 11.5L3 15L5 9.5L1 6H6L8 1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                            </svg>
+                            4.6
+                        </span>
+                    </div>
+                    <button class="download-btn">
+                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                            <path d="M9 2V12M9 12L13 8M9 12L5 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M2 12V14C2 15.1046 2.89543 16 4 16H14C15.1046 16 16 15.1046 16 14V12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        <span>Download</span>
+                    </button>
+                </div>
+
+                <div class="app-card" data-name="system optimizer">
+                    <div class="app-icon">
+                        <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+                            <rect width="60" height="60" rx="12" fill="url(#grad5)"/>
+                            <circle cx="30" cy="30" r="4" stroke="white" stroke-width="3"/>
+                            <path d="M30 18V22M30 38V42M42 30H38M22 30H18M38.5 21.5L35.5 24.5M24.5 35.5L21.5 38.5M38.5 38.5L35.5 35.5M24.5 24.5L21.5 21.5" stroke="white" stroke-width="3" stroke-linecap="round"/>
+                        </svg>
+                        <defs>
+                            <linearGradient id="grad5" x1="0" y1="0" x2="60" y2="60">
+                                <stop offset="0%" style="stop-color:#00FFCC"/>
+                                <stop offset="100%" style="stop-color:#007BFF"/>
+                            </linearGradient>
+                        </defs>
+                    </div>
+                    <h3 class="app-name">System Optimizer</h3>
+                    <p class="app-description">Optimize your Windows PC performance with advanced cleaning and tuning capabilities.</p>
+                    <div class="app-stats">
+                        <span class="stat">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M8 14C11.3137 14 14 11.3137 14 8C14 4.68629 11.3137 2 8 2C4.68629 2 2 4.68629 2 8C2 11.3137 4.68629 14 8 14Z" stroke="currentColor" stroke-width="1.5"/>
+                                <path d="M8 5V8L10 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                            v5.0.3
+                        </span>
+                        <span class="stat">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M8 1L10 6H15L11 9.5L13 15L8 11.5L3 15L5 9.5L1 6H6L8 1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                            </svg>
+                            4.5
+                        </span>
+                    </div>
+                    <button class="download-btn">
+                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                            <path d="M9 2V12M9 12L13 8M9 12L5 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M2 12V14C2 15.1046 2.89543 16 4 16H14C15.1046 16 16 15.1046 16 14V12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        <span>Download</span>
+                    </button>
+                </div>
+
+                <div class="app-card" data-name="screenshot tool">
+                    <div class="app-icon">
+                        <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+                            <rect width="60" height="60" rx="12" fill="url(#grad6)"/>
+                            <rect x="18" y="22" width="24" height="18" rx="2" stroke="white" stroke-width="3"/>
+                            <circle cx="30" cy="31" r="4" stroke="white" stroke-width="3"/>
+                            <path d="M26 22L28 18H32L34 22" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <defs>
+                            <linearGradient id="grad6" x1="0" y1="0" x2="60" y2="60">
+                                <stop offset="0%" style="stop-color:#007BFF"/>
+                                <stop offset="100%" style="stop-color:#00FFCC"/>
+                            </linearGradient>
+                        </defs>
+                    </div>
+                    <h3 class="app-name">Screenshot Tool</h3>
+                    <p class="app-description">Capture, annotate, and share screenshots with powerful editing tools built-in.</p>
+                    <div class="app-stats">
+                        <span class="stat">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M8 14C11.3137 14 14 11.3137 14 8C14 4.68629 11.3137 2 8 2C4.68629 2 2 4.68629 2 8C2 11.3137 4.68629 14 8 14Z" stroke="currentColor" stroke-width="1.5"/>
+                                <path d="M8 5V8L10 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                            v2.9.0
+                        </span>
+                        <span class="stat">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M8 1L10 6H15L11 9.5L13 15L8 11.5L3 15L5 9.5L1 6H6L8 1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                            </svg>
+                            4.8
+                        </span>
+                    </div>
+                    <button class="download-btn">
+                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                            <path d="M9 2V12M9 12L13 8M9 12L5 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M2 12V14C2 15.1046 2.89543 16 4 16H14C15.1046 16 16 15.1046 16 14V12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        <span>Download</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p class="footer-text">© 2025 Windows Apps Portfolio. Built with passion.</p>
+                <div class="social-links">
+                    <a href="https://github.com/yourusername" target="_blank" class="social-link" aria-label="GitHub">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                    </a>
+                    <a href="https://linkedin.com/in/yourusername" target="_blank" class="social-link" aria-label="LinkedIn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                        </svg>
+                    </a>
+                    <a href="https://twitter.com/yourusername" target="_blank" class="social-link" aria-label="Twitter">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../static/assets/js/windowstore.js"></script>
+</body>
+</html>
