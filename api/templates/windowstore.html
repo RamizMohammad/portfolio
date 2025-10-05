@@ -391,7 +391,22 @@
             </div>
         </div>
     </footer>
-
+    <script>
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                // ✅ Only intercept internal hash links
+                if (href.startsWith('#')) {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({ behavior: "smooth" });
+                    }
+                }
+                // ❌ External links (like portfolio) will redirect normally
+            });
+        });
+    </script>
     <script src="../static/assets/js/windowstore.js"></script>
 </body>
 </html>
