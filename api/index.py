@@ -24,7 +24,7 @@ def home():
     response.headers["Cache-Control"] = "s-maxage=259200"  # 3 days
     return response
 
-@app.route("/windowapps")
+@app.route("/windowsapp")
 def winApps():
     return render_template('windowstore.html')
 
