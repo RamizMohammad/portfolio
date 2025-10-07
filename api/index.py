@@ -4,6 +4,7 @@ import os
 from email.message import EmailMessage
 from datetime import datetime
 import json
+import logging
 
 app = Flask(__name__)
 
@@ -12,25 +13,32 @@ app.secret_key = os.getenv("SECRET_KEY")
 EMAIL_ADDRESS = os.getenv("EMAIL_ADDRESS")
 APP_PASSWORD = os.getenv("APP_PASS")
 
-# --- ADD THIS DEBUGGING CODE ---
+# --- Setup basic logging ---
+# This will format your log messages with a timestamp, log level, and the message.
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+# --- Start of your application logic ---
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-print(f"--- SCRIPT IS RUNNING IN: {BASE_DIR} ---")
+logging.info(f"Script is running in: {BASE_DIR}")
+
 try:
-    print(f"--- FILES FOUND IN THIS DIRECTORY: {os.listdir(BASE_DIR)} ---")
+    files_in_dir = os.listdir(BASE_DIR)
+    logging.info(f"Files found in this directory: {files_in_dir}")
 except Exception as e:
-    print(f"--- COULD NOT LIST FILES: {e} ---")
-# --- END OF DEBUGGING CODE ---
+    logging.error(f"Could not list files in directory: {e}")
 
-
-# Your original code
+# --- Your original file-loading logic, now with logging ---
 POLICY_FILE = os.path.join(BASE_DIR, 'policies.json')
 
 try:
     with open(POLICY_FILE, 'r') as f:
         policies = json.load(f)
-    print("--- Successfully loaded policies.json ---")
+    logging.info("Successfully loaded policies.json")
 except FileNotFoundError:
-    print("--- ERROR: FileNotFoundError was raised. Check the file list above. ---")
+    logging.error(f"FileNotFoundError: The file '{POLICY_FILE}' was not found. Check the file list above.")
+    policies = {}
+except Exception as e:
+    logging.error(f"An unexpected error occurred while reading the file: {e}")
     policies = {}
 
 @app.route("/privacy-policy/<app_name>")
