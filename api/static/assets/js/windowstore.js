@@ -3,8 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const navMenu = document.querySelector('.nav-menu');
     const navLinks = document.querySelectorAll('.nav-link');
     const searchInput = document.getElementById('searchInput');
-    const appsGrid = document.getElementById('appsGrid');
-    const appCards = document.querySelectorAll('.app-card');
+    const appRows = document.querySelectorAll('.app-row');
 
     hamburger.addEventListener('click', function() {
         hamburger.classList.toggle('active');
@@ -38,30 +37,52 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    appRows.forEach(row => {
+        row.addEventListener('click', function(e) {
+            if (e.target.closest('.download-btn') || e.target.closest('a')) {
+                return;
+            }
+
+            const descriptionRow = this.nextElementSibling;
+            if (descriptionRow && descriptionRow.classList.contains('description-row')) {
+                descriptionRow.classList.toggle('expanded');
+            }
+        });
+    });
+
     searchInput.addEventListener('input', function(e) {
         const searchTerm = e.target.value.toLowerCase().trim();
 
-        appCards.forEach(card => {
-            const appName = card.getAttribute('data-name').toLowerCase();
-            const appTitle = card.querySelector('.app-name').textContent.toLowerCase();
-            const appDescription = card.querySelector('.app-description').textContent.toLowerCase();
+        appRows.forEach(row => {
+            const appName = row.getAttribute('data-name').toLowerCase();
+            const appTitle = row.querySelector('.app-name').textContent.toLowerCase();
+            const descriptionRow = row.nextElementSibling;
+            let appDescription = '';
+
+            if (descriptionRow && descriptionRow.classList.contains('description-row')) {
+                appDescription = descriptionRow.querySelector('.description-content p').textContent.toLowerCase();
+            }
 
             if (appName.includes(searchTerm) ||
                 appTitle.includes(searchTerm) ||
                 appDescription.includes(searchTerm)) {
-                card.style.display = 'block';
-                card.style.animation = 'fadeInUp 0.5s ease-out';
+                row.style.display = 'table-row';
+                if (descriptionRow && descriptionRow.classList.contains('expanded')) {
+                    descriptionRow.style.display = 'table-row';
+                }
             } else {
-                card.style.display = 'none';
+                row.style.display = 'none';
+                if (descriptionRow) {
+                    descriptionRow.style.display = 'none';
+                }
             }
         });
     });
 
     const downloadButtons = document.querySelectorAll('.download-btn');
     downloadButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const appCard = this.closest('.app-card');
-            const appName = appCard.querySelector('.app-name').textContent;
+        button.addEventListener('click', function(e) {
+            e.stopPropagation();
 
             this.innerHTML = `
                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
@@ -125,11 +146,11 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }, observerOptions);
 
-    appCards.forEach(card => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(30px)';
-        card.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
-        observer.observe(card);
+    appRows.forEach(row => {
+        row.style.opacity = '0';
+        row.style.transform = 'translateY(30px)';
+        row.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+        observer.observe(row);
     });
 
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {

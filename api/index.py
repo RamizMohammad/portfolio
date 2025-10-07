@@ -44,6 +44,11 @@ def home():
     response.headers["Cache-Control"] = "s-maxage=259200"  # 3 days
     return response
 
+@app.route("/download/<filename>")
+def download(filename):
+    downloads_dir = os.path.join(app.root_path, "static", "downloads")
+    return send_from_directory(directory=downloads_dir, filename=filename, as_attachment=True)
+
 @app.route("/windowsapp")
 def winApps():
     return render_template('windowstore.html')
