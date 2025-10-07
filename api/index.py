@@ -133,7 +133,7 @@ def achievements():
         },
         {
             "title": "Hack For Impact",
-            "image": "assets/Certificate/IITD.png",
+            "image": "assets/Certificate/IIITD.png",
             "description": "Participated in the E-Summit 2025 hackathon oragnised By IIIT Delhi"
         },
         {
