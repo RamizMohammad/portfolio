@@ -46,7 +46,7 @@ def home():
 
 @app.route("/download/<filename>")
 def download(filename):
-    downloads_dir = os.path.join(app.root_path, "static", "downloads")
+    downloads_dir = os.path.join(app.root_path, "static", "Downloads")
     return send_from_directory(directory=downloads_dir, filename=filename, as_attachment=True)
 
 @app.route("/windowsapp")
