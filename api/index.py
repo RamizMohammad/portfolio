@@ -4,6 +4,7 @@ import os
 from email.message import EmailMessage
 from datetime import datetime
 import json
+import html
 
 app = Flask(__name__)
 
@@ -16,19 +17,18 @@ APP_PASSWORD = os.getenv("APP_PASS")
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 POLICY_FILE = os.path.join(BASE_DIR, 'policies.json')
 
+policies = {}
 try:
     with open(POLICY_FILE, 'r') as f:
         policies = json.load(f)
-# This will catch a missing file or any other error during file load
-except Exception:
-    # If the file doesn't exist or is invalid, policies will remain an empty dictionary
-    pass 
+except Exception as e:
+    print("⚠️ Could not load policies.json:", e)
 
 @app.route("/privacy-policy/<app_name>")
 def privacy_policy(app_name):
     app_data = policies.get(app_name)
     if not app_data:
-        return Response("App policy not found", status=404)
+        return Response("App policy not found", status=404, mimetype="text/html")
     return render_template("privacy_policy.html", app=app_data)
 
 @app.route("/")
@@ -36,7 +36,7 @@ def home():
     image_folder = os.path.join(app.static_folder, 'assets', 'scrolling')
     profile_images = [
         img for img in os.listdir(image_folder)
-        if img.lower().endswith(('.jpg', '.jpeg', '.png', '.gif','.heic'))
+        if img.lower().endswith(('.jpg', '.jpeg', '.png', '.gif', '.heic'))
     ]
     profile_images.sort()
     # Cache homepage for 3 days
@@ -64,13 +64,23 @@ def sitemap():
     exclude_routes = ['/sitemap.xml', '/robots.txt']
 
     pages = []
+    # 1️⃣ Static routes
     for rule in app.url_map.iter_rules():
         if "GET" in rule.methods and not rule.rule.startswith(("/static", "/api")):
             if rule.rule not in exclude_routes:
+                # skip dynamic placeholders like <app_name>
+                if "<" in rule.rule or ">" in rule.rule:
+                    continue
                 url = f"https://www.mohammadramiz.in{rule.rule}"
                 priority = priority_map.get(rule.rule, "0.70")
-                pages.append({'loc': url, 'priority': priority, 'lastmod': lastmod})
+                pages.append({'loc': html.escape(url), 'priority': priority, 'lastmod': lastmod})
 
+    # 2️⃣ Dynamic privacy-policy routes from policies.json
+    for app_name in policies.keys():
+        url = f"https://www.mohammadramiz.in/privacy-policy/{app_name}"
+        pages.append({'loc': html.escape(url), 'priority': "0.70", 'lastmod': lastmod})
+
+    # 3️⃣ Build XML
     sitemap_xml = '<?xml version="1.0" encoding="UTF-8"?>\n'
     sitemap_xml += '<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">\n'
 
@@ -120,6 +130,11 @@ def achievements():
             "title": "24 Hours Hackathon",
             "image": "assets/Certificate/Sharda.jpg",
             "description": "6th Finalist in the 24 hours long hackathon organized at Sharda University in Greater Noida"
+        },
+        {
+            "title": "Hack For Impact",
+            "image": "assets/Certificate/IITD.png",
+            "description": "Participated in the E-Summit 2025 hackathon oragnised By IIIT Delhi"
         },
         {
             "title": "Participation in Hackathon",
