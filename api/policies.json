@@ -46,5 +46,53 @@
       "legalJurisdiction": "These terms are governed by the laws of India. Legal disputes will be handled in the courts of New Delhi, India.",
       "contact": "support@confessapp.com"
     }
+  },
+  "linkium": {
+    "appName": "Linkium",
+    "effectiveDate": "October 7, 2025",
+    "privacyPolicy": {
+      "infoWeCollect": [
+        "App Configuration: We store registered app names and paths locally on your device.",
+        "Receiver Code: A unique 10-digit code used for secure pairing with the controller app.",
+        "Connection Data: Basic connection logs for WebSocket pairing (no personal identifiers).",
+        "Settings: Startup preferences and user toggles are stored locally in AppData.",
+        "Crash Logs: Anonymous error traces may be collected to improve reliability."
+      ],
+      "dataProtection": "All local files are stored securely in your system’s AppData directory. No external databases or third-party APIs have access to your data. WebSocket connections are encrypted using TLS (wss://).",
+      "notCollected": [
+        "No name, email, or personal profile",
+        "No passwords or authentication tokens",
+        "No GPS or location data",
+        "No usage tracking or analytics",
+        "No access to contacts, camera, or files outside registered apps"
+      ],
+      "dataSharing": "Linkium does not sell, share, or transmit user data to any third party. The remote WebSocket server only receives your pairing code for connection management — no local file or system data is transmitted.",
+      "dataRetention": "All configuration and pairing data remain on your device until manually deleted or when you uninstall the app. We do not retain any user data on our servers.",
+      "yourRights": [
+        "View and manage all locally stored data",
+        "Delete your local configuration and app list anytime",
+        "Regenerate your receiver code for security",
+        "Disable background or startup operation at any time"
+      ],
+      "updates": "Any significant changes to our privacy practices will be notified through the GitHub release notes or official website linkium.space.",
+      "contact": "support@linkium.space"
+    },
+    "terms": {
+      "eligibility": "You must be 13 years or older to use Linkium. If under 18, parental guidance is recommended.",
+      "identityRules": "No personal account or sign-in is required. The receiver code uniquely identifies your device within the pairing system.",
+      "usageRules": [
+        "Do not use Linkium for unauthorized remote control or malicious actions.",
+        "Do not distribute your receiver code publicly.",
+        "Do not modify or reverse-engineer the software."
+      ],
+      "systemBehavior": "When closed, Linkium minimizes to the system tray and continues running in the background until you exit from the tray menu.",
+      "networkUsage": "Linkium connects securely to wss://steamdeck.onrender.com only for pairing and command exchange. No other external services are contacted.",
+      "moderation": "Since Linkium handles only device-level actions, there is no user-generated content to moderate. Security events may be logged locally.",
+      "accountBan": "Linkium does not operate accounts or cloud profiles. However, misuse or abuse of the SteamDeck network may result in connection blocking.",
+      "limitationOfLiability": "Linkium is provided 'as-is'. The developer assumes no responsibility for damages, data loss, or system errors resulting from improper use.",
+      "softwareLicense": "This software is open-source under the MIT License. You are free to use, modify, or distribute it with attribution.",
+      "legalJurisdiction": "This software is governed by the laws of India. Any legal disputes shall be handled in the courts of New Delhi, India.",
+      "contact": "support@linkium.space"
+    }
   }
 }
