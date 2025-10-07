@@ -3,6 +3,7 @@ import smtplib
 import os
 from email.message import EmailMessage
 from datetime import datetime
+import json
 
 app = Flask(__name__)
 
@@ -10,6 +11,16 @@ app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY")
 EMAIL_ADDRESS = os.getenv("EMAIL_ADDRESS")
 APP_PASSWORD = os.getenv("APP_PASS")
+
+with open("policies.json", "r") as f:
+    policies = json.load(f)
+
+@app.route("/privacy-policy/<app_name>")
+def privacy_policy(app_name):
+    app_data = policies.get(app_name)
+    if not app_data:
+        return Response("App policy not found", status=404)
+    return render_template("privacy_policy.html", app=app_data)
 
 @app.route("/")
 def home():

@@ -1,0 +1,50 @@
+{
+  "confess": {
+    "appName": "Confess",
+    "effectiveDate": "June 18, 2025",
+    "privacyPolicy": {
+      "infoWeCollect": [
+        "Google Sign-In: We collect your email & UID. No passwords are stored.",
+        "Alias & Password: You choose a nickname. Optional password stored locally only.",
+        "Posts & Stories: Text-only, fully E2EE. We cannot read or moderate your content.",
+        "Reactions: Like 👍, Support 🤝, Us by Us 🫂 — one reaction per user per post.",
+        "Analytics: Only crash and usage stats. No tracking or profiling."
+      ],
+      "dataProtection": "Your posts are encrypted on your device using AES-256 before uploading. We never see the unencrypted content.",
+      "notCollected": [
+        "No name, number, or address",
+        "No photos, videos, or media uploads",
+        "No GPS/location data",
+        "No access to contacts or messages"
+      ],
+      "dataSharing": "We don't sell or share your data. Firebase only stores encrypted blobs — not readable by anyone.",
+      "dataRetention": "Posts stay until you delete them. Stories disappear in 24 hours. Lost keys = lost content forever.",
+      "yourRights": [
+        "Update your alias",
+        "Delete your posts or account",
+        "Export encrypted data",
+        "Request deletion of metadata"
+      ],
+      "updates": "We’ll notify you if we make significant changes to this policy via in-app message or email.",
+      "contact": "support@confessapp.com"
+    },
+    "terms": {
+      "eligibility": "Must be 13+ to use Confess. If under 18, you must have parental permission.",
+      "identityRules": "Alias is mandatory. Don’t impersonate others or use offensive names.",
+      "contentRules": [
+        "No content threatening national security",
+        "No hate, violence, or harassment",
+        "No self-harm or suicide encouragement",
+        "No media or personal identifiers"
+      ],
+      "reactionsOnly": "No comments. You can only react once per post with: 👍 Like, 🤝 Support, or 🫂 Us by Us.",
+      "stories": "Stories are temporary, encrypted, and expire after 24 hours. No comments or reactions allowed.",
+      "moderation": "We can’t read posts due to encryption. Basic word filtering may occur locally during input. Metadata may be reviewed if abuse is reported.",
+      "accountBan": "We can ban accounts that misuse the platform, react abusively, or break content rules.",
+      "limitationOfLiability": "We provide the app “as-is”. We're not responsible for outcomes of how users use or interpret others’ posts.",
+      "mentalHealthNotice": "This app is not medical advice. If you or someone you know is struggling, contact a licensed professional or emergency services.",
+      "legalJurisdiction": "These terms are governed by the laws of India. Legal disputes will be handled in the courts of New Delhi, India.",
+      "contact": "support@confessapp.com"
+    }
+  }
+}
