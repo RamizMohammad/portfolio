@@ -12,7 +12,10 @@ app.secret_key = os.getenv("SECRET_KEY")
 EMAIL_ADDRESS = os.getenv("EMAIL_ADDRESS")
 APP_PASSWORD = os.getenv("APP_PASS")
 
-with open("policies.json", "r") as f:
+BASE_DIR = os.path.dirname(__file__)  # /api
+POLICY_FILE = os.path.join(BASE_DIR, "policies.json")
+
+with open(POLICY_FILE, "r") as f:
     policies = json.load(f)
 
 @app.route("/privacy-policy/<app_name>")
