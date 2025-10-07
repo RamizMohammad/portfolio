@@ -4,7 +4,6 @@ import os
 from email.message import EmailMessage
 from datetime import datetime
 import json
-import logging
 
 app = Flask(__name__)
 
@@ -13,33 +12,17 @@ app.secret_key = os.getenv("SECRET_KEY")
 EMAIL_ADDRESS = os.getenv("EMAIL_ADDRESS")
 APP_PASSWORD = os.getenv("APP_PASS")
 
-# --- Setup basic logging ---
-# This will format your log messages with a timestamp, log level, and the message.
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-
 # --- Start of your application logic ---
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-logging.info(f"Script is running in: {BASE_DIR}")
-
-try:
-    files_in_dir = os.listdir(BASE_DIR)
-    logging.info(f"Files found in this directory: {files_in_dir}")
-except Exception as e:
-    logging.error(f"Could not list files in directory: {e}")
-
-# --- Your original file-loading logic, now with logging ---
 POLICY_FILE = os.path.join(BASE_DIR, 'policies.json')
 
 try:
     with open(POLICY_FILE, 'r') as f:
         policies = json.load(f)
-    logging.info("Successfully loaded policies.json")
-except FileNotFoundError:
-    logging.error(f"FileNotFoundError: The file '{POLICY_FILE}' was not found. Check the file list above.")
-    policies = {}
-except Exception as e:
-    logging.error(f"An unexpected error occurred while reading the file: {e}")
-    policies = {}
+# This will catch a missing file or any other error during file load
+except Exception:
+    # If the file doesn't exist or is invalid, policies will remain an empty dictionary
+    pass 
 
 @app.route("/privacy-policy/<app_name>")
 def privacy_policy(app_name):
