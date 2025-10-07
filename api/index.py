@@ -12,12 +12,26 @@ app.secret_key = os.getenv("SECRET_KEY")
 EMAIL_ADDRESS = os.getenv("EMAIL_ADDRESS")
 APP_PASSWORD = os.getenv("APP_PASS")
 
-# The only change is adding os.path.abspath() here
+# --- ADD THIS DEBUGGING CODE ---
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-POLICY_FILE = os.path.join(BASE_DIR, "policies.json")
+print(f"--- SCRIPT IS RUNNING IN: {BASE_DIR} ---")
+try:
+    print(f"--- FILES FOUND IN THIS DIRECTORY: {os.listdir(BASE_DIR)} ---")
+except Exception as e:
+    print(f"--- COULD NOT LIST FILES: {e} ---")
+# --- END OF DEBUGGING CODE ---
 
-with open(POLICY_FILE, "r") as f:
-    policies = json.load(f)
+
+# Your original code
+POLICY_FILE = os.path.join(BASE_DIR, 'policies.json')
+
+try:
+    with open(POLICY_FILE, 'r') as f:
+        policies = json.load(f)
+    print("--- Successfully loaded policies.json ---")
+except FileNotFoundError:
+    print("--- ERROR: FileNotFoundError was raised. Check the file list above. ---")
+    policies = {}
 
 @app.route("/privacy-policy/<app_name>")
 def privacy_policy(app_name):
