@@ -1057,118 +1057,65 @@ html {
 }
 
 .live-projects-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(clamp(150px, 20vw, 180px), 1fr));
-  gap: clamp(1.5rem, 3vw, 2rem);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(3rem, 6vw, 5rem);
   margin-bottom: clamp(2rem, 4vw, 3rem);
   position: relative;
   z-index: 2;
+  flex-wrap: wrap;
 }
 
-.live-project-item {
-  background: var(--card-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 20px;
-  padding: clamp(1.5rem, 4vw, 2rem);
-  text-align: center;
-  text-decoration: none;
-  transition: all 0.3s ease;
+.live-projects-grid a {
+  display: block;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  aspect-ratio: 1;
+  filter: grayscale(0%);
 }
 
-.live-project-item::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: var(--gradient-primary);
-  transform: scaleX(0);
-  transition: transform 0.3s ease;
+.live-projects-grid a:hover {
+  transform: translateY(-10px) scale(1.05);
+  filter: drop-shadow(0 15px 35px rgba(0, 255, 136, 0.4));
 }
 
-.live-project-item:hover::before {
-  transform: scaleX(1);
-}
-
-.live-project-item:hover {
-  transform: translateY(-10px);
-  box-shadow: var(--shadow-primary);
-  border-color: var(--primary-color);
-}
-
-.project-logo {
-  width: clamp(60px, 12vw, 80px);
-  height: clamp(60px, 12vw, 80px);
-  background: var(--gradient-primary);
+.live-projects-grid a img {
+  width: clamp(100px, 15vw, 150px);
+  height: clamp(100px, 15vw, 150px);
+  object-fit: contain;
   border-radius: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: clamp(1rem, 2vw, 1.5rem);
-  box-shadow: var(--shadow-primary);
-  transition: all 0.3s ease;
+  background: var(--card-bg);
+  border: 2px solid var(--border-color);
+  padding: clamp(1rem, 2vw, 1.5rem);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.live-project-item:hover .project-logo {
-  transform: scale(1.1) rotate(5deg);
-}
-
-.project-logo i {
-  font-size: clamp(1.5rem, 4vw, 2rem);
-  color: var(--dark-bg);
-}
-
-.live-project-item h4 {
-  font-size: clamp(1rem, 2.5vw, 1.2rem);
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 0.5rem;
-  transition: color 0.3s ease;
-}
-
-.live-project-item:hover h4 {
-  color: var(--primary-color);
-}
-
-.live-project-item p {
-  font-size: clamp(0.8rem, 2vw, 0.9rem);
-  color: var(--text-secondary);
-  margin: 0;
+.live-projects-grid a:hover img {
+  border-color: var(--primary-color);
+  background: linear-gradient(135deg, rgba(0, 255, 136, 0.1) 0%, rgba(0, 102, 255, 0.1) 100%);
+  box-shadow: 0 0 30px rgba(0, 255, 136, 0.3);
 }
 
 @media (max-width: 768px) {
   .live-projects-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
+    gap: clamp(2rem, 4vw, 3rem);
+  }
+
+  .live-projects-grid a img {
+    width: clamp(80px, 20vw, 120px);
+    height: clamp(80px, 20vw, 120px);
   }
 }
 
 @media (max-width: 576px) {
   .live-projects-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
+    gap: clamp(1.5rem, 3vw, 2rem);
   }
 
-  .live-project-item {
-    padding: 1.2rem 0.8rem;
-  }
-
-  .project-logo {
-    width: 50px;
-    height: 50px;
-    margin-bottom: 0.8rem;
-  }
-
-  .project-logo i {
-    font-size: 1.2rem;
+  .live-projects-grid a img {
+    width: clamp(70px, 25vw, 100px);
+    height: clamp(70px, 25vw, 100px);
+    padding: 0.8rem;
   }
 }
 
