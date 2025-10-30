@@ -1038,6 +1038,140 @@ html {
   }
 }
 
+/* Live Projects Section */
+.live-projects-section {
+  padding: var(--section-padding) 0;
+  background: var(--dark-bg);
+  position: relative;
+}
+
+.live-projects-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(ellipse at center, rgba(0, 255, 136, 0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.live-projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(clamp(150px, 20vw, 180px), 1fr));
+  gap: clamp(1.5rem, 3vw, 2rem);
+  margin-bottom: clamp(2rem, 4vw, 3rem);
+  position: relative;
+  z-index: 2;
+}
+
+.live-project-item {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  padding: clamp(1.5rem, 4vw, 2rem);
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+}
+
+.live-project-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--gradient-primary);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.live-project-item:hover::before {
+  transform: scaleX(1);
+}
+
+.live-project-item:hover {
+  transform: translateY(-10px);
+  box-shadow: var(--shadow-primary);
+  border-color: var(--primary-color);
+}
+
+.project-logo {
+  width: clamp(60px, 12vw, 80px);
+  height: clamp(60px, 12vw, 80px);
+  background: var(--gradient-primary);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: clamp(1rem, 2vw, 1.5rem);
+  box-shadow: var(--shadow-primary);
+  transition: all 0.3s ease;
+}
+
+.live-project-item:hover .project-logo {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.project-logo i {
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  color: var(--dark-bg);
+}
+
+.live-project-item h4 {
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+.live-project-item:hover h4 {
+  color: var(--primary-color);
+}
+
+.live-project-item p {
+  font-size: clamp(0.8rem, 2vw, 0.9rem);
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .live-projects-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .live-projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .live-project-item {
+    padding: 1.2rem 0.8rem;
+  }
+
+  .project-logo {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 0.8rem;
+  }
+
+  .project-logo i {
+    font-size: 1.2rem;
+  }
+}
+
 /* Experience Section Styles */
 .experience-timeline {
   position: relative;
