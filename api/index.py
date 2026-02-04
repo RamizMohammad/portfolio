@@ -1,20 +1,14 @@
-from flask import (
-    Flask, render_template, request, jsonify,
-    Response, redirect
-)
-import smtplib
-import os
-from email.message import EmailMessage
+from flask import Flask, render_template, request, Response, redirect, jsonify
+import os, json, html
 from datetime import datetime
-import json
-import html
+import smtplib
+from email.message import EmailMessage
 
 app = Flask(__name__)
 
 # --------------------------------------------------
 # ENV
 # --------------------------------------------------
-app.secret_key = os.getenv("SECRET_KEY")
 EMAIL_ADDRESS = os.getenv("EMAIL_ADDRESS")
 APP_PASSWORD = os.getenv("APP_PASS")
 
@@ -22,73 +16,26 @@ APP_PASSWORD = os.getenv("APP_PASS")
 # LOAD POLICIES
 # --------------------------------------------------
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-POLICY_FILE = os.path.join(BASE_DIR, 'policies.json')
+POLICY_FILE = os.path.join(BASE_DIR, "policies.json")
 
 policies = {}
-try:
-    with open(POLICY_FILE, 'r') as f:
+if os.path.exists(POLICY_FILE):
+    with open(POLICY_FILE) as f:
         policies = json.load(f)
-except Exception as e:
-    print("⚠️ policies.json error:", e)
 
 # --------------------------------------------------
-# MAIN DOMAIN
+# ROOT (ALL DOMAINS & SUBDOMAINS)
 # --------------------------------------------------
-@app.route("/")
-def home():
-    image_folder = os.path.join(app.static_folder, 'assets', 'scrolling')
-    profile_images = [
-        img for img in os.listdir(image_folder)
-        if img.lower().endswith(('.jpg', '.jpeg', '.png', '.gif', '.heic'))
-    ]
-    profile_images.sort()
-    return render_template("newIndex.html", profile_images=profile_images)
+@app.route("/", methods=["GET", "HEAD"])
+def root():
+    host = request.host.lower()
 
-# --------------------------------------------------
-# PRIVACY POLICY SUBDOMAIN
-# privacy-policy.mohammadramiz.in/<app_name>
-# --------------------------------------------------
-@app.route("/<app_name>")
-def privacy_policy(app_name):
-    # Only allow this on privacy-policy subdomain
-    if not request.host.startswith("privacy-policy."):
-        return Response("Not Found", status=404)
-
-    app_data = policies.get(app_name)
-    if not app_data:
-        return Response("App policy not found", status=404)
-
-    return render_template("privacy_policy.html", app=app_data)
-
-# --------------------------------------------------
-# WINDOWSTORE SUBDOMAIN
-# windowstore.mohammadramiz.in
-# --------------------------------------------------
-@app.route("/windowstore")
-def windowstore_proxy():
-    if request.host.startswith("windowstore."):
-        return redirect("/", code=302)
-    return Response("Not Found", status=404)
-
-@app.route("/")
-def windowstore():
-    if request.host.startswith("windowstore."):
+    # windowstore.mohammadramiz.in
+    if host.startswith("windowstore."):
         return render_template("windowstore.html")
-    return home()
 
-# --------------------------------------------------
-# ACHIEVEMENTS SUBDOMAIN
-# achievements.mohammadramiz.in
-# --------------------------------------------------
-@app.route("/achievements")
-def achievements_proxy():
-    if request.host.startswith("achievements."):
-        return redirect("/", code=302)
-    return Response("Not Found", status=404)
-
-@app.route("/")
-def achievements():
-    if request.host.startswith("achievements."):
+    # achievements.mohammadramiz.in (support typo too)
+    if host.startswith(("achievements.", "achivements.")):
         certificates = [
             {
                 "title": "Patent for METHOD AND SYSTEM FOR REAL-TIME USER SAFETY DURING VEHICLE COMMUTES",
@@ -103,45 +50,73 @@ def achievements():
         ]
         return render_template("newAchive.html", certificates=certificates)
 
-    return home()
+    # privacy-policy.mohammadramiz.in
+    if host.startswith("privacy-policy."):
+        return Response("Append app name: /<app_name>", status=200)
+
+    # main domain (mohammadramiz.in + www)
+    image_folder = os.path.join(app.static_folder, "assets", "scrolling")
+    images = []
+    if os.path.exists(image_folder):
+        images = sorted([
+            i for i in os.listdir(image_folder)
+            if i.lower().endswith(('.jpg', '.jpeg', '.png', '.gif', '.heic'))
+        ])
+
+    return render_template("newIndex.html", profile_images=images)
 
 # --------------------------------------------------
-# OLD URL REDIRECTS (SEO)
+# PRIVACY POLICY PAGE
+# privacy-policy.mohammadramiz.in/<app_name>
 # --------------------------------------------------
-@app.route("/privacy-policy/<app_name>")
-def old_privacy_redirect(app_name):
-    return redirect(
-        f"https://privacy-policy.mohammadramiz.in/{app_name}",
-        code=301
-    )
+@app.route("/<app_name>", methods=["GET", "HEAD"])
+def privacy_policy(app_name):
+    if not request.host.startswith("privacy-policy."):
+        return Response("Not Found", status=404)
 
+    app_data = policies.get(app_name)
+    if not app_data:
+        return Response("App policy not found", status=404)
+
+    return render_template("privacy_policy.html", app=app_data)
+
+# --------------------------------------------------
+# OLD URL REDIRECTS (SEO SAFE)
+# --------------------------------------------------
 @app.route("/windowsapp")
-def old_windows_redirect():
-    return redirect(
-        "https://windowstore.mohammadramiz.in",
-        code=301
-    )
+def old_windows():
+    return redirect("https://windowstore.mohammadramiz.in", 301)
 
 @app.route("/achievements")
-def old_achievements_redirect():
+def old_achievements():
+    return redirect("https://achievements.mohammadramiz.in", 301)
+
+@app.route("/privacy-policy/<app_name>")
+def old_privacy(app_name):
     return redirect(
-        "https://achievements.mohammadramiz.in",
-        code=301
+        f"https://privacy-policy.mohammadramiz.in/{app_name}", 301
     )
+
+# --------------------------------------------------
+# FAVICON (STOP LOG SPAM)
+# --------------------------------------------------
+@app.route("/favicon.ico")
+def favicon():
+    return Response("", status=204)
 
 # --------------------------------------------------
 # CONTACT
 # --------------------------------------------------
-@app.route('/send', methods=['POST'])
+@app.route("/send", methods=["POST"])
 def email():
     try:
         msg = EmailMessage()
-        msg['From'] = EMAIL_ADDRESS
-        msg['To'] = EMAIL_ADDRESS
-        msg['Subject'] = "Connecting To Work With Ramiz"
-        msg.set_content(request.form['message'])
+        msg["From"] = EMAIL_ADDRESS
+        msg["To"] = EMAIL_ADDRESS
+        msg["Subject"] = "Connecting To Work With Ramiz"
+        msg.set_content(request.form.get("message", ""))
 
-        with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
             smtp.login(EMAIL_ADDRESS, APP_PASSWORD)
             smtp.send_message(msg)
 
@@ -155,16 +130,16 @@ def email():
 # --------------------------------------------------
 @app.route("/sitemap.xml")
 def sitemap():
-    lastmod = datetime.now().strftime('%Y-%m-%d')
+    lastmod = datetime.now().strftime("%Y-%m-%d")
 
     urls = [
         "https://mohammadramiz.in/",
         "https://windowstore.mohammadramiz.in",
-        "https://achievements.mohammadramiz.in",
+        "https://achievements.mohammadramiz.in"
     ]
 
-    for app_name in policies.keys():
-        urls.append(f"https://privacy-policy.mohammadramiz.in/{app_name}")
+    for app in policies:
+        urls.append(f"https://privacy-policy.mohammadramiz.in/{app}")
 
     xml = '<?xml version="1.0" encoding="UTF-8"?>\n'
     xml += '<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">\n'
@@ -177,5 +152,5 @@ def sitemap():
         </url>
         """
 
-    xml += '</urlset>'
+    xml += "</urlset>"
     return Response(xml, mimetype="application/xml")
