@@ -7,6 +7,11 @@ from email.message import EmailMessage
 app = Flask(__name__)
 
 # --------------------------------------------------
+# APP VERSION (AUTO CHANGES ON EVERY VERCEL DEPLOY)
+# --------------------------------------------------
+APP_VERSION = os.getenv("VERCEL_GIT_COMMIT_SHA", "v1")
+
+# --------------------------------------------------
 # ENV
 # --------------------------------------------------
 EMAIL_ADDRESS = os.getenv("EMAIL_ADDRESS")
@@ -24,7 +29,17 @@ if os.path.exists(POLICY_FILE):
         policies = json.load(f)
 
 # --------------------------------------------------
-# ROOT (ALL DOMAINS & SUBDOMAINS)
+# CACHE HELPER (IMMUTABLE UNTIL REDEPLOY)
+# --------------------------------------------------
+def cached_response(content, max_age=31536000):
+    response = Response(content)
+    response.headers["Cache-Control"] = f"public, max-age={max_age}, immutable"
+    response.headers["ETag"] = APP_VERSION
+    response.headers["Last-Modified"] = datetime.utcnow()
+    return response
+
+# --------------------------------------------------
+# ROOT HANDLER (ALL DOMAINS & SUBDOMAINS)
 # --------------------------------------------------
 @app.route("/", methods=["GET", "HEAD"])
 def root():
@@ -32,9 +47,11 @@ def root():
 
     # windowstore.mohammadramiz.in
     if host.startswith("windowstore."):
-        return render_template("windowstore.html")
+        return cached_response(
+            render_template("windowstore.html")
+        )
 
-    # achievements.mohammadramiz.in (support typo too)
+    # achievements.mohammadramiz.in (supports typo too)
     if host.startswith(("achievements.", "achivements.")):
         certificates = [
             {
@@ -48,7 +65,9 @@ def root():
                 "description": "Worked as SDE using Flask"
             }
         ]
-        return render_template("newAchive.html", certificates=certificates)
+        return cached_response(
+            render_template("newAchive.html", certificates=certificates)
+        )
 
     # privacy-policy.mohammadramiz.in
     if host.startswith("privacy-policy."):
@@ -63,7 +82,9 @@ def root():
             if i.lower().endswith(('.jpg', '.jpeg', '.png', '.gif', '.heic'))
         ])
 
-    return render_template("newIndex.html", profile_images=images)
+    return cached_response(
+        render_template("newIndex.html", profile_images=images)
+    )
 
 # --------------------------------------------------
 # PRIVACY POLICY PAGE
@@ -78,7 +99,9 @@ def privacy_policy(app_name):
     if not app_data:
         return Response("App policy not found", status=404)
 
-    return render_template("privacy_policy.html", app=app_data)
+    return cached_response(
+        render_template("privacy_policy.html", app=app_data)
+    )
 
 # --------------------------------------------------
 # OLD URL REDIRECTS (SEO SAFE)
@@ -96,13 +119,6 @@ def old_privacy(app_name):
     return redirect(
         f"https://privacy-policy.mohammadramiz.in/{app_name}", 301
     )
-
-# --------------------------------------------------
-# FAVICON (STOP LOG SPAM)
-# --------------------------------------------------
-@app.route("/favicon.ico")
-def favicon():
-    return Response("", status=204)
 
 # --------------------------------------------------
 # CONTACT
@@ -126,7 +142,39 @@ def email():
         return jsonify({"success": False}), 500
 
 # --------------------------------------------------
-# SITEMAP
+# ADVANCED ROBOTS.TXT
+# --------------------------------------------------
+@app.route("/robots.txt")
+def robots():
+    content = f"""User-agent: *
+Allow: /
+
+Disallow: /api/
+Disallow: /.git/
+Disallow: /.env
+Disallow: /.DS_Store
+Disallow: /debug/
+Disallow: /server-status
+
+Sitemap: https://mohammadramiz.in/sitemap.xml
+# Version: {APP_VERSION}
+"""
+    return Response(content, mimetype="text/plain")
+
+# --------------------------------------------------
+# SECURITY.TXT (RFC 9116)
+# --------------------------------------------------
+@app.route("/.well-known/security.txt")
+def security_txt():
+    content = """Contact: mailto:mail@mohammadramiz.in
+Expires: 2026-12-31
+Preferred-Languages: en
+Canonical: https://mohammadramiz.in/.well-known/security.txt
+"""
+    return Response(content, mimetype="text/plain")
+
+# --------------------------------------------------
+# SITEMAP (SHORT CACHE)
 # --------------------------------------------------
 @app.route("/sitemap.xml")
 def sitemap():
@@ -153,4 +201,48 @@ def sitemap():
         """
 
     xml += "</urlset>"
-    return Response(xml, mimetype="application/xml")
+
+    response = Response(xml, mimetype="application/xml")
+    response.headers["Cache-Control"] = "public, max-age=3600"
+    return response
+
+# --------------------------------------------------
+# HEALTH CHECK
+# --------------------------------------------------
+@app.route("/health")
+def health():
+    return jsonify({"status": "ok", "version": APP_VERSION})
+
+# --------------------------------------------------
+# FAVICON (CACHE FOREVER)
+# --------------------------------------------------
+@app.route("/favicon.ico")
+def favicon():
+    response = Response("", status=204)
+    response.headers["Cache-Control"] = "public, max-age=31536000, immutable"
+    return response
+
+# --------------------------------------------------
+# SECURITY HEADERS
+# --------------------------------------------------
+@app.after_request
+def add_security_headers(response):
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Frame-Options"] = "DENY"
+    response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+    response.headers["Permissions-Policy"] = "geolocation=(), camera=(), microphone=()"
+    response.headers["Strict-Transport-Security"] = (
+        "max-age=63072000; includeSubDomains; preload"
+    )
+    return response
+
+# --------------------------------------------------
+# ERROR HANDLERS
+# --------------------------------------------------
+@app.errorhandler(404)
+def not_found(e):
+    return Response("404 Not Found", status=404)
+
+@app.errorhandler(500)
+def server_error(e):
+    return Response("500 Internal Server Error", status=500)
