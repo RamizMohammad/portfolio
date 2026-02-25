@@ -21,6 +21,12 @@
       --accent: #3b82f6;
       --accent-glow: rgba(59,130,246,0.25);
       --accent-soft: rgba(59,130,246,0.1);
+      --green: #34d399;
+      --green-soft: rgba(52,211,153,0.1);
+      --amber: #f59e0b;
+      --amber-soft: rgba(245,158,11,0.1);
+      --red: #f87171;
+      --red-soft: rgba(248,113,113,0.1);
     }
 
     html { scroll-behavior: smooth; }
@@ -35,7 +41,6 @@
       height: 100vh;
     }
 
-    /* Ambient blobs */
     body::before, body::after {
       content: '';
       position: fixed;
@@ -57,23 +62,13 @@
       bottom: -50px; right: -50px;
       animation: float2 25s ease-in-out infinite;
     }
-
-    @keyframes float1 {
-      0%, 100% { transform: translate(0, 0); }
-      50% { transform: translate(80px, 60px); }
-    }
-    @keyframes float2 {
-      0%, 100% { transform: translate(0, 0); }
-      50% { transform: translate(-60px, -80px); }
-    }
+    @keyframes float1 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(80px,60px)} }
+    @keyframes float2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-60px,-80px)} }
 
     /* ===== Layout ===== */
-    .app {
-      display: flex;
-      height: 100vh;
-    }
+    .app { display: flex; height: 100vh; }
 
-    /* ===== Left Sidebar ===== */
+    /* ===== Sidebar ===== */
     .sidebar {
       width: 320px;
       min-width: 320px;
@@ -89,7 +84,6 @@
       padding: 28px 24px 20px;
       border-bottom: 1px solid var(--border);
     }
-
     .sidebar-header h1 {
       font-family: 'Space Grotesk', sans-serif;
       font-size: 1.4rem;
@@ -97,20 +91,17 @@
       color: var(--text-bright);
       letter-spacing: -0.02em;
     }
-
     .sidebar-header p {
       font-size: 0.8rem;
       color: var(--text-dim);
       margin-top: 4px;
     }
 
-    /* Section tabs */
     .section-tabs {
       display: flex;
       gap: 0;
       border-bottom: 1px solid var(--border);
     }
-
     .section-tab {
       flex: 1;
       padding: 12px 16px;
@@ -125,33 +116,20 @@
       position: relative;
       text-align: center;
     }
-
     .section-tab::after {
       content: '';
       position: absolute;
-      bottom: 0;
-      left: 50%;
+      bottom: 0; left: 50%;
       transform: translateX(-50%);
-      width: 0;
-      height: 2px;
+      width: 0; height: 2px;
       background: var(--accent);
       border-radius: 2px;
       transition: width 0.3s ease;
     }
+    .section-tab.active { color: var(--accent); }
+    .section-tab.active::after { width: 40px; }
+    .section-tab:hover { color: var(--text); }
 
-    .section-tab.active {
-      color: var(--accent);
-    }
-
-    .section-tab.active::after {
-      width: 40px;
-    }
-
-    .section-tab:hover {
-      color: var(--text);
-    }
-
-    /* Nav list */
     .nav-list {
       flex: 1;
       overflow-y: auto;
@@ -159,7 +137,6 @@
       scrollbar-width: thin;
       scrollbar-color: rgba(255,255,255,0.08) transparent;
     }
-
     .nav-item {
       display: flex;
       align-items: center;
@@ -171,36 +148,23 @@
       color: var(--text);
       font-size: 0.9rem;
       font-weight: 500;
-      position: relative;
       border: 1px solid transparent;
       margin-bottom: 2px;
     }
-
-    .nav-item:hover {
-      background: var(--surface-hover);
-      color: var(--text-bright);
-    }
-
+    .nav-item:hover { background: var(--surface-hover); color: var(--text-bright); }
     .nav-item.active {
       background: var(--accent-soft);
       border-color: rgba(59,130,246,0.2);
       color: var(--text-bright);
     }
-
-    .nav-item.active .nav-dot {
-      background: var(--accent);
-      box-shadow: 0 0 10px var(--accent-glow);
-    }
-
+    .nav-item.active .nav-dot { background: var(--accent); box-shadow: 0 0 10px var(--accent-glow); }
     .nav-dot {
-      width: 7px;
-      height: 7px;
+      width: 7px; height: 7px;
       border-radius: 50%;
       background: rgba(255,255,255,0.15);
       flex-shrink: 0;
       transition: all 0.3s ease;
     }
-
     .nav-number {
       font-family: 'Space Grotesk', sans-serif;
       font-size: 0.7rem;
@@ -209,7 +173,7 @@
       font-weight: 600;
     }
 
-    /* ===== Right Content Panel ===== */
+    /* ===== Content Panel ===== */
     .content {
       flex: 1;
       overflow-y: auto;
@@ -217,19 +181,15 @@
       scrollbar-width: thin;
       scrollbar-color: rgba(255,255,255,0.08) transparent;
     }
-
     .content-section {
       display: none;
       animation: fadeSlideIn 0.4s ease;
+      max-width: 800px;
     }
-
-    .content-section.active {
-      display: block;
-    }
-
+    .content-section.active { display: block; }
     @keyframes fadeSlideIn {
       from { opacity: 0; transform: translateY(16px); }
-      to { opacity: 1; transform: translateY(0); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
     .content-section h2 {
@@ -240,7 +200,6 @@
       margin-bottom: 8px;
       letter-spacing: -0.02em;
     }
-
     .content-section .subtitle {
       font-size: 0.85rem;
       color: var(--text-dim);
@@ -248,20 +207,25 @@
       display: flex;
       align-items: center;
       gap: 8px;
+      flex-wrap: wrap;
     }
 
-    .content-section .subtitle .badge {
+    /* Badges */
+    .badge {
       display: inline-block;
       padding: 3px 10px;
-      background: var(--accent-soft);
-      color: var(--accent);
       border-radius: 100px;
       font-size: 0.7rem;
       font-weight: 600;
       letter-spacing: 0.06em;
       text-transform: uppercase;
     }
+    .badge-blue  { background: var(--accent-soft); color: var(--accent); }
+    .badge-green { background: var(--green-soft);  color: var(--green);  }
+    .badge-amber { background: var(--amber-soft);  color: var(--amber);  }
+    .badge-red   { background: var(--red-soft);    color: var(--red);    }
 
+    /* Content cards — original style */
     .content-card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -269,13 +233,13 @@
       padding: 28px;
       backdrop-filter: blur(16px);
       transition: all 0.3s ease;
+      margin-bottom: 14px;
     }
-
+    .content-card:last-child { margin-bottom: 0; }
     .content-card:hover {
       border-color: rgba(59,130,246,0.12);
       background: var(--surface-hover);
     }
-
     .content-card h3 {
       font-family: 'Space Grotesk', sans-serif;
       font-size: 1rem;
@@ -283,39 +247,9 @@
       font-weight: 600;
       margin-bottom: 12px;
     }
-
-    .content-card p {
-      margin-bottom: 14px;
-      color: var(--text);
-    }
-
+    .content-card p { margin-bottom: 14px; color: var(--text); }
+    .content-card p:last-child { margin-bottom: 0; }
     .content-card strong { color: var(--text-bright); }
-
-    .content-card ul {
-      margin: 12px 0 0;
-      padding: 0;
-    }
-
-    .content-card ul li {
-      list-style: none;
-      padding-left: 24px;
-      position: relative;
-      margin-bottom: 10px;
-      color: var(--text);
-    }
-
-    .content-card ul li::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 10px;
-      width: 7px;
-      height: 7px;
-      background: var(--accent);
-      border-radius: 50%;
-      box-shadow: 0 0 8px var(--accent-glow);
-    }
-
     .content-card a {
       color: var(--accent);
       text-decoration: none;
@@ -323,21 +257,125 @@
       border-bottom: 1px solid transparent;
       transition: border-color 0.2s ease;
     }
+    .content-card a:hover { border-bottom-color: var(--accent); }
 
-    .content-card a:hover {
-      border-bottom-color: var(--accent);
+    /* Bullet lists — original style */
+    .content-card ul { margin: 12px 0 0; padding: 0; }
+    .content-card ul li {
+      list-style: none;
+      padding-left: 24px;
+      position: relative;
+      margin-bottom: 10px;
+      color: var(--text);
     }
+    .content-card ul li:last-child { margin-bottom: 0; }
+    .content-card ul li::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 10px;
+      width: 7px; height: 7px;
+      background: var(--accent);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--accent-glow);
+    }
+
+    /* Field rows — for object-type values */
+    .field-grid { display: grid; gap: 10px; margin-top: 4px; }
+    .field-row {
+      background: rgba(255,255,255,0.025);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 10px;
+      padding: 13px 16px;
+    }
+    .field-row .field-key {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 5px;
+    }
+    .field-row .field-val { color: var(--text); font-size: 0.9rem; }
+
+    /* Intro / overview card */
+    .intro-card {
+      background: linear-gradient(135deg, rgba(59,130,246,0.09) 0%, rgba(99,102,241,0.06) 100%);
+      border: 1px solid rgba(59,130,246,0.2);
+      border-radius: 16px;
+      padding: 28px;
+      margin-bottom: 14px;
+    }
+    .intro-card p { color: var(--text-bright); line-height: 1.8; margin: 0; }
+
+    /* Summary highlight box */
+    .summary-box {
+      background: linear-gradient(135deg, rgba(59,130,246,0.08), rgba(99,102,241,0.05));
+      border: 1px solid rgba(59,130,246,0.18);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 14px;
+    }
+    .summary-box p { color: var(--text-bright); margin: 0; }
+
+    /* Warning box */
+    .warn-box {
+      background: var(--amber-soft);
+      border: 1px solid rgba(245,158,11,0.25);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 14px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .warn-box .warn-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 2px; }
+    .warn-box p { color: var(--text); margin: 0; }
+
+    /* Positive / green box */
+    .positive-box {
+      background: var(--green-soft);
+      border: 1px solid rgba(52,211,153,0.25);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 14px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .positive-box .pos-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 2px; }
+    .positive-box p { color: var(--text); margin: 0; }
+
+    /* Contact rows */
+    .contact-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 14px;
+      background: rgba(255,255,255,0.025);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 10px;
+      margin-bottom: 8px;
+    }
+    .contact-row:last-child { margin-bottom: 0; }
+    .contact-row .c-icon { font-size: 1.1rem; }
+    .contact-row .c-label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 2px;
+    }
+    .contact-row .c-val { font-size: 0.9rem; color: var(--text-bright); }
 
     /* ===== Mobile ===== */
-    .mobile-header {
-      display: none;
-    }
-
+    .mobile-header { display: none; }
     .sidebar-toggle {
       display: none;
       position: fixed;
-      bottom: 24px;
-      left: 50%;
+      bottom: 24px; left: 50%;
       transform: translateX(-50%);
       padding: 12px 24px;
       background: var(--accent);
@@ -352,11 +390,7 @@
       box-shadow: 0 4px 20px var(--accent-glow);
       transition: transform 0.3s ease;
     }
-
-    .sidebar-toggle:hover {
-      transform: translateX(-50%) translateY(-2px);
-    }
-
+    .sidebar-toggle:hover { transform: translateX(-50%) translateY(-2px); }
     .sidebar-overlay {
       display: none;
       position: fixed;
@@ -366,53 +400,27 @@
       opacity: 0;
       transition: opacity 0.3s ease;
     }
-
-    .sidebar-overlay.show {
-      opacity: 1;
-    }
+    .sidebar-overlay.show { opacity: 1; }
 
     @media (max-width: 768px) {
       .sidebar {
         position: fixed;
-        left: -320px;
-        top: 0;
-        bottom: 0;
+        left: -320px; top: 0; bottom: 0;
         z-index: 100;
-        transition: left 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: left 0.35s cubic-bezier(0.4,0,0.2,1);
       }
-
-      .sidebar.open {
-        left: 0;
-      }
-
-      .sidebar-toggle {
-        display: block;
-      }
-
-      .sidebar-overlay {
-        display: block;
-        pointer-events: none;
-      }
-
-      .sidebar-overlay.show {
-        pointer-events: auto;
-      }
-
-      .content {
-        padding: 32px 20px 80px;
-      }
-
-      .content-section h2 {
-        font-size: 1.5rem;
-      }
-
+      .sidebar.open { left: 0; }
+      .sidebar-toggle { display: block; }
+      .sidebar-overlay { display: block; pointer-events: none; }
+      .sidebar-overlay.show { pointer-events: auto; }
+      .content { padding: 32px 20px 80px; }
+      .content-section h2 { font-size: 1.5rem; }
       .mobile-header {
         display: block;
         padding: 20px;
         text-align: center;
         border-bottom: 1px solid var(--border);
       }
-
       .mobile-header h1 {
         font-family: 'Space Grotesk', sans-serif;
         font-size: 1.1rem;
@@ -425,11 +433,12 @@
 <body>
 
 <div class="app">
-  <!-- Sidebar -->
+
+  <!-- ===== Sidebar ===== -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-header">
-      <h1>🤫 {{ app.appName }}</h1>
-      <p>Legal Documentation</p>
+      <h1>{{ app.appName }}</h1>
+      <p>Legal Documentation{% if app.lastUpdated %} · Updated {{ app.lastUpdated }}{% endif %}</p>
     </div>
 
     <div class="section-tabs">
@@ -438,31 +447,42 @@
     </div>
 
     <nav class="nav-list" id="navList">
-      <!-- Populated by JS -->
+      {# Nav is built by JS from the navItems map below #}
     </nav>
   </aside>
 
   <div class="sidebar-overlay" id="overlay" onclick="closeSidebar()"></div>
 
-  <!-- Content -->
+  <!-- ===== Content Panel ===== -->
   <main class="content" id="contentPanel">
+
     <div class="mobile-header">
-      <h1>🤫 {{ app.appName }}</h1>
+      <h1>{{ app.appName }}</h1>
     </div>
 
-    <!-- Privacy Sections -->
+    {# ================================================================
+       PRIVACY SECTIONS
+       ================================================================ #}
+
+    {# Overview #}
     <div class="content-section" data-group="privacy" data-key="privacy-intro" id="sec-privacy-intro">
       <h2>🛡️ Privacy Policy</h2>
-      <div class="subtitle"><span class="badge">Legal</span> Overview</div>
+      <div class="subtitle"><span class="badge badge-blue">Legal</span> Overview</div>
+      {% if app.privacyPolicy.introduction %}
+        <div class="intro-card"><p>{{ app.privacyPolicy.introduction }}</p></div>
+      {% endif %}
       <div class="content-card">
         <p><strong>Effective Date:</strong> {{ app.effectiveDate }}</p>
-        <p>This privacy policy describes how {{ app.appName }} collects, uses, and protects your personal information.</p>
+        {% if not app.privacyPolicy.introduction %}
+          <p>This privacy policy describes how {{ app.appName }} collects, uses, and protects your personal information.</p>
+        {% endif %}
       </div>
     </div>
 
+    {# Information We Collect #}
     <div class="content-section" data-group="privacy" data-key="info-collect" id="sec-info-collect">
       <h2>Information We Collect</h2>
-      <div class="subtitle"><span class="badge">Privacy</span> Section 1</div>
+      <div class="subtitle"><span class="badge badge-blue">Privacy</span> Section 1</div>
       <div class="content-card">
         <ul>
           {% for item in app.privacyPolicy.infoWeCollect %}
@@ -472,18 +492,32 @@
       </div>
     </div>
 
+    {# Data Protection — string OR object #}
     <div class="content-section" data-group="privacy" data-key="data-protection" id="sec-data-protection">
       <h2>Data Protection</h2>
-      <div class="subtitle"><span class="badge">Privacy</span> Section 2</div>
+      <div class="subtitle"><span class="badge badge-blue">Privacy</span> Section 2</div>
       <div class="content-card">
-        <p>{{ app.privacyPolicy.dataProtection }}</p>
+        {% if app.privacyPolicy.dataProtection is string %}
+          <p>{{ app.privacyPolicy.dataProtection }}</p>
+        {% else %}
+          <div class="field-grid">
+            {% for key, val in app.privacyPolicy.dataProtection.items() %}
+              <div class="field-row">
+                <div class="field-key">{{ key | replace('_',' ') | title }}</div>
+                <div class="field-val">{{ val }}</div>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
       </div>
     </div>
 
+    {# What We Don't Collect #}
     <div class="content-section" data-group="privacy" data-key="not-collected" id="sec-not-collected">
       <h2>What We Don't Collect</h2>
-      <div class="subtitle"><span class="badge">Privacy</span> Section 3</div>
+      <div class="subtitle"><span class="badge badge-green">Privacy</span> Section 3</div>
       <div class="content-card">
+        <p style="color:var(--green);font-weight:500;margin-bottom:10px">✓ We strictly limit collection to what's necessary.</p>
         <ul>
           {% for item in app.privacyPolicy.notCollected %}
             <li>{{ item }}</li>
@@ -492,25 +526,158 @@
       </div>
     </div>
 
+    {# Cookies & Tracking — new section, only shown if key exists #}
+    {% if app.privacyPolicy.cookiesAndTracking %}
+    <div class="content-section" data-group="privacy" data-key="cookies-tracking" id="sec-cookies-tracking">
+      <h2>Cookies & Tracking</h2>
+      <div class="subtitle"><span class="badge badge-blue">Privacy</span> Section 4</div>
+      <div class="content-card">
+        {% if app.privacyPolicy.cookiesAndTracking is string %}
+          <p>{{ app.privacyPolicy.cookiesAndTracking }}</p>
+        {% else %}
+          <div class="field-grid">
+            {% for key, val in app.privacyPolicy.cookiesAndTracking.items() %}
+              <div class="field-row">
+                <div class="field-key">{{ key | replace('_',' ') | title }}</div>
+                <div class="field-val">{{ val }}</div>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+    {% endif %}
+
+    {# Data Sharing — string OR object #}
     <div class="content-section" data-group="privacy" data-key="data-sharing" id="sec-data-sharing">
       <h2>Data Sharing</h2>
-      <div class="subtitle"><span class="badge">Privacy</span> Section 4</div>
-      <div class="content-card">
-        <p>{{ app.privacyPolicy.dataSharing }}</p>
-      </div>
+      <div class="subtitle"><span class="badge badge-blue">Privacy</span> Section 5</div>
+      {% if app.privacyPolicy.dataSharing is string %}
+        <div class="content-card"><p>{{ app.privacyPolicy.dataSharing }}</p></div>
+      {% else %}
+        {% if app.privacyPolicy.dataSharing.summary %}
+          <div class="summary-box"><p>{{ app.privacyPolicy.dataSharing.summary }}</p></div>
+        {% endif %}
+        <div class="content-card">
+          <div class="field-grid">
+            {% for key, val in app.privacyPolicy.dataSharing.items() %}
+              {% if key != 'summary' %}
+                <div class="field-row">
+                  <div class="field-key">{{ key | replace('_',' ') | title }}</div>
+                  <div class="field-val">{{ val }}</div>
+                </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
     </div>
 
+    {# Data Retention — string OR object #}
     <div class="content-section" data-group="privacy" data-key="data-retention" id="sec-data-retention">
       <h2>Data Retention</h2>
-      <div class="subtitle"><span class="badge">Privacy</span> Section 5</div>
+      <div class="subtitle"><span class="badge badge-blue">Privacy</span> Section 6</div>
       <div class="content-card">
-        <p>{{ app.privacyPolicy.dataRetention }}</p>
+        {% if app.privacyPolicy.dataRetention is string %}
+          <p>{{ app.privacyPolicy.dataRetention }}</p>
+        {% else %}
+          <div class="field-grid">
+            {% for key, val in app.privacyPolicy.dataRetention.items() %}
+              <div class="field-row">
+                <div class="field-key">{{ key | replace('_',' ') | title }}</div>
+                <div class="field-val">{{ val }}</div>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
       </div>
     </div>
 
+    {# GDPR & CCPA — new section #}
+    {% if app.privacyPolicy.gdprAndCCPA %}
+    <div class="content-section" data-group="privacy" data-key="gdpr-ccpa" id="sec-gdpr-ccpa">
+      <h2>GDPR & CCPA Rights</h2>
+      <div class="subtitle"><span class="badge badge-amber">Privacy</span> Section 7</div>
+      {% if app.privacyPolicy.gdprAndCCPA.applicability %}
+        <div class="summary-box"><p>{{ app.privacyPolicy.gdprAndCCPA.applicability }}</p></div>
+      {% endif %}
+      {% if app.privacyPolicy.gdprAndCCPA.gdprRights %}
+        <div class="content-card">
+          <h3>🇪🇺 GDPR Rights</h3>
+          <ul>
+            {% for item in app.privacyPolicy.gdprAndCCPA.gdprRights %}
+              <li>{{ item }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+      {% if app.privacyPolicy.gdprAndCCPA.ccpaRights %}
+        <div class="content-card">
+          <h3>🇺🇸 CCPA Rights (California)</h3>
+          <ul>
+            {% for item in app.privacyPolicy.gdprAndCCPA.ccpaRights %}
+              <li>{{ item }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+      {% if app.privacyPolicy.gdprAndCCPA.howToExercise %}
+        <div class="content-card">
+          <h3>How to Exercise Your Rights</h3>
+          <p>{{ app.privacyPolicy.gdprAndCCPA.howToExercise }}</p>
+        </div>
+      {% endif %}
+    </div>
+    {% endif %}
+
+    {# Children's Privacy — new section #}
+    {% if app.privacyPolicy.childrensPrivacy %}
+    <div class="content-section" data-group="privacy" data-key="childrens-privacy" id="sec-childrens-privacy">
+      <h2>Children's Privacy</h2>
+      <div class="subtitle"><span class="badge badge-amber">Privacy</span> Section 8</div>
+      <div class="content-card">
+        <div class="field-grid">
+          {% for key, val in app.privacyPolicy.childrensPrivacy.items() %}
+            <div class="field-row">
+              <div class="field-key">{{ key | replace('_',' ') | title }}</div>
+              <div class="field-val">{{ val }}</div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    {# International Data Transfers — new section #}
+    {% if app.privacyPolicy.internationalDataTransfers %}
+    <div class="content-section" data-group="privacy" data-key="intl-transfers" id="sec-intl-transfers">
+      <h2>International Data Transfers</h2>
+      <div class="subtitle"><span class="badge badge-blue">Privacy</span> Section 9</div>
+      <div class="content-card">
+        <p>{{ app.privacyPolicy.internationalDataTransfers }}</p>
+      </div>
+    </div>
+    {% endif %}
+
+    {# Security Measures — new section #}
+    {% if app.privacyPolicy.securityMeasures %}
+    <div class="content-section" data-group="privacy" data-key="security-measures" id="sec-security-measures">
+      <h2>Security Measures</h2>
+      <div class="subtitle"><span class="badge badge-green">Privacy</span> Section 10</div>
+      <div class="content-card">
+        <ul>
+          {% for item in app.privacyPolicy.securityMeasures %}
+            <li>{{ item }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+    {% endif %}
+
+    {# Your Rights #}
     <div class="content-section" data-group="privacy" data-key="your-rights" id="sec-your-rights">
       <h2>Your Rights</h2>
-      <div class="subtitle"><span class="badge">Privacy</span> Section 6</div>
+      <div class="subtitle"><span class="badge badge-green">Privacy</span> Section 11</div>
       <div class="content-card">
         <ul>
           {% for item in app.privacyPolicy.yourRights %}
@@ -520,163 +687,566 @@
       </div>
     </div>
 
-    <div class="content-section" data-group="privacy" data-key="updates" id="sec-updates">
+    {# Updates #}
+    <div class="content-section" data-group="privacy" data-key="pp-updates" id="sec-pp-updates">
       <h2>Updates</h2>
-      <div class="subtitle"><span class="badge">Privacy</span> Section 7</div>
+      <div class="subtitle"><span class="badge badge-blue">Privacy</span> Section 12</div>
       <div class="content-card">
         <p>{{ app.privacyPolicy.updates }}</p>
       </div>
     </div>
 
+    {# Contact — string OR object #}
     <div class="content-section" data-group="privacy" data-key="privacy-contact" id="sec-privacy-contact">
       <h2>Contact Us</h2>
-      <div class="subtitle"><span class="badge">Privacy</span> Section 8</div>
+      <div class="subtitle"><span class="badge badge-blue">Privacy</span> Section 13</div>
       <div class="content-card">
-        <p>Email: <a href="mailto:{{ app.privacyPolicy.contact }}">{{ app.privacyPolicy.contact }}</a></p>
+        {% if app.privacyPolicy.contact is string %}
+          <p>Email: <a href="mailto:{{ app.privacyPolicy.contact }}">{{ app.privacyPolicy.contact }}</a></p>
+        {% else %}
+          {% if app.privacyPolicy.contact.email %}
+            <div class="contact-row">
+              <div class="c-icon">📧</div>
+              <div><div class="c-label">Email</div><a href="mailto:{{ app.privacyPolicy.contact.email }}" class="c-val">{{ app.privacyPolicy.contact.email }}</a></div>
+            </div>
+          {% endif %}
+          {% if app.privacyPolicy.contact.github %}
+            <div class="contact-row">
+              <div class="c-icon">🐙</div>
+              <div><div class="c-label">GitHub</div><a href="{{ app.privacyPolicy.contact.github }}" target="_blank" class="c-val">{{ app.privacyPolicy.contact.github }}</a></div>
+            </div>
+          {% endif %}
+          {% if app.privacyPolicy.contact.website %}
+            <div class="contact-row">
+              <div class="c-icon">🌐</div>
+              <div><div class="c-label">Website</div><a href="{{ app.privacyPolicy.contact.website }}" target="_blank" class="c-val">{{ app.privacyPolicy.contact.website }}</a></div>
+            </div>
+          {% endif %}
+          {% if app.privacyPolicy.contact.responseTime %}
+            <div class="contact-row">
+              <div class="c-icon">⏱️</div>
+              <div><div class="c-label">Response Time</div><div class="c-val">{{ app.privacyPolicy.contact.responseTime }}</div></div>
+            </div>
+          {% endif %}
+        {% endif %}
       </div>
     </div>
 
-    <!-- Terms Sections -->
+    {# ================================================================
+       TERMS SECTIONS
+       ================================================================ #}
+
+    {# Overview #}
     <div class="content-section" data-group="terms" data-key="terms-intro" id="sec-terms-intro">
-      <h2>📜 Terms & Conditions</h2>
-      <div class="subtitle"><span class="badge">Legal</span> Overview</div>
+      <h2>📜 Terms of Service</h2>
+      <div class="subtitle"><span class="badge badge-blue">Legal</span> Overview</div>
+      {% if app.terms.introduction %}
+        <div class="intro-card"><p>{{ app.terms.introduction }}</p></div>
+      {% endif %}
       <div class="content-card">
         <p><strong>Effective Date:</strong> {{ app.effectiveDate }}</p>
-        <p>By using {{ app.appName }}, you agree to the following terms and conditions.</p>
+        {% if not app.terms.introduction %}
+          <p>By using {{ app.appName }}, you agree to the following terms and conditions.</p>
+        {% endif %}
       </div>
     </div>
 
+    {# Eligibility — string OR object #}
     <div class="content-section" data-group="terms" data-key="eligibility" id="sec-eligibility">
       <h2>Eligibility</h2>
-      <div class="subtitle"><span class="badge">Terms</span> Section 1</div>
+      <div class="subtitle"><span class="badge badge-blue">Terms</span> Section 1</div>
       <div class="content-card">
-        <p>{{ app.terms.eligibility }}</p>
+        {% if app.terms.eligibility is string %}
+          <p>{{ app.terms.eligibility }}</p>
+        {% else %}
+          <div class="field-grid">
+            {% for key, val in app.terms.eligibility.items() %}
+              <div class="field-row">
+                <div class="field-key">{{ key | replace('_',' ') | title }}</div>
+                <div class="field-val">{{ val }}</div>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
       </div>
     </div>
 
+    {# Account Responsibility — new section #}
+    {% if app.terms.accountResponsibility %}
+    <div class="content-section" data-group="terms" data-key="account-responsibility" id="sec-account-responsibility">
+      <h2>Account Responsibility</h2>
+      <div class="subtitle"><span class="badge badge-blue">Terms</span> Section 2</div>
+      <div class="content-card">
+        <div class="field-grid">
+          {% for key, val in app.terms.accountResponsibility.items() %}
+            <div class="field-row">
+              <div class="field-key">{{ key | replace('_',' ') | title }}</div>
+              <div class="field-val">{{ val }}</div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    {# Identity Rules #}
+    {% if app.terms.identityRules %}
     <div class="content-section" data-group="terms" data-key="identity-rules" id="sec-identity-rules">
       <h2>Identity Rules</h2>
-      <div class="subtitle"><span class="badge">Terms</span> Section 2</div>
+      <div class="subtitle"><span class="badge badge-amber">Terms</span> Section 3</div>
       <div class="content-card">
         <p>{{ app.terms.identityRules }}</p>
       </div>
     </div>
+    {% endif %}
 
+    {# Content Rules — array OR object #}
+    {% if app.terms.contentRules %}
     <div class="content-section" data-group="terms" data-key="content-rules" id="sec-content-rules">
       <h2>Content Rules</h2>
-      <div class="subtitle"><span class="badge">Terms</span> Section 3</div>
+      <div class="subtitle"><span class="badge badge-red">Terms</span> Section 4</div>
+      {% if app.terms.contentRules is iterable and app.terms.contentRules is not mapping %}
+        <div class="content-card">
+          <ul>
+            {% for item in app.terms.contentRules %}
+              <li>{{ item }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% else %}
+        {% if app.terms.contentRules.userResponsibility %}
+          <div class="warn-box">
+            <div class="warn-icon">⚠️</div>
+            <p>{{ app.terms.contentRules.userResponsibility }}</p>
+          </div>
+        {% endif %}
+        {% if app.terms.contentRules.prohibited %}
+          <div class="content-card">
+            <h3>Prohibited Content</h3>
+            <ul>
+              {% for item in app.terms.contentRules.prohibited %}
+                <li>{{ item }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+      {% endif %}
+    </div>
+    {% endif %}
+
+    {# Permitted Use — new section (Linkium) #}
+    {% if app.terms.permittedUse %}
+    <div class="content-section" data-group="terms" data-key="permitted-use" id="sec-permitted-use">
+      <h2>Permitted Use</h2>
+      <div class="subtitle"><span class="badge badge-green">Terms</span> Section 5</div>
+      {% if app.terms.permittedUse.description %}
+        <div class="summary-box"><p>{{ app.terms.permittedUse.description }}</p></div>
+      {% endif %}
+      {% if app.terms.permittedUse.permittedActivities %}
+        <div class="content-card">
+          <ul>
+            {% for item in app.terms.permittedUse.permittedActivities %}
+              <li>{{ item }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+    </div>
+    {% endif %}
+
+    {# Prohibited Use — new section (Linkium) #}
+    {% if app.terms.prohibitedUse %}
+    <div class="content-section" data-group="terms" data-key="prohibited-use" id="sec-prohibited-use">
+      <h2>Prohibited Use</h2>
+      <div class="subtitle"><span class="badge badge-red">Terms</span> Section 6</div>
       <div class="content-card">
         <ul>
-          {% for item in app.terms.contentRules %}
+          {% for item in app.terms.prohibitedUse.strictlyProhibited %}
             <li>{{ item }}</li>
           {% endfor %}
         </ul>
       </div>
     </div>
+    {% endif %}
 
+    {# Reactions Only — string OR object #}
+    {% if app.terms.reactionsOnly %}
     <div class="content-section" data-group="terms" data-key="reactions" id="sec-reactions">
       <h2>Reactions Only</h2>
-      <div class="subtitle"><span class="badge">Terms</span> Section 4</div>
+      <div class="subtitle"><span class="badge badge-blue">Terms</span> Section 7</div>
       <div class="content-card">
-        <p>{{ app.terms.reactionsOnly }}</p>
+        {% if app.terms.reactionsOnly is string %}
+          <p>{{ app.terms.reactionsOnly }}</p>
+        {% else %}
+          <div class="field-grid">
+            {% for key, val in app.terms.reactionsOnly.items() %}
+              <div class="field-row">
+                <div class="field-key">{{ key | replace('_',' ') | title }}</div>
+                <div class="field-val">{{ val }}</div>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
       </div>
     </div>
+    {% endif %}
 
+    {# Stories — string OR object #}
+    {% if app.terms.stories %}
     <div class="content-section" data-group="terms" data-key="stories" id="sec-stories">
       <h2>Stories</h2>
-      <div class="subtitle"><span class="badge">Terms</span> Section 5</div>
+      <div class="subtitle"><span class="badge badge-blue">Terms</span> Section 8</div>
       <div class="content-card">
-        <p>{{ app.terms.stories }}</p>
+        {% if app.terms.stories is string %}
+          <p>{{ app.terms.stories }}</p>
+        {% else %}
+          <div class="field-grid">
+            {% for key, val in app.terms.stories.items() %}
+              <div class="field-row">
+                <div class="field-key">{{ key | replace('_',' ') | title }}</div>
+                <div class="field-val">{{ val }}</div>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
       </div>
     </div>
+    {% endif %}
 
+    {# Intellectual Property — new section #}
+    {% if app.terms.intellectualProperty %}
+    <div class="content-section" data-group="terms" data-key="intellectual-property" id="sec-intellectual-property">
+      <h2>Intellectual Property</h2>
+      <div class="subtitle"><span class="badge badge-amber">Terms</span> Section 9</div>
+      <div class="content-card">
+        <div class="field-grid">
+          {% for key, val in app.terms.intellectualProperty.items() %}
+            <div class="field-row">
+              <div class="field-key">{{ key | replace('_',' ') | title }}</div>
+              <div class="field-val">{{ val }}</div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    {# Moderation — string OR object #}
+    {% if app.terms.moderation %}
     <div class="content-section" data-group="terms" data-key="moderation" id="sec-moderation">
       <h2>Moderation</h2>
-      <div class="subtitle"><span class="badge">Terms</span> Section 6</div>
+      <div class="subtitle"><span class="badge badge-blue">Terms</span> Section 10</div>
       <div class="content-card">
-        <p>{{ app.terms.moderation }}</p>
+        {% if app.terms.moderation is string %}
+          <p>{{ app.terms.moderation }}</p>
+        {% else %}
+          <div class="field-grid">
+            {% for key, val in app.terms.moderation.items() %}
+              <div class="field-row">
+                <div class="field-key">{{ key | replace('_',' ') | title }}</div>
+                <div class="field-val">{{ val }}</div>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
       </div>
     </div>
+    {% endif %}
 
+    {# System Behavior — new section (Linkium) #}
+    {% if app.terms.systemBehavior %}
+    <div class="content-section" data-group="terms" data-key="system-behavior" id="sec-system-behavior">
+      <h2>System Behavior</h2>
+      <div class="subtitle"><span class="badge badge-blue">Terms</span> Section 11</div>
+      <div class="content-card">
+        <div class="field-grid">
+          {% for key, val in app.terms.systemBehavior.items() %}
+            <div class="field-row">
+              <div class="field-key">{{ key | replace('_',' ') | title }}</div>
+              <div class="field-val">{{ val }}</div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    {# Network & Relay — new section (Linkium) #}
+    {% if app.terms.networkAndRelayService %}
+    <div class="content-section" data-group="terms" data-key="network-relay" id="sec-network-relay">
+      <h2>Network & Relay Service</h2>
+      <div class="subtitle"><span class="badge badge-blue">Terms</span> Section 12</div>
+      <div class="content-card">
+        <div class="field-grid">
+          {% for key, val in app.terms.networkAndRelayService.items() %}
+            <div class="field-row">
+              <div class="field-key">{{ key | replace('_',' ') | title }}</div>
+              <div class="field-val">{{ val }}</div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    {# Security Responsibilities — new section (Linkium) #}
+    {% if app.terms.securityResponsibilities %}
+    <div class="content-section" data-group="terms" data-key="security-resp" id="sec-security-resp">
+      <h2>Security Responsibilities</h2>
+      <div class="subtitle"><span class="badge badge-amber">Terms</span> Section 13</div>
+      <div class="content-card">
+        <div class="field-grid">
+          {% for key, val in app.terms.securityResponsibilities.items() %}
+            <div class="field-row">
+              <div class="field-key">{{ key | replace('_',' ') | title }}</div>
+              <div class="field-val">{{ val }}</div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    {# Account Ban / Connection Blocking #}
+    {% if app.terms.accountSuspensionAndBan or app.terms.connectionBlocking %}
+    {% set ban = app.terms.accountSuspensionAndBan or app.terms.connectionBlocking %}
     <div class="content-section" data-group="terms" data-key="account-ban" id="sec-account-ban">
-      <h2>Account Ban</h2>
-      <div class="subtitle"><span class="badge">Terms</span> Section 7</div>
-      <div class="content-card">
-        <p>{{ app.terms.accountBan }}</p>
+      <h2>{% if app.terms.accountSuspensionAndBan %}Account Suspension & Ban{% else %}Connection Blocking{% endif %}</h2>
+      <div class="subtitle"><span class="badge badge-red">Terms</span> Section 14</div>
+      {% if ban.grounds %}
+        <div class="content-card">
+          <h3>Grounds for Action</h3>
+          <ul>
+            {% for item in ban.grounds %}
+              <li>{{ item }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+      {% if ban.process %}
+        <div class="content-card">
+          <h3>Process</h3>
+          <p>{{ ban.process }}</p>
+        </div>
+      {% endif %}
+      {% if ban.appeal %}
+        <div class="content-card">
+          <h3>Appeal</h3>
+          <p>{{ ban.appeal }}</p>
+        </div>
+      {% endif %}
+    </div>
+    {% endif %}
+
+    {# Disclaimer of Warranties — new section #}
+    {% if app.terms.disclaimerOfWarranties %}
+    <div class="content-section" data-group="terms" data-key="disclaimer" id="sec-disclaimer">
+      <h2>Disclaimer of Warranties</h2>
+      <div class="subtitle"><span class="badge badge-amber">Terms</span> Section 15</div>
+      <div class="warn-box">
+        <div class="warn-icon">⚠️</div>
+        <p>{{ app.terms.disclaimerOfWarranties }}</p>
       </div>
     </div>
+    {% endif %}
 
+    {# Limitation of Liability #}
+    {% if app.terms.limitationOfLiability %}
     <div class="content-section" data-group="terms" data-key="liability" id="sec-liability">
       <h2>Limitation of Liability</h2>
-      <div class="subtitle"><span class="badge">Terms</span> Section 8</div>
+      <div class="subtitle"><span class="badge badge-amber">Terms</span> Section 16</div>
       <div class="content-card">
         <p>{{ app.terms.limitationOfLiability }}</p>
       </div>
     </div>
+    {% endif %}
 
+    {# Indemnification — new section #}
+    {% if app.terms.indemnification %}
+    <div class="content-section" data-group="terms" data-key="indemnification" id="sec-indemnification">
+      <h2>Indemnification</h2>
+      <div class="subtitle"><span class="badge badge-amber">Terms</span> Section 17</div>
+      <div class="content-card">
+        <p>{{ app.terms.indemnification }}</p>
+      </div>
+    </div>
+    {% endif %}
+
+    {# Dispute Resolution — new section #}
+    {% if app.terms.disputeResolution %}
+    <div class="content-section" data-group="terms" data-key="dispute-resolution" id="sec-dispute-resolution">
+      <h2>Dispute Resolution</h2>
+      <div class="subtitle"><span class="badge badge-blue">Terms</span> Section 18</div>
+      <div class="content-card">
+        <div class="field-grid">
+          {% for key, val in app.terms.disputeResolution.items() %}
+            <div class="field-row">
+              <div class="field-key">{{ key | replace('_',' ') | title }}</div>
+              <div class="field-val">{{ val }}</div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    {# Mental Health Notice #}
+    {% if app.terms.mentalHealthNotice %}
     <div class="content-section" data-group="terms" data-key="mental-health" id="sec-mental-health">
       <h2>Mental Health Notice</h2>
-      <div class="subtitle"><span class="badge">Terms</span> Section 9</div>
-      <div class="content-card">
+      <div class="subtitle"><span class="badge badge-green">Terms</span> Section 19</div>
+      <div class="positive-box">
+        <div class="pos-icon">💚</div>
         <p>{{ app.terms.mentalHealthNotice }}</p>
       </div>
     </div>
+    {% endif %}
 
+    {# Software License — new section (Linkium) #}
+    {% if app.terms.softwareLicense %}
+    <div class="content-section" data-group="terms" data-key="software-license" id="sec-software-license">
+      <h2>Software License</h2>
+      <div class="subtitle"><span class="badge badge-blue">Terms</span> Section 20</div>
+      <div class="content-card">
+        <p>{{ app.terms.softwareLicense }}</p>
+      </div>
+    </div>
+    {% endif %}
+
+    {# Modifications — new section #}
+    {% if app.terms.modifications %}
+    <div class="content-section" data-group="terms" data-key="modifications" id="sec-modifications">
+      <h2>Modifications</h2>
+      <div class="subtitle"><span class="badge badge-blue">Terms</span> Section 21</div>
+      <div class="content-card">
+        <p>{{ app.terms.modifications }}</p>
+      </div>
+    </div>
+    {% endif %}
+
+    {# Termination — new section #}
+    {% if app.terms.termination %}
+    <div class="content-section" data-group="terms" data-key="termination" id="sec-termination">
+      <h2>Termination</h2>
+      <div class="subtitle"><span class="badge badge-amber">Terms</span> Section 22</div>
+      <div class="content-card">
+        <p>{{ app.terms.termination }}</p>
+      </div>
+    </div>
+    {% endif %}
+
+    {# Legal Jurisdiction #}
     <div class="content-section" data-group="terms" data-key="jurisdiction" id="sec-jurisdiction">
       <h2>Legal Jurisdiction</h2>
-      <div class="subtitle"><span class="badge">Terms</span> Section 10</div>
+      <div class="subtitle"><span class="badge badge-blue">Terms</span> Section 23</div>
       <div class="content-card">
         <p>{{ app.terms.legalJurisdiction }}</p>
       </div>
     </div>
 
+    {# Terms Contact — string OR object #}
     <div class="content-section" data-group="terms" data-key="terms-contact" id="sec-terms-contact">
       <h2>Contact</h2>
-      <div class="subtitle"><span class="badge">Terms</span> Section 11</div>
+      <div class="subtitle"><span class="badge badge-blue">Terms</span> Section 24</div>
       <div class="content-card">
-        <p>Email: <a href="mailto:{{ app.terms.contact }}">{{ app.terms.contact }}</a></p>
+        {% if app.terms.contact is string %}
+          <p>Email: <a href="mailto:{{ app.terms.contact }}">{{ app.terms.contact }}</a></p>
+        {% else %}
+          {% if app.terms.contact.email %}
+            <div class="contact-row">
+              <div class="c-icon">📧</div>
+              <div><div class="c-label">Email</div><a href="mailto:{{ app.terms.contact.email }}" class="c-val">{{ app.terms.contact.email }}</a></div>
+            </div>
+          {% endif %}
+          {% if app.terms.contact.github %}
+            <div class="contact-row">
+              <div class="c-icon">🐙</div>
+              <div><div class="c-label">GitHub</div><a href="{{ app.terms.contact.github }}" target="_blank" class="c-val">{{ app.terms.contact.github }}</a></div>
+            </div>
+          {% endif %}
+          {% if app.terms.contact.website %}
+            <div class="contact-row">
+              <div class="c-icon">🌐</div>
+              <div><div class="c-label">Website</div><a href="{{ app.terms.contact.website }}" target="_blank" class="c-val">{{ app.terms.contact.website }}</a></div>
+            </div>
+          {% endif %}
+          {% if app.terms.contact.responseTime %}
+            <div class="contact-row">
+              <div class="c-icon">⏱️</div>
+              <div><div class="c-label">Response Time</div><div class="c-val">{{ app.terms.contact.responseTime }}</div></div>
+            </div>
+          {% endif %}
+        {% endif %}
       </div>
     </div>
+
   </main>
 </div>
 
 <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()">☰ Menu</button>
 
 <script>
+  // ── Nav item definitions ────────────────────────────────────────────────
+  // Only list keys that exist as section IDs in the HTML.
+  // The JS will automatically skip any key whose element doesn't exist
+  // (i.e. sections hidden by Jinja {% if %} blocks).
   const navItems = {
     privacy: [
-      { key: 'privacy-intro', label: 'Overview', emoji: '🛡️' },
-      { key: 'info-collect', label: 'Information We Collect', emoji: '📋' },
-      { key: 'data-protection', label: 'Data Protection', emoji: '🔒' },
-      { key: 'not-collected', label: "What We Don't Collect", emoji: '🚫' },
-      { key: 'data-sharing', label: 'Data Sharing', emoji: '🤝' },
-      { key: 'data-retention', label: 'Data Retention', emoji: '🧾' },
-      { key: 'your-rights', label: 'Your Rights', emoji: '✅' },
-      { key: 'updates', label: 'Updates', emoji: '🔁' },
-      { key: 'privacy-contact', label: 'Contact Us', emoji: '📬' },
+      { key: 'privacy-intro',      label: 'Overview',                  emoji: '🛡️' },
+      { key: 'info-collect',       label: 'Information We Collect',    emoji: '📋' },
+      { key: 'data-protection',    label: 'Data Protection',           emoji: '🔒' },
+      { key: 'not-collected',      label: "What We Don't Collect",     emoji: '🚫' },
+      { key: 'cookies-tracking',   label: 'Cookies & Tracking',        emoji: '🍪' },
+      { key: 'data-sharing',       label: 'Data Sharing',              emoji: '🤝' },
+      { key: 'data-retention',     label: 'Data Retention',            emoji: '🗓️' },
+      { key: 'gdpr-ccpa',          label: 'GDPR & CCPA',               emoji: '🌍' },
+      { key: 'childrens-privacy',  label: "Children's Privacy",        emoji: '👶' },
+      { key: 'intl-transfers',     label: 'International Transfers',   emoji: '🌐' },
+      { key: 'security-measures',  label: 'Security Measures',         emoji: '🛡️' },
+      { key: 'your-rights',        label: 'Your Rights',               emoji: '✅' },
+      { key: 'pp-updates',         label: 'Updates',                   emoji: '🔁' },
+      { key: 'privacy-contact',    label: 'Contact Us',                emoji: '📬' },
     ],
     terms: [
-      { key: 'terms-intro', label: 'Overview', emoji: '📜' },
-      { key: 'eligibility', label: 'Eligibility', emoji: '👤' },
-      { key: 'identity-rules', label: 'Identity Rules', emoji: '👥' },
-      { key: 'content-rules', label: 'Content Rules', emoji: '📌' },
-      { key: 'reactions', label: 'Reactions Only', emoji: '👍' },
-      { key: 'stories', label: 'Stories', emoji: '📖' },
-      { key: 'moderation', label: 'Moderation', emoji: '🔍' },
-      { key: 'account-ban', label: 'Account Ban', emoji: '🚫' },
-      { key: 'liability', label: 'Limitation of Liability', emoji: '⚖️' },
-      { key: 'mental-health', label: 'Mental Health Notice', emoji: '🧠' },
-      { key: 'jurisdiction', label: 'Legal Jurisdiction', emoji: '⚖️' },
-      { key: 'terms-contact', label: 'Contact', emoji: '📮' },
+      { key: 'terms-intro',            label: 'Overview',                    emoji: '📜' },
+      { key: 'eligibility',            label: 'Eligibility',                 emoji: '👤' },
+      { key: 'account-responsibility', label: 'Account Responsibility',      emoji: '🔑' },
+      { key: 'identity-rules',         label: 'Identity Rules',              emoji: '👥' },
+      { key: 'content-rules',          label: 'Content Rules',               emoji: '📌' },
+      { key: 'permitted-use',          label: 'Permitted Use',               emoji: '✔️' },
+      { key: 'prohibited-use',         label: 'Prohibited Use',              emoji: '❌' },
+      { key: 'reactions',              label: 'Reactions Only',              emoji: '👍' },
+      { key: 'stories',                label: 'Stories',                     emoji: '📖' },
+      { key: 'intellectual-property',  label: 'Intellectual Property',       emoji: '©️' },
+      { key: 'moderation',             label: 'Moderation',                  emoji: '🔍' },
+      { key: 'system-behavior',        label: 'System Behavior',             emoji: '⚙️' },
+      { key: 'network-relay',          label: 'Network & Relay',             emoji: '📡' },
+      { key: 'security-resp',          label: 'Security Responsibilities',   emoji: '🛡️' },
+      { key: 'account-ban',            label: 'Account / Connection Ban',    emoji: '🚫' },
+      { key: 'disclaimer',             label: 'Disclaimer of Warranties',    emoji: '⚠️' },
+      { key: 'liability',              label: 'Limitation of Liability',     emoji: '⚖️' },
+      { key: 'indemnification',        label: 'Indemnification',             emoji: '🤲' },
+      { key: 'dispute-resolution',     label: 'Dispute Resolution',          emoji: '⚖️' },
+      { key: 'mental-health',          label: 'Mental Health Notice',        emoji: '🧠' },
+      { key: 'software-license',       label: 'Software License',            emoji: '📄' },
+      { key: 'modifications',          label: 'Modifications',               emoji: '✏️' },
+      { key: 'termination',            label: 'Termination',                 emoji: '🔚' },
+      { key: 'jurisdiction',           label: 'Legal Jurisdiction',          emoji: '🏛️' },
+      { key: 'terms-contact',          label: 'Contact',                     emoji: '📮' },
     ]
   };
 
   let currentTab = 'privacy';
   let currentKey = 'privacy-intro';
 
+  // Returns only nav items whose section element was actually rendered by Jinja
+  function visibleItems(tab) {
+    return navItems[tab].filter(item => !!document.getElementById('sec-' + item.key));
+  }
+
   function renderNav() {
     const list = document.getElementById('navList');
-    const items = navItems[currentTab];
+    const items = visibleItems(currentTab);
     list.innerHTML = items.map((item, i) => `
       <div class="nav-item ${item.key === currentKey ? 'active' : ''}" onclick="showSection('${item.key}')">
         <span class="nav-dot"></span>
@@ -691,30 +1261,29 @@
     document.querySelectorAll('.section-tab').forEach(t => {
       t.classList.toggle('active', t.dataset.tab === tab);
     });
-    const firstKey = navItems[tab][0].key;
-    currentKey = firstKey;
-    renderNav();
-    showSection(firstKey);
+    // Jump to first visible section in this tab
+    const first = visibleItems(tab)[0];
+    if (first) {
+      currentKey = first.key;
+      renderNav();
+      showSection(first.key);
+    }
   }
 
   function showSection(key) {
     currentKey = key;
-    // Hide all
     document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
-    // Show target
-    const target = document.querySelector(`.content-section[data-key="${key}"]`);
+    const target = document.getElementById('sec-' + key);
     if (target) {
-      // Re-trigger animation
       target.style.animation = 'none';
-      target.offsetHeight;
+      target.offsetHeight; // reflow
       target.style.animation = '';
       target.classList.add('active');
     }
-    // Update nav
+    // Update active state in nav
     document.querySelectorAll('.nav-item').forEach((item, i) => {
-      item.classList.toggle('active', navItems[currentTab][i]?.key === key);
+      item.classList.toggle('active', visibleItems(currentTab)[i]?.key === key);
     });
-    // Close sidebar on mobile
     closeSidebar();
   }
 
@@ -722,7 +1291,6 @@
     document.getElementById('sidebar').classList.toggle('open');
     document.getElementById('overlay').classList.toggle('show');
   }
-
   function closeSidebar() {
     document.getElementById('sidebar').classList.remove('open');
     document.getElementById('overlay').classList.remove('show');
