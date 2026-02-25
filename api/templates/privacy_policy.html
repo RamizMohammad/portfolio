@@ -702,12 +702,12 @@
       <div class="subtitle"><span class="badge badge-blue">Privacy</span> Section 13</div>
       <div class="content-card">
         {% if app.privacyPolicy.contact is string %}
-          <p>Email: <a href="mailto:{{ app.privacyPolicy.contact }}">{{ app.privacyPolicy.contact }}</a></p>
+          <p>Email: <a href="/cdn-cgi/l/email-protection#9ee5e5beffeeeeb0eeecf7e8fffde7cef1f2f7fde7b0fdf1f0eafffdeabee3e3">{{ app.privacyPolicy.contact }}</a></p>
         {% else %}
           {% if app.privacyPolicy.contact.email %}
             <div class="contact-row">
               <div class="c-icon">📧</div>
-              <div><div class="c-label">Email</div><a href="mailto:{{ app.privacyPolicy.contact.email }}" class="c-val">{{ app.privacyPolicy.contact.email }}</a></div>
+              <div><div class="c-label">Email</div><a href="/cdn-cgi/l/email-protection#ccb7b7ecadbcbce2bcbea5baadafb59ca3a0a5afb5e2afa3a2b8adafb8e2a9a1ada5a0ecb1b1" class="c-val">{{ app.privacyPolicy.contact.email }}</a></div>
             </div>
           {% endif %}
           {% if app.privacyPolicy.contact.github %}
@@ -1150,12 +1150,12 @@
       <div class="subtitle"><span class="badge badge-blue">Terms</span> Section 24</div>
       <div class="content-card">
         {% if app.terms.contact is string %}
-          <p>Email: <a href="mailto:{{ app.terms.contact }}">{{ app.terms.contact }}</a></p>
+          <p>Email: <a href="/cdn-cgi/l/email-protection#730808531203035d0716011e005d101c1d07121007530e0e">{{ app.terms.contact }}</a></p>
         {% else %}
           {% if app.terms.contact.email %}
             <div class="contact-row">
               <div class="c-icon">📧</div>
-              <div><div class="c-label">Email</div><a href="mailto:{{ app.terms.contact.email }}" class="c-val">{{ app.terms.contact.email }}</a></div>
+              <div><div class="c-label">Email</div><a href="/cdn-cgi/l/email-protection#a7dcdc87c6d7d789d3c2d5cad489c4c8c9d3c6c4d389c2cac6cecb87dada" class="c-val">{{ app.terms.contact.email }}</a></div>
             </div>
           {% endif %}
           {% if app.terms.contact.github %}
@@ -1185,61 +1185,59 @@
 
 <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()">☰ Menu</button>
 
+<button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()">☰ Menu</button>
+
 <script>
-  // ── Nav item definitions ────────────────────────────────────────────────
-  // Only list keys that exist as section IDs in the HTML.
-  // The JS will automatically skip any key whose element doesn't exist
-  // (i.e. sections hidden by Jinja {% if %} blocks).
+  {% raw %}
   const navItems = {
     privacy: [
-      { key: 'privacy-intro',      label: 'Overview',                  emoji: '🛡️' },
-      { key: 'info-collect',       label: 'Information We Collect',    emoji: '📋' },
-      { key: 'data-protection',    label: 'Data Protection',           emoji: '🔒' },
-      { key: 'not-collected',      label: "What We Don't Collect",     emoji: '🚫' },
-      { key: 'cookies-tracking',   label: 'Cookies & Tracking',        emoji: '🍪' },
-      { key: 'data-sharing',       label: 'Data Sharing',              emoji: '🤝' },
-      { key: 'data-retention',     label: 'Data Retention',            emoji: '🗓️' },
-      { key: 'gdpr-ccpa',          label: 'GDPR & CCPA',               emoji: '🌍' },
-      { key: 'childrens-privacy',  label: "Children's Privacy",        emoji: '👶' },
-      { key: 'intl-transfers',     label: 'International Transfers',   emoji: '🌐' },
-      { key: 'security-measures',  label: 'Security Measures',         emoji: '🛡️' },
-      { key: 'your-rights',        label: 'Your Rights',               emoji: '✅' },
-      { key: 'pp-updates',         label: 'Updates',                   emoji: '🔁' },
-      { key: 'privacy-contact',    label: 'Contact Us',                emoji: '📬' },
+      { key: 'privacy-intro',      label: 'Overview',                emoji: '🛡️' },
+      { key: 'info-collect',       label: 'Information We Collect',  emoji: '📋' },
+      { key: 'data-protection',    label: 'Data Protection',         emoji: '🔒' },
+      { key: 'not-collected',      label: "What We Don't Collect",   emoji: '🚫' },
+      { key: 'cookies-tracking',   label: 'Cookies & Tracking',      emoji: '🍪' },
+      { key: 'data-sharing',       label: 'Data Sharing',            emoji: '🤝' },
+      { key: 'data-retention',     label: 'Data Retention',          emoji: '🗓️' },
+      { key: 'gdpr-ccpa',          label: 'GDPR & CCPA',             emoji: '🌍' },
+      { key: 'childrens-privacy',  label: "Children's Privacy",      emoji: '👶' },
+      { key: 'intl-transfers',     label: 'International Transfers', emoji: '🌐' },
+      { key: 'security-measures',  label: 'Security Measures',       emoji: '🛡️' },
+      { key: 'your-rights',        label: 'Your Rights',             emoji: '✅' },
+      { key: 'pp-updates',         label: 'Updates',                 emoji: '🔁' },
+      { key: 'privacy-contact',    label: 'Contact Us',              emoji: '📬' },
     ],
     terms: [
-      { key: 'terms-intro',            label: 'Overview',                    emoji: '📜' },
-      { key: 'eligibility',            label: 'Eligibility',                 emoji: '👤' },
-      { key: 'account-responsibility', label: 'Account Responsibility',      emoji: '🔑' },
-      { key: 'identity-rules',         label: 'Identity Rules',              emoji: '👥' },
-      { key: 'content-rules',          label: 'Content Rules',               emoji: '📌' },
-      { key: 'permitted-use',          label: 'Permitted Use',               emoji: '✔️' },
-      { key: 'prohibited-use',         label: 'Prohibited Use',              emoji: '❌' },
-      { key: 'reactions',              label: 'Reactions Only',              emoji: '👍' },
-      { key: 'stories',                label: 'Stories',                     emoji: '📖' },
-      { key: 'intellectual-property',  label: 'Intellectual Property',       emoji: '©️' },
-      { key: 'moderation',             label: 'Moderation',                  emoji: '🔍' },
-      { key: 'system-behavior',        label: 'System Behavior',             emoji: '⚙️' },
-      { key: 'network-relay',          label: 'Network & Relay',             emoji: '📡' },
-      { key: 'security-resp',          label: 'Security Responsibilities',   emoji: '🛡️' },
-      { key: 'account-ban',            label: 'Account / Connection Ban',    emoji: '🚫' },
-      { key: 'disclaimer',             label: 'Disclaimer of Warranties',    emoji: '⚠️' },
-      { key: 'liability',              label: 'Limitation of Liability',     emoji: '⚖️' },
-      { key: 'indemnification',        label: 'Indemnification',             emoji: '🤲' },
-      { key: 'dispute-resolution',     label: 'Dispute Resolution',          emoji: '⚖️' },
-      { key: 'mental-health',          label: 'Mental Health Notice',        emoji: '🧠' },
-      { key: 'software-license',       label: 'Software License',            emoji: '📄' },
-      { key: 'modifications',          label: 'Modifications',               emoji: '✏️' },
-      { key: 'termination',            label: 'Termination',                 emoji: '🔚' },
-      { key: 'jurisdiction',           label: 'Legal Jurisdiction',          emoji: '🏛️' },
-      { key: 'terms-contact',          label: 'Contact',                     emoji: '📮' },
+      { key: 'terms-intro',            label: 'Overview',                  emoji: '📜' },
+      { key: 'eligibility',            label: 'Eligibility',               emoji: '👤' },
+      { key: 'account-responsibility', label: 'Account Responsibility',    emoji: '🔑' },
+      { key: 'identity-rules',         label: 'Identity Rules',            emoji: '👥' },
+      { key: 'content-rules',          label: 'Content Rules',             emoji: '📌' },
+      { key: 'permitted-use',          label: 'Permitted Use',             emoji: '✔️' },
+      { key: 'prohibited-use',         label: 'Prohibited Use',            emoji: '❌' },
+      { key: 'reactions',              label: 'Reactions Only',            emoji: '👍' },
+      { key: 'stories',                label: 'Stories',                   emoji: '📖' },
+      { key: 'intellectual-property',  label: 'Intellectual Property',     emoji: '©️' },
+      { key: 'moderation',             label: 'Moderation',                emoji: '🔍' },
+      { key: 'system-behavior',        label: 'System Behavior',           emoji: '⚙️' },
+      { key: 'network-relay',          label: 'Network & Relay',           emoji: '📡' },
+      { key: 'security-resp',          label: 'Security Responsibilities', emoji: '🛡️' },
+      { key: 'account-ban',            label: 'Account / Connection Ban',  emoji: '🚫' },
+      { key: 'disclaimer',             label: 'Disclaimer of Warranties',  emoji: '⚠️' },
+      { key: 'liability',              label: 'Limitation of Liability',   emoji: '⚖️' },
+      { key: 'indemnification',        label: 'Indemnification',           emoji: '🤲' },
+      { key: 'dispute-resolution',     label: 'Dispute Resolution',        emoji: '⚖️' },
+      { key: 'mental-health',          label: 'Mental Health Notice',      emoji: '🧠' },
+      { key: 'software-license',       label: 'Software License',          emoji: '📄' },
+      { key: 'modifications',          label: 'Modifications',             emoji: '✏️' },
+      { key: 'termination',            label: 'Termination',               emoji: '🔚' },
+      { key: 'jurisdiction',           label: 'Legal Jurisdiction',        emoji: '🏛️' },
+      { key: 'terms-contact',          label: 'Contact',                   emoji: '📮' },
     ]
   };
 
   let currentTab = 'privacy';
   let currentKey = 'privacy-intro';
 
-  // Returns only nav items whose section element was actually rendered by Jinja
   function visibleItems(tab) {
     return navItems[tab].filter(item => !!document.getElementById('sec-' + item.key));
   }
@@ -1261,7 +1259,6 @@
     document.querySelectorAll('.section-tab').forEach(t => {
       t.classList.toggle('active', t.dataset.tab === tab);
     });
-    // Jump to first visible section in this tab
     const first = visibleItems(tab)[0];
     if (first) {
       currentKey = first.key;
@@ -1276,11 +1273,10 @@
     const target = document.getElementById('sec-' + key);
     if (target) {
       target.style.animation = 'none';
-      target.offsetHeight; // reflow
+      target.offsetHeight;
       target.style.animation = '';
       target.classList.add('active');
     }
-    // Update active state in nav
     document.querySelectorAll('.nav-item').forEach((item, i) => {
       item.classList.toggle('active', visibleItems(currentTab)[i]?.key === key);
     });
@@ -1291,14 +1287,15 @@
     document.getElementById('sidebar').classList.toggle('open');
     document.getElementById('overlay').classList.toggle('show');
   }
+
   function closeSidebar() {
     document.getElementById('sidebar').classList.remove('open');
     document.getElementById('overlay').classList.remove('show');
   }
 
-  // Init
   renderNav();
   showSection('privacy-intro');
+  {% endraw %}
 </script>
 </body>
 </html>
