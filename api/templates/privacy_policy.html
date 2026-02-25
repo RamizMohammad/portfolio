@@ -4,222 +4,733 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>{{ app.appName }} - Privacy Policy & Terms</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
 
   <style>
-    /* ===== Reset & Base ===== */
     * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #06080f;
+      --sidebar-bg: rgba(255,255,255,0.025);
+      --surface: rgba(255,255,255,0.04);
+      --surface-hover: rgba(255,255,255,0.07);
+      --border: rgba(255,255,255,0.08);
+      --text: #c8cdd5;
+      --text-bright: #eef1f6;
+      --text-dim: rgba(255,255,255,0.35);
+      --accent: #3b82f6;
+      --accent-glow: rgba(59,130,246,0.25);
+      --accent-soft: rgba(59,130,246,0.1);
+    }
+
+    html { scroll-behavior: smooth; }
+
     body {
-      font-family: 'Inter', sans-serif;
-      background: #0f172a; /* slate-900 */
-      color: #e2e8f0;      /* slate-200 */
-      line-height: 1.7;
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.75;
       font-size: 16px;
+      overflow: hidden;
+      height: 100vh;
     }
 
-    /* ===== Header ===== */
-    header {
-      background: linear-gradient(135deg, #2563eb, #1e293b);
-      text-align: center;
-      padding: 80px 20px 60px;
-      color: #fff;
-      border-bottom: 6px solid #2563eb;
+    /* Ambient blobs */
+    body::before, body::after {
+      content: '';
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.3;
+      z-index: -1;
+      pointer-events: none;
+    }
+    body::before {
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, #3b82f6 0%, transparent 70%);
+      top: -100px; left: -100px;
+      animation: float1 20s ease-in-out infinite;
+    }
+    body::after {
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, #6366f1 0%, transparent 70%);
+      bottom: -50px; right: -50px;
+      animation: float2 25s ease-in-out infinite;
     }
 
-    header h1 {
-      font-size: 3rem;
+    @keyframes float1 {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(80px, 60px); }
+    }
+    @keyframes float2 {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(-60px, -80px); }
+    }
+
+    /* ===== Layout ===== */
+    .app {
+      display: flex;
+      height: 100vh;
+    }
+
+    /* ===== Left Sidebar ===== */
+    .sidebar {
+      width: 320px;
+      min-width: 320px;
+      background: var(--sidebar-bg);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      backdrop-filter: blur(20px);
+    }
+
+    .sidebar-header {
+      padding: 28px 24px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sidebar-header h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.4rem;
       font-weight: 700;
+      color: var(--text-bright);
+      letter-spacing: -0.02em;
     }
 
-    header p {
-      font-size: 1.2rem;
-      margin-top: 10px;
-      opacity: 0.9;
+    .sidebar-header p {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      margin-top: 4px;
     }
 
-    /* ===== Container ===== */
-    main {
-      max-width: 1000px;
-      margin: -40px auto 60px;
-      padding: 40px 25px;
+    /* Section tabs */
+    .section-tabs {
+      display: flex;
+      gap: 0;
+      border-bottom: 1px solid var(--border);
     }
 
-    /* ===== Section Card ===== */
-    section {
-      background: #1e293b;
-      border-radius: 16px;
-      padding: 30px;
-      margin-bottom: 40px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    .section-tab {
+      flex: 1;
+      padding: 12px 16px;
+      background: none;
+      border: none;
+      color: var(--text-dim);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      text-align: center;
     }
 
-    section:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 28px rgba(0,0,0,0.5);
+    .section-tab::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      border-radius: 2px;
+      transition: width 0.3s ease;
     }
 
-    h2 {
-      font-size: 1.8rem;
-      color: #60a5fa; /* blue-400 */
-      margin-bottom: 20px;
+    .section-tab.active {
+      color: var(--accent);
+    }
+
+    .section-tab.active::after {
+      width: 40px;
+    }
+
+    .section-tab:hover {
+      color: var(--text);
+    }
+
+    /* Nav list */
+    .nav-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255,255,255,0.08) transparent;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      color: var(--text);
+      font-size: 0.9rem;
+      font-weight: 500;
+      position: relative;
+      border: 1px solid transparent;
+      margin-bottom: 2px;
+    }
+
+    .nav-item:hover {
+      background: var(--surface-hover);
+      color: var(--text-bright);
+    }
+
+    .nav-item.active {
+      background: var(--accent-soft);
+      border-color: rgba(59,130,246,0.2);
+      color: var(--text-bright);
+    }
+
+    .nav-item.active .nav-dot {
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+
+    .nav-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      flex-shrink: 0;
+      transition: all 0.3s ease;
+    }
+
+    .nav-number {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      min-width: 20px;
       font-weight: 600;
     }
 
-    h3 {
-      font-size: 1.2rem;
-      margin-top: 20px;
-      margin-bottom: 10px;
-      color: #cbd5e1; /* slate-300 */
-      font-weight: 500;
+    /* ===== Right Content Panel ===== */
+    .content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 48px 56px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255,255,255,0.08) transparent;
     }
 
-    p {
-      margin-bottom: 15px;
-      color: #e2e8f0;
+    .content-section {
+      display: none;
+      animation: fadeSlideIn 0.4s ease;
     }
 
-    ul {
-      margin: 10px 0 20px 20px;
+    .content-section.active {
+      display: block;
     }
 
-    ul li {
-      margin-bottom: 10px;
+    @keyframes fadeSlideIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .content-section h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.8rem;
+      color: var(--text-bright);
+      font-weight: 700;
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+
+    .content-section .subtitle {
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      margin-bottom: 32px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .content-section .subtitle .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      border-radius: 100px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .content-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      backdrop-filter: blur(16px);
+      transition: all 0.3s ease;
+    }
+
+    .content-card:hover {
+      border-color: rgba(59,130,246,0.12);
+      background: var(--surface-hover);
+    }
+
+    .content-card h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1rem;
+      color: var(--text-bright);
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .content-card p {
+      margin-bottom: 14px;
+      color: var(--text);
+    }
+
+    .content-card strong { color: var(--text-bright); }
+
+    .content-card ul {
+      margin: 12px 0 0;
+      padding: 0;
+    }
+
+    .content-card ul li {
       list-style: none;
-      padding-left: 1.5rem;
+      padding-left: 24px;
       position: relative;
+      margin-bottom: 10px;
+      color: var(--text);
     }
 
-    ul li::before {
-      content: "✔";
+    .content-card ul li::before {
+      content: '';
       position: absolute;
       left: 0;
-      color: #3b82f6; /* blue-500 */
-      font-size: 1rem;
+      top: 10px;
+      width: 7px;
+      height: 7px;
+      background: var(--accent);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--accent-glow);
     }
 
-    a {
-      color: #60a5fa;
+    .content-card a {
+      color: var(--accent);
       text-decoration: none;
       font-weight: 500;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s ease;
     }
 
-    a:hover {
-      text-decoration: underline;
+    .content-card a:hover {
+      border-bottom-color: var(--accent);
     }
 
-    /* ===== Footer ===== */
-    .footer {
-      text-align: center;
-      font-size: 0.9rem;
-      padding: 20px;
-      color: #94a3b8; /* slate-400 */
-      border-top: 1px solid #334155;
+    /* ===== Mobile ===== */
+    .mobile-header {
+      display: none;
     }
 
-    /* ===== Responsive ===== */
+    .sidebar-toggle {
+      display: none;
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 12px 24px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 100px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      z-index: 200;
+      box-shadow: 0 4px 20px var(--accent-glow);
+      transition: transform 0.3s ease;
+    }
+
+    .sidebar-toggle:hover {
+      transform: translateX(-50%) translateY(-2px);
+    }
+
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 90;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar-overlay.show {
+      opacity: 1;
+    }
+
     @media (max-width: 768px) {
-      header h1 { font-size: 2.2rem; }
-      header p { font-size: 1rem; }
-      main { padding: 20px 15px; }
-      section { padding: 20px; }
-      h2 { font-size: 1.4rem; }
-      h3 { font-size: 1rem; }
+      .sidebar {
+        position: fixed;
+        left: -320px;
+        top: 0;
+        bottom: 0;
+        z-index: 100;
+        transition: left 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .sidebar.open {
+        left: 0;
+      }
+
+      .sidebar-toggle {
+        display: block;
+      }
+
+      .sidebar-overlay {
+        display: block;
+        pointer-events: none;
+      }
+
+      .sidebar-overlay.show {
+        pointer-events: auto;
+      }
+
+      .content {
+        padding: 32px 20px 80px;
+      }
+
+      .content-section h2 {
+        font-size: 1.5rem;
+      }
+
+      .mobile-header {
+        display: block;
+        padding: 20px;
+        text-align: center;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .mobile-header h1 {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 1.1rem;
+        color: var(--text-bright);
+        font-weight: 700;
+      }
     }
   </style>
 </head>
 <body>
 
-<header>
-  <h1>🤫 {{ app.appName }}</h1>
-  <p>🔐 Privacy Policy & 📜 Terms and Conditions</p>
-</header>
+<div class="app">
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h1>🤫 {{ app.appName }}</h1>
+      <p>Legal Documentation</p>
+    </div>
 
-<main>
-  <!-- Privacy Policy -->
-  <section id="privacy-policy">
-    <h2>🛡️ Privacy Policy</h2>
-    <p><strong>Effective Date:</strong> 📅 {{ app.effectiveDate }}</p>
+    <div class="section-tabs">
+      <button class="section-tab active" data-tab="privacy" onclick="switchTab('privacy')">🛡️ Privacy</button>
+      <button class="section-tab" data-tab="terms" onclick="switchTab('terms')">📜 Terms</button>
+    </div>
 
-    <h3>1️⃣ Information We Collect</h3>
-    <ul>
-      {% for item in app.privacyPolicy.infoWeCollect %}
-        <li>{{ item }}</li>
-      {% endfor %}
-    </ul>
+    <nav class="nav-list" id="navList">
+      <!-- Populated by JS -->
+    </nav>
+  </aside>
 
-    <h3>2️⃣ Data Protection 🔒</h3>
-    <p>{{ app.privacyPolicy.dataProtection }}</p>
+  <div class="sidebar-overlay" id="overlay" onclick="closeSidebar()"></div>
 
-    <h3>3️⃣ What We Don't Collect 🚫</h3>
-    <ul>
-      {% for item in app.privacyPolicy.notCollected %}
-        <li>{{ item }}</li>
-      {% endfor %}
-    </ul>
+  <!-- Content -->
+  <main class="content" id="contentPanel">
+    <div class="mobile-header">
+      <h1>🤫 {{ app.appName }}</h1>
+    </div>
 
-    <h3>4️⃣ Data Sharing 🤝</h3>
-    <p>{{ app.privacyPolicy.dataSharing }}</p>
+    <!-- Privacy Sections -->
+    <div class="content-section" data-group="privacy" data-key="privacy-intro" id="sec-privacy-intro">
+      <h2>🛡️ Privacy Policy</h2>
+      <div class="subtitle"><span class="badge">Legal</span> Overview</div>
+      <div class="content-card">
+        <p><strong>Effective Date:</strong> {{ app.effectiveDate }}</p>
+        <p>This privacy policy describes how {{ app.appName }} collects, uses, and protects your personal information.</p>
+      </div>
+    </div>
 
-    <h3>5️⃣ Data Retention 🧾</h3>
-    <p>{{ app.privacyPolicy.dataRetention }}</p>
+    <div class="content-section" data-group="privacy" data-key="info-collect" id="sec-info-collect">
+      <h2>Information We Collect</h2>
+      <div class="subtitle"><span class="badge">Privacy</span> Section 1</div>
+      <div class="content-card">
+        <ul>
+          {% for item in app.privacyPolicy.infoWeCollect %}
+            <li>{{ item }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
 
-    <h3>6️⃣ Your Rights ✅</h3>
-    <ul>
-      {% for item in app.privacyPolicy.yourRights %}
-        <li>{{ item }}</li>
-      {% endfor %}
-    </ul>
+    <div class="content-section" data-group="privacy" data-key="data-protection" id="sec-data-protection">
+      <h2>Data Protection</h2>
+      <div class="subtitle"><span class="badge">Privacy</span> Section 2</div>
+      <div class="content-card">
+        <p>{{ app.privacyPolicy.dataProtection }}</p>
+      </div>
+    </div>
 
-    <h3>7️⃣ Updates 🔁</h3>
-    <p>{{ app.privacyPolicy.updates }}</p>
+    <div class="content-section" data-group="privacy" data-key="not-collected" id="sec-not-collected">
+      <h2>What We Don't Collect</h2>
+      <div class="subtitle"><span class="badge">Privacy</span> Section 3</div>
+      <div class="content-card">
+        <ul>
+          {% for item in app.privacyPolicy.notCollected %}
+            <li>{{ item }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
 
-    <h3>8️⃣ Contact Us 📬</h3>
-    <p>Email: <a href="mailto:{{ app.privacyPolicy.contact }}">{{ app.privacyPolicy.contact }}</a></p>
-  </section>
+    <div class="content-section" data-group="privacy" data-key="data-sharing" id="sec-data-sharing">
+      <h2>Data Sharing</h2>
+      <div class="subtitle"><span class="badge">Privacy</span> Section 4</div>
+      <div class="content-card">
+        <p>{{ app.privacyPolicy.dataSharing }}</p>
+      </div>
+    </div>
 
-  <hr/>
+    <div class="content-section" data-group="privacy" data-key="data-retention" id="sec-data-retention">
+      <h2>Data Retention</h2>
+      <div class="subtitle"><span class="badge">Privacy</span> Section 5</div>
+      <div class="content-card">
+        <p>{{ app.privacyPolicy.dataRetention }}</p>
+      </div>
+    </div>
 
-  <!-- Terms -->
-  <section id="terms">
-    <h2>📜 Terms & Conditions</h2>
-    <p><strong>Effective Date:</strong> 📅 {{ app.effectiveDate }}</p>
+    <div class="content-section" data-group="privacy" data-key="your-rights" id="sec-your-rights">
+      <h2>Your Rights</h2>
+      <div class="subtitle"><span class="badge">Privacy</span> Section 6</div>
+      <div class="content-card">
+        <ul>
+          {% for item in app.privacyPolicy.yourRights %}
+            <li>{{ item }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
 
-    <h3>1️⃣ Eligibility 👤</h3>
-    <p>{{ app.terms.eligibility }}</p>
+    <div class="content-section" data-group="privacy" data-key="updates" id="sec-updates">
+      <h2>Updates</h2>
+      <div class="subtitle"><span class="badge">Privacy</span> Section 7</div>
+      <div class="content-card">
+        <p>{{ app.privacyPolicy.updates }}</p>
+      </div>
+    </div>
 
-    <h3>2️⃣ Identity Rules 👥</h3>
-    <p>{{ app.terms.identityRules }}</p>
+    <div class="content-section" data-group="privacy" data-key="privacy-contact" id="sec-privacy-contact">
+      <h2>Contact Us</h2>
+      <div class="subtitle"><span class="badge">Privacy</span> Section 8</div>
+      <div class="content-card">
+        <p>Email: <a href="mailto:{{ app.privacyPolicy.contact }}">{{ app.privacyPolicy.contact }}</a></p>
+      </div>
+    </div>
 
-    <h3>3️⃣ Content Rules 📌</h3>
-    <ul>
-      {% for item in app.terms.contentRules %}
-        <li>{{ item }}</li>
-      {% endfor %}
-    </ul>
+    <!-- Terms Sections -->
+    <div class="content-section" data-group="terms" data-key="terms-intro" id="sec-terms-intro">
+      <h2>📜 Terms & Conditions</h2>
+      <div class="subtitle"><span class="badge">Legal</span> Overview</div>
+      <div class="content-card">
+        <p><strong>Effective Date:</strong> {{ app.effectiveDate }}</p>
+        <p>By using {{ app.appName }}, you agree to the following terms and conditions.</p>
+      </div>
+    </div>
 
-    <h3>4️⃣ Reactions Only 👍🤝🫂</h3>
-    <p>{{ app.terms.reactionsOnly }}</p>
+    <div class="content-section" data-group="terms" data-key="eligibility" id="sec-eligibility">
+      <h2>Eligibility</h2>
+      <div class="subtitle"><span class="badge">Terms</span> Section 1</div>
+      <div class="content-card">
+        <p>{{ app.terms.eligibility }}</p>
+      </div>
+    </div>
 
-    <h3>5️⃣ Stories 📖</h3>
-    <p>{{ app.terms.stories }}</p>
+    <div class="content-section" data-group="terms" data-key="identity-rules" id="sec-identity-rules">
+      <h2>Identity Rules</h2>
+      <div class="subtitle"><span class="badge">Terms</span> Section 2</div>
+      <div class="content-card">
+        <p>{{ app.terms.identityRules }}</p>
+      </div>
+    </div>
 
-    <h3>6️⃣ Moderation 🔍</h3>
-    <p>{{ app.terms.moderation }}</p>
+    <div class="content-section" data-group="terms" data-key="content-rules" id="sec-content-rules">
+      <h2>Content Rules</h2>
+      <div class="subtitle"><span class="badge">Terms</span> Section 3</div>
+      <div class="content-card">
+        <ul>
+          {% for item in app.terms.contentRules %}
+            <li>{{ item }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
 
-    <h3>7️⃣ Account Ban 🚫</h3>
-    <p>{{ app.terms.accountBan }}</p>
+    <div class="content-section" data-group="terms" data-key="reactions" id="sec-reactions">
+      <h2>Reactions Only</h2>
+      <div class="subtitle"><span class="badge">Terms</span> Section 4</div>
+      <div class="content-card">
+        <p>{{ app.terms.reactionsOnly }}</p>
+      </div>
+    </div>
 
-    <h3>8️⃣ Limitation of Liability ⚖️</h3>
-    <p>{{ app.terms.limitationOfLiability }}</p>
+    <div class="content-section" data-group="terms" data-key="stories" id="sec-stories">
+      <h2>Stories</h2>
+      <div class="subtitle"><span class="badge">Terms</span> Section 5</div>
+      <div class="content-card">
+        <p>{{ app.terms.stories }}</p>
+      </div>
+    </div>
 
-    <h3>9️⃣ Mental Health Notice 🧠</h3>
-    <p>{{ app.terms.mentalHealthNotice }}</p>
+    <div class="content-section" data-group="terms" data-key="moderation" id="sec-moderation">
+      <h2>Moderation</h2>
+      <div class="subtitle"><span class="badge">Terms</span> Section 6</div>
+      <div class="content-card">
+        <p>{{ app.terms.moderation }}</p>
+      </div>
+    </div>
 
-    <h3>🔟 Legal Jurisdiction ⚖️</h3>
-    <p>{{ app.terms.legalJurisdiction }}</p>
+    <div class="content-section" data-group="terms" data-key="account-ban" id="sec-account-ban">
+      <h2>Account Ban</h2>
+      <div class="subtitle"><span class="badge">Terms</span> Section 7</div>
+      <div class="content-card">
+        <p>{{ app.terms.accountBan }}</p>
+      </div>
+    </div>
 
-    <h3>1️⃣1️⃣ Contact 📮</h3>
-    <p>Email: <a href="mailto:{{ app.terms.contact }}">{{ app.terms.contact }}</a></p>
-  </section>
-</main>
+    <div class="content-section" data-group="terms" data-key="liability" id="sec-liability">
+      <h2>Limitation of Liability</h2>
+      <div class="subtitle"><span class="badge">Terms</span> Section 8</div>
+      <div class="content-card">
+        <p>{{ app.terms.limitationOfLiability }}</p>
+      </div>
+    </div>
+
+    <div class="content-section" data-group="terms" data-key="mental-health" id="sec-mental-health">
+      <h2>Mental Health Notice</h2>
+      <div class="subtitle"><span class="badge">Terms</span> Section 9</div>
+      <div class="content-card">
+        <p>{{ app.terms.mentalHealthNotice }}</p>
+      </div>
+    </div>
+
+    <div class="content-section" data-group="terms" data-key="jurisdiction" id="sec-jurisdiction">
+      <h2>Legal Jurisdiction</h2>
+      <div class="subtitle"><span class="badge">Terms</span> Section 10</div>
+      <div class="content-card">
+        <p>{{ app.terms.legalJurisdiction }}</p>
+      </div>
+    </div>
+
+    <div class="content-section" data-group="terms" data-key="terms-contact" id="sec-terms-contact">
+      <h2>Contact</h2>
+      <div class="subtitle"><span class="badge">Terms</span> Section 11</div>
+      <div class="content-card">
+        <p>Email: <a href="mailto:{{ app.terms.contact }}">{{ app.terms.contact }}</a></p>
+      </div>
+    </div>
+  </main>
+</div>
+
+<button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()">☰ Menu</button>
+
+<script>
+  const navItems = {
+    privacy: [
+      { key: 'privacy-intro', label: 'Overview', emoji: '🛡️' },
+      { key: 'info-collect', label: 'Information We Collect', emoji: '📋' },
+      { key: 'data-protection', label: 'Data Protection', emoji: '🔒' },
+      { key: 'not-collected', label: "What We Don't Collect", emoji: '🚫' },
+      { key: 'data-sharing', label: 'Data Sharing', emoji: '🤝' },
+      { key: 'data-retention', label: 'Data Retention', emoji: '🧾' },
+      { key: 'your-rights', label: 'Your Rights', emoji: '✅' },
+      { key: 'updates', label: 'Updates', emoji: '🔁' },
+      { key: 'privacy-contact', label: 'Contact Us', emoji: '📬' },
+    ],
+    terms: [
+      { key: 'terms-intro', label: 'Overview', emoji: '📜' },
+      { key: 'eligibility', label: 'Eligibility', emoji: '👤' },
+      { key: 'identity-rules', label: 'Identity Rules', emoji: '👥' },
+      { key: 'content-rules', label: 'Content Rules', emoji: '📌' },
+      { key: 'reactions', label: 'Reactions Only', emoji: '👍' },
+      { key: 'stories', label: 'Stories', emoji: '📖' },
+      { key: 'moderation', label: 'Moderation', emoji: '🔍' },
+      { key: 'account-ban', label: 'Account Ban', emoji: '🚫' },
+      { key: 'liability', label: 'Limitation of Liability', emoji: '⚖️' },
+      { key: 'mental-health', label: 'Mental Health Notice', emoji: '🧠' },
+      { key: 'jurisdiction', label: 'Legal Jurisdiction', emoji: '⚖️' },
+      { key: 'terms-contact', label: 'Contact', emoji: '📮' },
+    ]
+  };
+
+  let currentTab = 'privacy';
+  let currentKey = 'privacy-intro';
+
+  function renderNav() {
+    const list = document.getElementById('navList');
+    const items = navItems[currentTab];
+    list.innerHTML = items.map((item, i) => `
+      <div class="nav-item ${item.key === currentKey ? 'active' : ''}" onclick="showSection('${item.key}')">
+        <span class="nav-dot"></span>
+        <span class="nav-number">${String(i).padStart(2, '0')}</span>
+        ${item.emoji} ${item.label}
+      </div>
+    `).join('');
+  }
+
+  function switchTab(tab) {
+    currentTab = tab;
+    document.querySelectorAll('.section-tab').forEach(t => {
+      t.classList.toggle('active', t.dataset.tab === tab);
+    });
+    const firstKey = navItems[tab][0].key;
+    currentKey = firstKey;
+    renderNav();
+    showSection(firstKey);
+  }
+
+  function showSection(key) {
+    currentKey = key;
+    // Hide all
+    document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+    // Show target
+    const target = document.querySelector(`.content-section[data-key="${key}"]`);
+    if (target) {
+      // Re-trigger animation
+      target.style.animation = 'none';
+      target.offsetHeight;
+      target.style.animation = '';
+      target.classList.add('active');
+    }
+    // Update nav
+    document.querySelectorAll('.nav-item').forEach((item, i) => {
+      item.classList.toggle('active', navItems[currentTab][i]?.key === key);
+    });
+    // Close sidebar on mobile
+    closeSidebar();
+  }
+
+  function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('overlay').classList.toggle('show');
+  }
+
+  function closeSidebar() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('overlay').classList.remove('show');
+  }
+
+  // Init
+  renderNav();
+  showSection('privacy-intro');
+</script>
+</body>
+</html>
