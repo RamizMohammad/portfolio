@@ -46,7 +46,7 @@ const SkillBar = ({ name, level, delay }: { name: string; level: number; delay: 
       </div>
       <div className="h-2 rounded-full bg-secondary overflow-hidden">
         <motion.div
-          className="h-full rounded-full bg-gradient-to-r from-primary to-[hsl(55,85%,65%)]"
+          className="h-full rounded-full bg-gradient-to-r from-primary to-secondary"
           initial={{ width: 0 }}
           animate={isInView ? { width: `${level}%` } : {}}
           transition={{ duration: 1, delay: delay * 0.1, ease: "easeOut" }}

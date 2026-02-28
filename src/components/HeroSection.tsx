@@ -1,18 +1,20 @@
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
-import { Github, Linkedin, Mail, ArrowDown, FileDown } from "lucide-react";
+import { Github, Linkedin, Mail, ArrowDown, FileDown, Twitter } from "lucide-react";
 import PhoneFrame from "./PhoneFrame";
 
 const socials = [
-  { icon: Github, href: "#", label: "GitHub" },
-  { icon: Linkedin, href: "#", label: "LinkedIn" },
-  { icon: Mail, href: "mailto:hello@example.com", label: "Email" },
+  { icon: Github, href: "https://github.com/RamizMohammad", label: "GitHub" },
+  { icon: Linkedin, href: "https://www.linkedin.com/in/mohammad-ramiz-886468217/", label: "LinkedIn" },
+  { icon: Twitter, href: "https://x.com/Mohammad__Ramiz", label: "Twitter" },
+  { icon: Mail, href: "mailto:ramizanas6@gmail.com", label: "Email" },
 ];
 
 const roles = [
   "Android Developer",
-  "Backend Developer",
-  "Python Developer",
+  "Python Backend",
+  "Hackathons",
+  "Problem Solver",
 ];
 
 const container = {
@@ -64,7 +66,7 @@ const HeroSection = () => {
   return (
     <section
       id="hero"
-      className="min-h-screen flex items-center section-padding pt-28"
+      className="min-h-screen flex items-center section-padding pt-28 relative z-10"
     >
       <div className="max-w-7xl mx-auto w-full flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
         {/* Left */}
@@ -81,7 +83,7 @@ const HeroSection = () => {
             variants={item}
             className="font-display text-5xl md:text-7xl font-bold leading-tight"
           >
-            John <span className="text-gradient">Developer</span>
+            Mohammad <span className="text-gradient">Ramiz</span>
           </motion.h1>
           <motion.p
             variants={item}
@@ -90,12 +92,30 @@ const HeroSection = () => {
             <TypingEffect />
           </motion.p>
 
+          {/* Stats */}
+          <motion.div variants={item} className="flex gap-6">
+            <div className="text-center">
+              <p className="font-display text-2xl font-bold text-primary">1</p>
+              <p className="text-xs text-muted-foreground">Patents</p>
+            </div>
+            <div className="text-center">
+              <p className="font-display text-2xl font-bold text-primary">3</p>
+              <p className="text-xs text-muted-foreground">Hackathons</p>
+            </div>
+            <div className="text-center">
+              <p className="font-display text-2xl font-bold text-primary">15+</p>
+              <p className="text-xs text-muted-foreground">Projects</p>
+            </div>
+          </motion.div>
+
           {/* Socials */}
           <motion.div variants={item} className="flex items-center gap-3">
             {socials.map((s) => (
               <a
                 key={s.label}
                 href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-11 h-11 rounded-xl border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-all duration-300 hover:glow-sm"
               >
                 <s.icon size={18} />
@@ -106,7 +126,7 @@ const HeroSection = () => {
           {/* CTAs */}
           <motion.div variants={item} className="flex flex-wrap gap-4 pt-2">
             <a
-              href="#projects"
+              href="#android-projects"
               className="px-6 py-3 rounded-xl bg-primary text-primary-foreground font-display font-semibold text-sm hover:opacity-90 transition-opacity glow-sm"
             >
               View Projects
@@ -115,13 +135,13 @@ const HeroSection = () => {
               href="#"
               className="px-6 py-3 rounded-xl border border-border text-foreground font-display font-semibold text-sm hover:border-primary hover:text-primary transition-all flex items-center gap-2"
             >
-              <FileDown size={16} /> Download Resume
+              <FileDown size={16} /> Download CV
             </a>
             <a
               href="#contact"
               className="px-6 py-3 rounded-xl border border-border text-foreground font-display font-semibold text-sm hover:border-primary hover:text-primary transition-all"
             >
-              Contact Me
+              Hire Me
             </a>
           </motion.div>
         </motion.div>

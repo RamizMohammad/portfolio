@@ -5,10 +5,10 @@ import PhoneFrame from "./PhoneFrame";
 import { Code2, Server, Smartphone, Braces } from "lucide-react";
 
 const skills = [
-  { icon: Smartphone, label: "Android", items: ["Kotlin", "Jetpack Compose", "MVVM", "Room DB"] },
-  { icon: Server, label: "Backend", items: ["Node.js", "Django", "REST APIs", "PostgreSQL"] },
-  { icon: Code2, label: "Python", items: ["FastAPI", "Data Science", "Automation", "ML"] },
-  { icon: Braces, label: "Web", items: ["React", "TypeScript", "Tailwind", "Next.js"] },
+  { icon: Smartphone, label: "Android", items: ["Java", "Kotlin", "Jetpack Compose", "Firebase"] },
+  { icon: Server, label: "Backend", items: ["Flask", "FastAPI", "REST APIs", "AWS"] },
+  { icon: Code2, label: "Python", items: ["Data Science", "Automation", "ML Kit", "Scripting"] },
+  { icon: Braces, label: "Web", items: ["React", "Node.js", "WebSocket", "MongoDB"] },
 ];
 
 const carouselImages = [
@@ -31,9 +31,8 @@ const AboutSection = () => {
   }, []);
 
   return (
-    <section id="about" className="section-padding" ref={ref}>
+    <section id="about" className="section-padding relative z-10" ref={ref}>
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
-        {/* Left */}
         <motion.div
           className="flex-1 space-y-8"
           initial={{ opacity: 0, x: -40 }}
@@ -41,7 +40,7 @@ const AboutSection = () => {
           transition={{ duration: 0.7 }}
         >
           <div>
-            <p className="text-primary font-display font-medium mb-2">About Me</p>
+            <p className="text-primary font-display font-medium mb-2">Who Am I?</p>
             <h2 className="font-display text-3xl md:text-4xl font-bold">
               Passionate about building{" "}
               <span className="text-gradient">impactful</span> software
@@ -49,11 +48,26 @@ const AboutSection = () => {
           </div>
 
           <p className="text-muted-foreground leading-relaxed max-w-lg">
-            With 5+ years of experience in software development, I specialize in creating
-            Android applications and backend systems that solve real-world problems. I'm
-            passionate about clean architecture, performance optimization, and delivering
-            seamless user experiences.
+            I am a passionate developer specializing in Android development and backend engineering. 
+            With expertise in Java, Python, and modern frameworks, I create robust mobile applications 
+            and scalable server solutions.
           </p>
+
+          <p className="text-muted-foreground leading-relaxed max-w-lg">
+            My journey in programming started with a curiosity for problem-solving, which has evolved 
+            into a career focused on building innovative solutions. I thrive in hackathon environments 
+            and enjoy collaborating on challenging projects.
+          </p>
+
+          <div className="flex items-center gap-4">
+            <div className="px-5 py-3 rounded-xl border border-border bg-card">
+              <p className="font-display text-2xl font-bold text-primary">15+</p>
+              <p className="text-xs text-muted-foreground">Projects Built</p>
+            </div>
+            <a href="#android-projects" className="px-5 py-3 rounded-xl bg-primary text-primary-foreground font-display font-semibold text-sm hover:opacity-90 transition-opacity glow-sm">
+              View My Projects
+            </a>
+          </div>
 
           <div className="grid grid-cols-2 gap-4">
             {skills.map((s) => (
@@ -69,7 +83,6 @@ const AboutSection = () => {
           </div>
         </motion.div>
 
-        {/* Right - Phone carousel */}
         <motion.div
           className="flex-shrink-0"
           initial={{ opacity: 0, x: 40 }}
@@ -92,7 +105,6 @@ const AboutSection = () => {
                   transition={{ duration: 0.6 }}
                 />
               ))}
-              {/* Dots */}
               <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
                 {carouselImages.map((_, i) => (
                   <button
