@@ -1,6 +1,6 @@
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { useRef, useState } from "react";
-import PhoneFrame from "./PhoneFrame";
+import MonitorFrame from "./MonitorFrame";
 import { ChevronLeft, ChevronRight, Github, ExternalLink } from "lucide-react";
 
 const projects = [
@@ -12,7 +12,7 @@ const projects = [
     tech: ["Electron", "React", "WebRTC", "Node.js"],
     github: "#",
     screenshots: [
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600&h=380&fit=crop",
     ],
   },
   {
@@ -23,16 +23,18 @@ const projects = [
     tech: ["Python", "PyQt", "SQLCipher", "AWS"],
     github: "#",
     screenshots: [
-      "https://images.unsplash.com/photo-1563986768609-322da13575f2?w=500&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1563986768609-322da13575f2?w=600&h=380&fit=crop",
     ],
   },
 ];
+
+type MonitorView = "ui" | "details";
 
 const DesktopProjectsSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [selected, setSelected] = useState(0);
-  const [showDetails, setShowDetails] = useState(false);
+  const [monitorView, setMonitorView] = useState<MonitorView>("ui");
   const [direction, setDirection] = useState(1);
 
   const project = projects[selected];
@@ -40,11 +42,11 @@ const DesktopProjectsSection = () => {
   const goTo = (dir: -1 | 1) => {
     setDirection(dir);
     setSelected((prev) => (prev + dir + projects.length) % projects.length);
-    setShowDetails(false);
+    setMonitorView("ui");
   };
 
   return (
-    <section id="desktop-projects" className="section-padding" ref={ref}>
+    <section id="desktop-projects" className="section-padding relative z-10" ref={ref}>
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -54,12 +56,12 @@ const DesktopProjectsSection = () => {
         >
           <p className="text-primary font-display font-medium mb-2">Desktop Projects</p>
           <h2 className="font-display text-3xl md:text-4xl font-bold">
-            🖥️ Desktop Apps I've <span className="text-gradient">built</span>
+            Desktop Apps I've <span className="text-gradient">Built</span>
           </h2>
         </motion.div>
 
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
-          {/* Left - Big project logo carousel */}
+          {/* Left - Project carousel */}
           <motion.div
             className="flex-1 w-full"
             initial={{ opacity: 0, x: -40 }}
@@ -82,7 +84,7 @@ const DesktopProjectsSection = () => {
                   transition={{ duration: 0.5, ease: "easeInOut" }}
                   className="absolute flex flex-col items-center gap-4"
                 >
-                  <div className="w-28 h-28 rounded-full bg-card border-2 border-border flex items-center justify-center glow-sm">
+                  <div className="w-28 h-28 rounded-2xl bg-card border-2 border-border flex items-center justify-center glow-sm">
                     <span className="text-5xl">{project.emoji}</span>
                   </div>
                   <h3 className="font-display text-xl font-bold text-center">{project.name}</h3>
@@ -99,7 +101,7 @@ const DesktopProjectsSection = () => {
                 {projects.map((_, i) => (
                   <button
                     key={i}
-                    onClick={() => { setDirection(i > selected ? 1 : -1); setSelected(i); setShowDetails(false); }}
+                    onClick={() => { setDirection(i > selected ? 1 : -1); setSelected(i); setMonitorView("ui"); }}
                     className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${selected === i ? "bg-primary w-6" : "bg-muted-foreground/30"}`}
                   />
                 ))}
@@ -110,29 +112,29 @@ const DesktopProjectsSection = () => {
             </div>
           </motion.div>
 
-          {/* Right - Phone (landscape) */}
+          {/* Right - Desktop Monitor */}
           <motion.div
             className="flex-shrink-0"
             initial={{ opacity: 0, x: 40 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.3 }}
           >
-            <PhoneFrame landscape>
+            <MonitorFrame>
               <AnimatePresence mode="wait">
-                {showDetails ? (
+                {monitorView === "details" ? (
                   <motion.div
                     key="details"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
-                    className="w-full h-full p-4 overflow-y-auto space-y-2"
+                    className="w-full h-full p-5 overflow-y-auto phone-screen-content"
                   >
-                    <div className="flex gap-4">
+                    <div className="flex gap-6">
                       <div className="flex-1 space-y-2">
                         <h4 className="font-display text-xs font-semibold text-primary">Features</h4>
                         <ul className="space-y-1">
                           {project.features.map((f) => (
-                            <li key={f} className="text-[10px] text-muted-foreground flex gap-1.5">
+                            <li key={f} className="text-[11px] text-muted-foreground flex gap-1.5">
                               <span className="text-primary">✦</span> {f}
                             </li>
                           ))}
@@ -142,42 +144,51 @@ const DesktopProjectsSection = () => {
                         <h4 className="font-display text-xs font-semibold text-primary">Tech Stack</h4>
                         <div className="flex flex-wrap gap-1">
                           {project.tech.map((t) => (
-                            <span key={t} className="px-2 py-0.5 rounded border border-border text-[9px] text-muted-foreground">{t}</span>
+                            <span key={t} className="px-2 py-0.5 rounded border border-border text-[10px] text-muted-foreground">{t}</span>
                           ))}
                         </div>
-                        <a href={project.github} className="text-[10px] text-primary flex items-center gap-1 hover:underline mt-1">
-                          <Github size={10} /> GitHub
+                        <a href={project.github} className="text-[11px] text-primary flex items-center gap-1 hover:underline mt-2">
+                          <Github size={12} /> GitHub
                         </a>
                       </div>
                     </div>
-                    {project.screenshots.map((src, i) => (
-                      <img key={i} src={src} alt={`Screenshot ${i + 1}`} className="w-full rounded-lg border border-border" />
-                    ))}
-                    <button onClick={() => setShowDetails(false)} className="w-full py-1.5 rounded-lg border border-border text-[10px] font-display text-muted-foreground hover:text-primary hover:border-primary transition-all">
-                      ← Back
+                    <button
+                      onClick={() => setMonitorView("ui")}
+                      className="w-full py-2 mt-4 rounded-lg bg-primary text-primary-foreground text-[11px] font-display font-semibold hover:opacity-90 transition-opacity"
+                    >
+                      View App UI
                     </button>
                   </motion.div>
                 ) : (
                   <motion.div
-                    key="overview"
+                    key="ui"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
-                    className="w-full h-full p-5 overflow-y-auto flex flex-col items-center justify-center text-center gap-2"
+                    className="w-full h-full overflow-hidden relative"
                   >
-                    <span className="text-3xl">{project.emoji}</span>
-                    <h3 className="font-display font-bold text-sm">{project.name}</h3>
-                    <p className="text-[10px] text-muted-foreground leading-relaxed">{project.description}</p>
-                    <button
-                      onClick={() => setShowDetails(true)}
-                      className="w-full py-2 rounded-lg bg-primary text-primary-foreground text-[11px] font-display font-semibold hover:opacity-90 transition-opacity mt-2"
-                    >
-                      See Details
-                    </button>
+                    {project.screenshots.length > 0 ? (
+                      <img
+                        src={project.screenshots[0]}
+                        alt={`${project.name} UI`}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="flex items-center justify-center h-full text-muted-foreground text-xs">No screenshots</div>
+                    )}
+                    {/* Floating button */}
+                    <div className="absolute bottom-3 left-4 right-4">
+                      <button
+                        onClick={() => setMonitorView("details")}
+                        className="w-full py-2 rounded-lg bg-primary text-primary-foreground text-[11px] font-display font-semibold hover:opacity-90 transition-opacity shadow-lg"
+                      >
+                        See Details
+                      </button>
+                    </div>
                   </motion.div>
                 )}
               </AnimatePresence>
-            </PhoneFrame>
+            </MonitorFrame>
           </motion.div>
         </div>
       </div>
