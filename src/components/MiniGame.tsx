@@ -268,27 +268,70 @@ const MiniGame = () => {
                         animate={{ opacity: 1, x: 0, rotateY: 0 }}
                         exit={{ opacity: 0, x: -80, rotateY: 10 }}
                         transition={{ duration: 0.45, ease: "easeOut" }}
-                        className={`card-premium rounded-2xl p-8 md:p-10 text-center shadow-xl ${current.accent}`}
+                        className="relative rounded-2xl p-[1px] overflow-hidden"
                       >
-                        <div className={`w-16 h-16 mx-auto mb-5 rounded-2xl bg-gradient-to-br ${current.gradient} flex items-center justify-center shadow-lg ${current.accent}`}>
-                          <Icon className="text-white" size={28} />
+                        {/* Animated gradient border */}
+                        <div className={`absolute inset-0 bg-gradient-to-br ${current.gradient} opacity-40`} />
+                        <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-primary/10 animate-[spin_6s_linear_infinite] origin-center" style={{ width: '200%', height: '200%', left: '-50%', top: '-50%' }} />
+
+                        <div className="relative rounded-2xl bg-background/95 backdrop-blur-sm p-8 md:p-10">
+                          {/* Decorative corner accents */}
+                          <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl ${current.gradient} opacity-[0.07] rounded-bl-[80px]`} />
+                          <div className={`absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr ${current.gradient} opacity-[0.05] rounded-tr-[60px]`} />
+
+                          <div className="relative z-10 text-center">
+                            {/* Icon with glow ring */}
+                            <div className="relative w-20 h-20 mx-auto mb-6">
+                              <motion.div
+                                className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${current.gradient} opacity-20 blur-xl`}
+                                animate={{ scale: [1, 1.3, 1] }}
+                                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                              />
+                              <div className={`relative w-full h-full rounded-2xl bg-gradient-to-br ${current.gradient} flex items-center justify-center shadow-2xl ${current.accent}`}>
+                                <Icon className="text-white drop-shadow-md" size={32} />
+                              </div>
+                            </div>
+
+                            {/* Step badge */}
+                            <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gradient-to-r ${current.gradient} bg-opacity-10 mb-4`}>
+                              <span className="text-[11px] font-bold tracking-widest uppercase text-white/90">
+                                {currentIndex + 1} of {facts.length}
+                              </span>
+                            </div>
+
+                            <h3 className="font-display text-2xl md:text-3xl font-extrabold mb-3">{current.title}</h3>
+
+                            {/* Description with left accent bar */}
+                            <div className="flex justify-center mb-8">
+                              <div className="relative max-w-sm">
+                                <div className={`absolute -left-4 top-1 bottom-1 w-[3px] rounded-full bg-gradient-to-b ${current.gradient} opacity-60`} />
+                                <p className="text-muted-foreground text-sm md:text-base leading-relaxed text-left pl-2">
+                                  {current.description}
+                                </p>
+                              </div>
+                            </div>
+
+                            {currentIndex < facts.length - 1 ? (
+                              <motion.button
+                                onClick={handleNext}
+                                className="px-10 py-4 btn-premium inline-flex items-center gap-2 text-base"
+                                whileHover={{ scale: 1.03 }}
+                                whileTap={{ scale: 0.97 }}
+                              >
+                                Next Fact <ChevronRight size={18} />
+                              </motion.button>
+                            ) : (
+                              <motion.button
+                                onClick={handleNext}
+                                className="px-10 py-4 btn-premium inline-flex items-center gap-2 text-base"
+                                whileHover={{ scale: 1.03 }}
+                                whileTap={{ scale: 0.97 }}
+                              >
+                                Finish <Sparkles size={18} />
+                              </motion.button>
+                            )}
+                          </div>
                         </div>
-                        <p className="text-xs text-muted-foreground mb-1 font-bold tracking-widest uppercase">
-                          {currentIndex + 1} of {facts.length}
-                        </p>
-                        <h3 className="font-display text-2xl font-bold mb-3">{current.title}</h3>
-                        <p className="text-muted-foreground text-sm leading-relaxed mb-8 max-w-sm mx-auto">
-                          {current.description}
-                        </p>
-                        {currentIndex < facts.length - 1 ? (
-                          <button onClick={handleNext} className="px-10 py-4 btn-premium inline-flex items-center gap-2 text-base">
-                            Next Fact <ChevronRight size={18} />
-                          </button>
-                        ) : (
-                          <button onClick={handleNext} className="px-10 py-4 btn-premium inline-flex items-center gap-2 text-base">
-                            Finish <Sparkles size={18} />
-                          </button>
-                        )}
                       </motion.div>
                     ) : null}
                   </AnimatePresence>
