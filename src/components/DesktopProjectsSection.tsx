@@ -156,7 +156,7 @@ const DesktopProjectsSection = () => {
           </motion.div>
 
           <motion.div
-            className="flex-shrink-0"
+            className="flex-shrink-0 w-full lg:w-auto max-w-full overflow-hidden"
             initial={{ opacity: 0, x: 40 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.3 }}
