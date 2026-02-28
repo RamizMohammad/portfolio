@@ -1,16 +1,28 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { Send, Mail, MapPin, Phone, Github, Linkedin, Twitter } from "lucide-react";
+import { Send, Mail, MapPin, Phone, Github, Linkedin, Twitter, Loader2, CheckCircle2, XCircle } from "lucide-react";
+import { sendContactMessage } from "@/lib/api";
+
+type FormStatus = "idle" | "sending" | "success" | "error";
 
 const ContactSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const [status, setStatus] = useState<FormStatus>("idle");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert("Message sent! (demo)");
-    setFormData({ name: "", email: "", message: "" });
+    setStatus("sending");
+    try {
+      await sendContactMessage(formData);
+      setStatus("success");
+      setFormData({ name: "", email: "", message: "" });
+      setTimeout(() => setStatus("idle"), 4000);
+    } catch {
+      setStatus("error");
+      setTimeout(() => setStatus("idle"), 4000);
+    }
   };
 
   return (
@@ -72,9 +84,18 @@ const ContactSection = () => {
             </div>
             <button
               type="submit"
-              className="px-8 py-3.5 btn-premium flex items-center gap-2"
+              disabled={status === "sending"}
+              className="px-8 py-3.5 btn-premium flex items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              <Send size={16} /> Send Message
+              {status === "sending" ? (
+                <><Loader2 size={16} className="animate-spin" /> Sending...</>
+              ) : status === "success" ? (
+                <><CheckCircle2 size={16} /> Message Sent!</>
+              ) : status === "error" ? (
+                <><XCircle size={16} /> Failed — Try Again</>
+              ) : (
+                <><Send size={16} /> Send Message</>
+              )}
             </button>
           </motion.form>
 
