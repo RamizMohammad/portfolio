@@ -5,46 +5,46 @@ import { ChevronLeft, ChevronRight, Building2, Calendar, Briefcase } from "lucid
 
 const companies = [
   {
-    name: "TechCorp Inc.",
-    logo: "🏢",
-    role: "Senior Android Developer",
-    duration: "2022 – Present",
-    overview: "Leading fintech company building next-gen banking solutions.",
-    responsibilities: [
-      "Led a team of 5 developers on the flagship mobile app",
-      "Implemented Jetpack Compose migration reducing code by 40%",
-      "Architected offline-first data sync system",
-    ],
-    projects: ["Digital Wallet App", "Payment Gateway SDK"],
-    tech: ["Kotlin", "Jetpack Compose", "Room", "Coroutines", "Hilt"],
-  },
-  {
-    name: "StartupX",
+    name: "Freelance Projects",
     logo: "🚀",
-    role: "Full Stack Developer",
-    duration: "2020 – 2022",
-    overview: "Fast-growing SaaS startup in the healthcare space.",
+    role: "Android Developer",
+    duration: "2022 – Present",
+    overview: "Developed and deployed multiple Android applications with focus on user experience and performance.",
     responsibilities: [
-      "Built REST APIs serving 100K+ daily requests",
-      "Developed Android companion app from scratch",
-      "Implemented CI/CD pipeline reducing deploy time by 60%",
+      "Published 2+ apps on Google Play Store",
+      "Implemented Firebase integration and real-time features",
+      "Optimized app performance by 40%",
     ],
-    projects: ["HealthTracker Pro", "Admin Dashboard"],
-    tech: ["Python", "Django", "React", "PostgreSQL", "Docker"],
+    projects: ["Confess App", "Share Wheels", "BuddyCode"],
+    tech: ["Java", "Kotlin", "Firebase", "Android Studio"],
   },
   {
-    name: "DevAgency",
+    name: "Personal Projects",
     logo: "💻",
-    role: "Junior Developer",
-    duration: "2018 – 2020",
-    overview: "Boutique software agency specializing in mobile apps.",
+    role: "Backend Developer",
+    duration: "2021 – Present",
+    overview: "Built scalable backend systems using Python, Flask, and FastAPI for web and mobile applications.",
     responsibilities: [
-      "Developed 10+ Android applications for various clients",
-      "Maintained backend services for client projects",
-      "Collaborated with design team on UI/UX improvements",
+      "Developed 10+ REST APIs with 99.9% uptime",
+      "Deployed applications on AWS and cloud platforms",
+      "Implemented secure authentication systems",
     ],
-    projects: ["E-commerce App", "Food Delivery App", "Fitness Tracker"],
-    tech: ["Java", "Android SDK", "Firebase", "Node.js"],
+    projects: ["BuddyCode Web", "Confess Server", "Local Share"],
+    tech: ["Python", "Flask", "FastAPI", "AWS"],
+  },
+  {
+    name: "Bluestock Fintech",
+    logo: "🏢",
+    role: "Software Development Engineer (SDE)",
+    duration: "May 2025 – June 2025",
+    overview: "Interned at Bluestock Fintech, led a team to build the admin panel design.",
+    responsibilities: [
+      "Led a team as the project lead",
+      "Built the complete admin panel",
+      "Designed and implemented frontend architecture",
+    ],
+    projects: ["Admin Panel"],
+    tech: ["Flask", "Web Design"],
   },
 ];
 
@@ -73,7 +73,7 @@ const ExperienceSection = () => {
   const company = companies[selected];
 
   return (
-    <section id="experience" className="section-padding" ref={ref}>
+    <section id="experience" className="section-padding relative z-10" ref={ref}>
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -88,14 +88,12 @@ const ExperienceSection = () => {
         </motion.div>
 
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
-          {/* Left - Big company logo carousel */}
           <motion.div
             className="flex-1 w-full"
             initial={{ opacity: 0, x: -40 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.2 }}
           >
-            {/* Big logo display */}
             <div className="relative h-[300px] flex items-center justify-center overflow-hidden">
               <AnimatePresence mode="wait" custom={direction}>
                 <motion.div
@@ -122,42 +120,25 @@ const ExperienceSection = () => {
               </AnimatePresence>
             </div>
 
-            {/* Navigation */}
             <div className="flex items-center justify-center gap-4 mt-6">
-              <button
-                onClick={() => goTo(-1)}
-                className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-all"
-              >
+              <button onClick={() => goTo(-1)} className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-all">
                 <ChevronLeft size={20} />
               </button>
-
-              {/* Dots */}
               <div className="flex gap-2">
                 {companies.map((_, i) => (
                   <button
                     key={i}
-                    onClick={() => {
-                      setAutoPlay(false);
-                      setDirection(i > selected ? 1 : -1);
-                      setSelected(i);
-                    }}
-                    className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
-                      selected === i ? "bg-primary w-6" : "bg-muted-foreground/30 hover:bg-muted-foreground/50"
-                    }`}
+                    onClick={() => { setAutoPlay(false); setDirection(i > selected ? 1 : -1); setSelected(i); }}
+                    className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${selected === i ? "bg-primary w-6" : "bg-muted-foreground/30 hover:bg-muted-foreground/50"}`}
                   />
                 ))}
               </div>
-
-              <button
-                onClick={() => goTo(1)}
-                className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-all"
-              >
+              <button onClick={() => goTo(1)} className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-all">
                 <ChevronRight size={20} />
               </button>
             </div>
           </motion.div>
 
-          {/* Right - Phone with details */}
           <motion.div
             className="flex-shrink-0"
             initial={{ opacity: 0, x: 40 }}
@@ -170,7 +151,7 @@ const ExperienceSection = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4 }}
-                className="w-full h-full p-5 pt-12 overflow-y-auto space-y-4"
+                className="w-full h-full p-5 pt-12 overflow-y-auto phone-screen-content space-y-4"
               >
                 <div className="text-center">
                   <span className="text-4xl">{company.logo}</span>

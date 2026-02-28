@@ -5,25 +5,60 @@ import { ChevronLeft, ChevronRight, Github, ExternalLink } from "lucide-react";
 
 const projects = [
   {
-    name: "CodeCollab",
-    emoji: "👥",
-    description: "Real-time collaborative code editor for teams with built-in video chat and project management.",
-    features: ["Real-time editing", "Video chat", "Git integration", "Project boards"],
-    tech: ["Electron", "React", "WebRTC", "Node.js"],
-    github: "#",
+    name: "BuddyCode",
+    emoji: "🖥️",
+    description: "Real-time collaborative code editor with syntax highlighting and multi-language support.",
+    features: ["Real-time collaboration", "Syntax highlighting", "Multi-language", "WebSocket"],
+    tech: ["Python", "Flask", "WebSocket"],
+    website: "https://www.buddycode.online",
+    github: "https://github.com/RamizMohammad/BuddyCoderWeb.git",
     screenshots: [
       "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600&h=380&fit=crop",
     ],
   },
   {
-    name: "DataVault",
-    emoji: "🔐",
-    description: "Secure desktop password manager with biometric auth and encrypted cloud sync.",
-    features: ["AES-256 encryption", "Biometric unlock", "Cloud sync", "Auto-fill"],
-    tech: ["Python", "PyQt", "SQLCipher", "AWS"],
-    github: "#",
+    name: "Linkium",
+    emoji: "🔗",
+    description: "Where device connection and integration made easy and reliable.",
+    features: ["Device pairing", "File sharing", "Cross-platform", "Real-time sync"],
+    tech: ["Python", "Tkinter", "WebSocket"],
+    website: "https://www.linkium.space",
+    github: "https://github.com/RamizMohammad/SteamDeck.git",
     screenshots: [
       "https://images.unsplash.com/photo-1563986768609-322da13575f2?w=600&h=380&fit=crop",
+    ],
+  },
+  {
+    name: "Backup Engine",
+    emoji: "💾",
+    description: "Real-time backup engine using hashing for file tracking and accuracy.",
+    features: ["File hashing", "Real-time tracking", "Auto-backup", "Change detection"],
+    tech: ["Python", "Tkinter", "OS"],
+    github: "https://github.com/RamizMohammad/Backup_Engine.git",
+    screenshots: [
+      "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&h=380&fit=crop",
+    ],
+  },
+  {
+    name: "Confess Server",
+    emoji: "⚡",
+    description: "FastAPI AWS-deployed backend server for the Confess app.",
+    features: ["RESTful API", "AWS deployment", "Authentication", "Real-time updates"],
+    tech: ["Python", "FastAPI", "AWS"],
+    github: "https://github.com/RamizMohammad",
+    screenshots: [
+      "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&h=380&fit=crop",
+    ],
+  },
+  {
+    name: "Local Share",
+    emoji: "📡",
+    description: "Seamless data sharing between Android and iOS devices over local network.",
+    features: ["Cross-platform", "Local network", "Fast transfer", "No internet needed"],
+    tech: ["Python", "Ngrok", "MongoDB"],
+    github: "https://github.com/RamizMohammad/LocalDataShare.git",
+    screenshots: [
+      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=600&h=380&fit=crop",
     ],
   },
 ];
@@ -54,14 +89,13 @@ const DesktopProjectsSection = () => {
           transition={{ duration: 0.6 }}
           className="mb-12"
         >
-          <p className="text-primary font-display font-medium mb-2">Desktop Projects</p>
+          <p className="text-primary font-display font-medium mb-2">Python & Web Projects</p>
           <h2 className="font-display text-3xl md:text-4xl font-bold">
             Desktop Apps I've <span className="text-gradient">Built</span>
           </h2>
         </motion.div>
 
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
-          {/* Left - Project carousel */}
           <motion.div
             className="flex-1 w-full"
             initial={{ opacity: 0, x: -40 }}
@@ -112,7 +146,6 @@ const DesktopProjectsSection = () => {
             </div>
           </motion.div>
 
-          {/* Right - Desktop Monitor */}
           <motion.div
             className="flex-shrink-0"
             initial={{ opacity: 0, x: 40 }}
@@ -147,9 +180,16 @@ const DesktopProjectsSection = () => {
                             <span key={t} className="px-2 py-0.5 rounded border border-border text-[10px] text-muted-foreground">{t}</span>
                           ))}
                         </div>
-                        <a href={project.github} className="text-[11px] text-primary flex items-center gap-1 hover:underline mt-2">
-                          <Github size={12} /> GitHub
-                        </a>
+                        <div className="flex flex-col gap-1 mt-2">
+                          {project.website && (
+                            <a href={project.website} target="_blank" rel="noopener noreferrer" className="text-[11px] text-primary flex items-center gap-1 hover:underline">
+                              <ExternalLink size={12} /> Live Site
+                            </a>
+                          )}
+                          <a href={project.github} target="_blank" rel="noopener noreferrer" className="text-[11px] text-primary flex items-center gap-1 hover:underline">
+                            <Github size={12} /> GitHub
+                          </a>
+                        </div>
                       </div>
                     </div>
                     <button
@@ -168,15 +208,10 @@ const DesktopProjectsSection = () => {
                     className="w-full h-full overflow-hidden relative"
                   >
                     {project.screenshots.length > 0 ? (
-                      <img
-                        src={project.screenshots[0]}
-                        alt={`${project.name} UI`}
-                        className="w-full h-full object-cover"
-                      />
+                      <img src={project.screenshots[0]} alt={`${project.name} UI`} className="w-full h-full object-cover" />
                     ) : (
                       <div className="flex items-center justify-center h-full text-muted-foreground text-xs">No screenshots</div>
                     )}
-                    {/* Floating button */}
                     <div className="absolute bottom-3 left-4 right-4">
                       <button
                         onClick={() => setMonitorView("details")}

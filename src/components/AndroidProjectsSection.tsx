@@ -5,28 +5,59 @@ import { ChevronLeft, ChevronRight, Github, ExternalLink } from "lucide-react";
 
 const projects = [
   {
-    name: "FinanceTracker",
-    emoji: "💰",
-    description: "A comprehensive personal finance management app with expense tracking, budget planning, and financial insights.",
-    features: ["Expense categorization", "Budget alerts", "Monthly reports", "Dark mode", "Offline support"],
-    tech: ["Kotlin", "Jetpack Compose", "Room", "Coroutines"],
-    playStore: "#",
-    github: "#",
+    name: "Confess App",
+    emoji: "🔮",
+    description: "Anonymous confession sharing platform with real-time updates.",
+    features: ["Anonymous confessions", "Real-time feed", "Push notifications", "Dark mode"],
+    tech: ["Java", "Firebase", "Android SDK"],
+    playStore: "https://play.google.com/store/apps/details?id=in.mohammad.ramiz.confess",
+    github: "https://github.com/RamizMohammad/ConfessApp.git",
     screenshots: [
-      "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=280&h=500&fit=crop",
-      "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=280&h=500&fit=crop",
+      "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=280&h=500&fit=crop",
     ],
   },
   {
-    name: "FitPulse",
-    emoji: "🏋️",
-    description: "AI-powered fitness companion that creates personalized workout plans and tracks your progress.",
-    features: ["AI workout plans", "Progress tracking", "Social challenges", "Wearable sync"],
-    tech: ["Kotlin", "Compose", "ML Kit", "Firebase"],
-    playStore: "#",
-    github: "#",
+    name: "Share Wheels",
+    emoji: "🚗",
+    description: "Smart ride sharing application with GPS tracking and route optimization.",
+    features: ["GPS tracking", "Route optimization", "Real-time matching", "Payment integration"],
+    tech: ["Android", "Maps API", "Firebase"],
+    github: "https://github.com/RamizMohammad/FinalYearProject---RideShiled.git",
     screenshots: [
-      "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=280&h=500&fit=crop",
+      "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=280&h=500&fit=crop",
+    ],
+  },
+  {
+    name: "BuddyCode",
+    emoji: "💻",
+    description: "Python-enabled online compiler for multi-language coding on mobile.",
+    features: ["Multi-language support", "Code execution", "Syntax highlighting", "Save projects"],
+    tech: ["Java", "REST APIs", "Python"],
+    github: "https://github.com/RamizMohammad/BuddyCodeAndroid.git",
+    screenshots: [
+      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=280&h=500&fit=crop",
+    ],
+  },
+  {
+    name: "Hotel Manager",
+    emoji: "🏨",
+    description: "Staff & guest operations system for hotel management.",
+    features: ["Room booking", "Staff management", "Guest tracking", "Reports"],
+    tech: ["Android", "Database", "Java"],
+    github: "https://github.com/RamizMohammad/Hotel_manager",
+    screenshots: [
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=280&h=500&fit=crop",
+    ],
+  },
+  {
+    name: "Inventory Fetcher",
+    emoji: "📦",
+    description: "Inventory fetcher and automatic server management system.",
+    features: ["Auto-sync", "Server management", "Data tracking", "Reports"],
+    tech: ["Android", "API", "Python"],
+    github: "https://github.com/RamizMohammad/IndianOilFetcher.git",
+    screenshots: [
+      "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=280&h=500&fit=crop",
     ],
   },
 ];
@@ -64,7 +95,6 @@ const AndroidProjectsSection = () => {
         </motion.div>
 
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
-          {/* Left - Project carousel */}
           <motion.div
             className="flex-1 w-full"
             initial={{ opacity: 0, x: -40 }}
@@ -115,7 +145,6 @@ const AndroidProjectsSection = () => {
             </div>
           </motion.div>
 
-          {/* Right - Phone */}
           <motion.div
             className="flex-shrink-0"
             initial={{ opacity: 0, x: 40 }}
@@ -152,11 +181,11 @@ const AndroidProjectsSection = () => {
                     </div>
                     <div className="flex gap-2">
                       {project.playStore && (
-                        <a href={project.playStore} className="text-[10px] text-primary flex items-center gap-1 hover:underline">
+                        <a href={project.playStore} target="_blank" rel="noopener noreferrer" className="text-[10px] text-primary flex items-center gap-1 hover:underline">
                           <ExternalLink size={10} /> Play Store
                         </a>
                       )}
-                      <a href={project.github} className="text-[10px] text-primary flex items-center gap-1 hover:underline">
+                      <a href={project.github} target="_blank" rel="noopener noreferrer" className="text-[10px] text-primary flex items-center gap-1 hover:underline">
                         <Github size={10} /> GitHub
                       </a>
                     </div>
@@ -175,7 +204,6 @@ const AndroidProjectsSection = () => {
                     exit={{ opacity: 0, y: -20 }}
                     className="w-full h-full flex flex-col"
                   >
-                    {/* Single screenshot filling the screen */}
                     <div className="flex-1 pt-10 overflow-hidden">
                       {project.screenshots.length > 0 ? (
                         <img
@@ -187,7 +215,6 @@ const AndroidProjectsSection = () => {
                         <div className="flex items-center justify-center h-full text-muted-foreground text-xs">No screenshots</div>
                       )}
                     </div>
-                    {/* Button below screenshot */}
                     <div className="px-4 py-3 bg-background">
                       <button
                         onClick={() => setPhoneView("details")}
