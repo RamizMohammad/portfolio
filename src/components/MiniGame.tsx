@@ -1,292 +1,242 @@
-import { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
-import { Gamepad2, RotateCcw } from "lucide-react";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Rocket, ChevronRight, Award, Code2, Smartphone, Briefcase, GraduationCap, Lightbulb, Trophy, Heart } from "lucide-react";
 
-interface Star {
-  x: number;
-  y: number;
-  speed: number;
-  size: number;
+interface FactCard {
+  icon: React.ElementType;
+  title: string;
+  description: string;
+  color: string;
 }
 
-interface Asteroid {
-  x: number;
-  y: number;
-  size: number;
-  speed: number;
-  rotation: number;
-  rotSpeed: number;
-}
+const facts: FactCard[] = [
+  {
+    icon: GraduationCap,
+    title: "Education",
+    description: "Computer Science student passionate about building real-world solutions through code.",
+    color: "from-blue-500/20 to-cyan-500/20",
+  },
+  {
+    icon: Smartphone,
+    title: "Android Developer",
+    description: "Specialized in Android with Java, Kotlin & Jetpack Compose. Built 15+ apps from scratch.",
+    color: "from-green-500/20 to-emerald-500/20",
+  },
+  {
+    icon: Code2,
+    title: "Full-Stack Skills",
+    description: "Python, Flask, FastAPI on backend. React & Node.js on frontend. MongoDB & Firebase for data.",
+    color: "from-purple-500/20 to-violet-500/20",
+  },
+  {
+    icon: Trophy,
+    title: "Hackathon Winner",
+    description: "Won multiple hackathons by building innovative solutions under pressure in 24–48 hours.",
+    color: "from-yellow-500/20 to-amber-500/20",
+  },
+  {
+    icon: Award,
+    title: "Patent Holder",
+    description: "Filed a patent for an innovative technology solution — turning ideas into intellectual property.",
+    color: "from-red-500/20 to-rose-500/20",
+  },
+  {
+    icon: Briefcase,
+    title: "Project Builder",
+    description: "From real-time chat apps to desktop automation tools — I love shipping products that solve problems.",
+    color: "from-teal-500/20 to-sky-500/20",
+  },
+  {
+    icon: Lightbulb,
+    title: "Problem Solver",
+    description: "I thrive on challenging problems. Data structures, algorithms & system design are my playground.",
+    color: "from-orange-500/20 to-yellow-500/20",
+  },
+  {
+    icon: Heart,
+    title: "What Drives Me",
+    description: "Building tech that makes a difference. I believe great software starts with empathy and curiosity.",
+    color: "from-pink-500/20 to-rose-500/20",
+  },
+];
 
 const MiniGame = () => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [gameState, setGameState] = useState<"idle" | "playing" | "over">("idle");
-  const [score, setScore] = useState(0);
-  const gameRef = useRef({
-    shipX: 0,
-    shipY: 0,
-    asteroids: [] as Asteroid[],
-    stars: [] as Star[],
-    score: 0,
-    frame: 0,
-    keys: { left: false, right: false, up: false, down: false },
-  });
+  const [currentIndex, setCurrentIndex] = useState(-1);
+  const [revealed, setRevealed] = useState<Set<number>>(new Set());
 
-  useEffect(() => {
-    if (gameState !== "playing") return;
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+  const isStarted = currentIndex >= 0;
+  const isComplete = revealed.size === facts.length;
 
-    const W = canvas.width;
-    const H = canvas.height;
-    const game = gameRef.current;
-
-    game.shipX = W / 2;
-    game.shipY = H - 60;
-    game.asteroids = [];
-    game.stars = [];
-    game.score = 0;
-    game.frame = 0;
-
-    // Init stars
-    for (let i = 0; i < 60; i++) {
-      game.stars.push({
-        x: Math.random() * W,
-        y: Math.random() * H,
-        speed: Math.random() * 1.5 + 0.5,
-        size: Math.random() * 1.5 + 0.5,
-      });
+  const handleNext = () => {
+    const next = currentIndex + 1;
+    if (next < facts.length) {
+      setCurrentIndex(next);
+      setRevealed((prev) => new Set(prev).add(next));
     }
+  };
 
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "ArrowLeft" || e.key === "a") game.keys.left = true;
-      if (e.key === "ArrowRight" || e.key === "d") game.keys.right = true;
-      if (e.key === "ArrowUp" || e.key === "w") game.keys.up = true;
-      if (e.key === "ArrowDown" || e.key === "s") game.keys.down = true;
-    };
-    const handleKeyUp = (e: KeyboardEvent) => {
-      if (e.key === "ArrowLeft" || e.key === "a") game.keys.left = false;
-      if (e.key === "ArrowRight" || e.key === "d") game.keys.right = false;
-      if (e.key === "ArrowUp" || e.key === "w") game.keys.up = false;
-      if (e.key === "ArrowDown" || e.key === "s") game.keys.down = false;
-    };
+  const handleStart = () => {
+    setCurrentIndex(0);
+    setRevealed(new Set([0]));
+  };
 
-    // Touch controls
-    let touchX = game.shipX;
-    let touchY = game.shipY;
-    const handleTouchMove = (e: TouchEvent) => {
-      e.preventDefault();
-      const rect = canvas.getBoundingClientRect();
-      touchX = e.touches[0].clientX - rect.left;
-      touchY = e.touches[0].clientY - rect.top;
-    };
-    const handleTouchStart = (e: TouchEvent) => {
-      const rect = canvas.getBoundingClientRect();
-      touchX = e.touches[0].clientX - rect.left;
-      touchY = e.touches[0].clientY - rect.top;
-    };
+  const handleReset = () => {
+    setCurrentIndex(-1);
+    setRevealed(new Set());
+  };
 
-    window.addEventListener("keydown", handleKeyDown);
-    window.addEventListener("keyup", handleKeyUp);
-    canvas.addEventListener("touchmove", handleTouchMove, { passive: false });
-    canvas.addEventListener("touchstart", handleTouchStart);
-
-    let isTouching = false;
-    canvas.addEventListener("touchstart", () => { isTouching = true; });
-    canvas.addEventListener("touchend", () => { isTouching = false; });
-
-    let animId: number;
-
-    const drawShip = (x: number, y: number) => {
-      ctx.save();
-      ctx.translate(x, y);
-      // Ship body
-      ctx.beginPath();
-      ctx.moveTo(0, -16);
-      ctx.lineTo(-12, 12);
-      ctx.lineTo(0, 6);
-      ctx.lineTo(12, 12);
-      ctx.closePath();
-      const shipGrad = ctx.createLinearGradient(0, -16, 0, 12);
-      shipGrad.addColorStop(0, "#00ff88");
-      shipGrad.addColorStop(1, "#0066ff");
-      ctx.fillStyle = shipGrad;
-      ctx.fill();
-      // Engine glow
-      ctx.beginPath();
-      ctx.moveTo(-5, 10);
-      ctx.lineTo(0, 18 + Math.random() * 6);
-      ctx.lineTo(5, 10);
-      ctx.fillStyle = `rgba(0, 255, 136, ${0.5 + Math.random() * 0.3})`;
-      ctx.fill();
-      ctx.restore();
-    };
-
-    const drawAsteroid = (a: Asteroid) => {
-      ctx.save();
-      ctx.translate(a.x, a.y);
-      ctx.rotate(a.rotation);
-      ctx.beginPath();
-      const sides = 7;
-      for (let i = 0; i < sides; i++) {
-        const angle = (i / sides) * Math.PI * 2;
-        const r = a.size * (0.7 + Math.random() * 0.05);
-        const px = Math.cos(angle) * r;
-        const py = Math.sin(angle) * r;
-        if (i === 0) ctx.moveTo(px, py);
-        else ctx.lineTo(px, py);
-      }
-      ctx.closePath();
-      ctx.fillStyle = "hsl(230 15% 18%)";
-      ctx.fill();
-      ctx.strokeStyle = "hsl(230 10% 30%)";
-      ctx.lineWidth = 1;
-      ctx.stroke();
-      ctx.restore();
-    };
-
-    const loop = () => {
-      game.frame++;
-      ctx.clearRect(0, 0, W, H);
-
-      // Stars
-      for (const s of game.stars) {
-        s.y += s.speed;
-        if (s.y > H) { s.y = 0; s.x = Math.random() * W; }
-        ctx.beginPath();
-        ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 255, 255, ${0.3 + s.speed * 0.2})`;
-        ctx.fill();
-      }
-
-      // Move ship
-      const speed = 4;
-      if (game.keys.left) game.shipX -= speed;
-      if (game.keys.right) game.shipX += speed;
-      if (game.keys.up) game.shipY -= speed;
-      if (game.keys.down) game.shipY += speed;
-
-      if (isTouching) {
-        game.shipX += (touchX - game.shipX) * 0.12;
-        game.shipY += (touchY - game.shipY) * 0.12;
-      }
-
-      game.shipX = Math.max(14, Math.min(W - 14, game.shipX));
-      game.shipY = Math.max(20, Math.min(H - 14, game.shipY));
-
-      // Spawn asteroids
-      const spawnRate = Math.max(15, 40 - game.score * 0.5);
-      if (game.frame % Math.floor(spawnRate) === 0) {
-        game.asteroids.push({
-          x: Math.random() * (W - 40) + 20,
-          y: -30,
-          size: Math.random() * 15 + 10,
-          speed: Math.random() * 2 + 1 + game.score * 0.03,
-          rotation: Math.random() * Math.PI * 2,
-          rotSpeed: (Math.random() - 0.5) * 0.05,
-        });
-      }
-
-      // Update asteroids
-      for (let i = game.asteroids.length - 1; i >= 0; i--) {
-        const a = game.asteroids[i];
-        a.y += a.speed;
-        a.rotation += a.rotSpeed;
-
-        if (a.y > H + 40) {
-          game.asteroids.splice(i, 1);
-          game.score++;
-          setScore(game.score);
-          continue;
-        }
-
-        // Collision
-        const dx = game.shipX - a.x;
-        const dy = game.shipY - a.y;
-        if (Math.sqrt(dx * dx + dy * dy) < a.size + 10) {
-          setScore(game.score);
-          setGameState("over");
-          return;
-        }
-
-        drawAsteroid(a);
-      }
-
-      drawShip(game.shipX, game.shipY);
-
-      // Score display
-      ctx.fillStyle = "rgba(255,255,255,0.6)";
-      ctx.font = "600 14px 'Outfit', sans-serif";
-      ctx.fillText(`Score: ${game.score}`, 12, 24);
-
-      animId = requestAnimationFrame(loop);
-    };
-
-    loop();
-
-    return () => {
-      cancelAnimationFrame(animId);
-      window.removeEventListener("keydown", handleKeyDown);
-      window.removeEventListener("keyup", handleKeyUp);
-      canvas.removeEventListener("touchmove", handleTouchMove);
-      canvas.removeEventListener("touchstart", handleTouchStart);
-    };
-  }, [gameState]);
+  const current = isStarted ? facts[currentIndex] : null;
+  const Icon = current?.icon || Rocket;
 
   return (
     <section className="section-padding relative z-10">
-      <div className="max-w-3xl mx-auto text-center">
+      <div className="max-w-4xl mx-auto text-center">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="mb-8"
+          className="mb-10"
         >
-          <p className="text-primary font-display font-medium mb-2 tracking-premium text-sm">Take a Break</p>
+          <p className="text-primary font-display font-medium mb-2 tracking-premium text-sm">Interactive</p>
           <h2 className="font-display text-3xl md:text-5xl font-extrabold">
-            Dodge the <span className="text-gradient">Asteroids</span>
+            Discover <span className="text-gradient">My Story</span>
           </h2>
-          <p className="text-muted-foreground mt-3 text-base">Use arrow keys or touch to navigate your ship</p>
+          <p className="text-muted-foreground mt-3 text-base">
+            Tap through to uncover facts about me — one card at a time
+          </p>
         </motion.div>
 
+        {/* Progress dots */}
+        <div className="flex justify-center gap-2 mb-8">
+          {facts.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => revealed.has(i) && setCurrentIndex(i)}
+              className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                i === currentIndex
+                  ? "bg-primary scale-125 ring-2 ring-primary/30"
+                  : revealed.has(i)
+                  ? "bg-primary/50 hover:bg-primary/70 cursor-pointer"
+                  : "bg-muted"
+              }`}
+            />
+          ))}
+        </div>
+
+        {/* Card area */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="relative mx-auto rounded-2xl overflow-hidden border border-border glow-sm"
-          style={{ width: "100%", maxWidth: 500, aspectRatio: "5/4" }}
+          className="relative mx-auto max-w-lg min-h-[280px] flex items-center justify-center"
         >
-          <canvas
-            ref={canvasRef}
-            width={500}
-            height={400}
-            className="w-full h-full bg-background block"
-          />
-
-          {/* Overlay for idle / game over */}
-          {gameState !== "playing" && (
-            <div className="absolute inset-0 flex flex-col items-center justify-center bg-background/80 backdrop-blur-sm">
-              {gameState === "over" && (
-                <div className="mb-4 text-center">
-                  <p className="font-display text-xl font-bold text-foreground">Game Over!</p>
-                  <p className="text-3xl font-display font-extrabold text-gradient mt-1">{score}</p>
-                  <p className="text-xs text-muted-foreground">asteroids dodged</p>
-                </div>
-              )}
-              <button
-                onClick={() => { setScore(0); setGameState("playing"); }}
-                className="px-8 py-3.5 btn-premium flex items-center gap-2"
+          <AnimatePresence mode="wait">
+            {!isStarted ? (
+              <motion.div
+                key="start"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                className="card-premium rounded-2xl p-10 w-full text-center"
               >
-                {gameState === "over" ? <RotateCcw size={16} /> : <Gamepad2 size={16} />}
-                {gameState === "over" ? "Play Again" : "Start Game"}
-              </button>
-            </div>
-          )}
+                <div className="w-16 h-16 mx-auto mb-5 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
+                  <Rocket className="text-primary" size={28} />
+                </div>
+                <h3 className="font-display text-xl font-bold mb-2">Ready to Explore?</h3>
+                <p className="text-muted-foreground text-sm mb-6">
+                  8 cards. 8 facts about me. Tap to begin your journey.
+                </p>
+                <button onClick={handleStart} className="px-8 py-3.5 btn-premium inline-flex items-center gap-2">
+                  Start Journey <ChevronRight size={16} />
+                </button>
+              </motion.div>
+            ) : isComplete && currentIndex === facts.length - 1 ? (
+              <motion.div
+                key="complete"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                className="card-premium rounded-2xl p-10 w-full text-center"
+              >
+                <div className="w-16 h-16 mx-auto mb-5 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
+                  <Trophy className="text-primary" size={28} />
+                </div>
+                <h3 className="font-display text-xl font-bold mb-2">You Know Me Now! 🎉</h3>
+                <p className="text-muted-foreground text-sm mb-6">
+                  Thanks for exploring my story. Feel free to revisit any card above or reach out!
+                </p>
+                <div className="flex gap-3 justify-center">
+                  <button onClick={handleReset} className="px-6 py-3 rounded-xl border border-border text-sm font-medium hover:bg-muted transition-colors">
+                    Replay
+                  </button>
+                  <a href="#contact" className="px-8 py-3.5 btn-premium inline-flex items-center gap-2">
+                    Let's Connect <ChevronRight size={16} />
+                  </a>
+                </div>
+              </motion.div>
+            ) : current ? (
+              <motion.div
+                key={currentIndex}
+                initial={{ opacity: 0, x: 60, rotateY: -15 }}
+                animate={{ opacity: 1, x: 0, rotateY: 0 }}
+                exit={{ opacity: 0, x: -60, rotateY: 15 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+                className="card-premium rounded-2xl p-8 w-full text-center"
+              >
+                <div className={`w-14 h-14 mx-auto mb-4 rounded-2xl bg-gradient-to-br ${current.color} flex items-center justify-center`}>
+                  <Icon className="text-foreground" size={24} />
+                </div>
+                <p className="text-xs text-muted-foreground mb-1 font-medium tracking-wider uppercase">
+                  {currentIndex + 1} / {facts.length}
+                </p>
+                <h3 className="font-display text-xl font-bold mb-3">{current.title}</h3>
+                <p className="text-muted-foreground text-sm leading-relaxed mb-6 max-w-sm mx-auto">
+                  {current.description}
+                </p>
+                {currentIndex < facts.length - 1 ? (
+                  <button onClick={handleNext} className="px-8 py-3.5 btn-premium inline-flex items-center gap-2">
+                    Next Fact <ChevronRight size={16} />
+                  </button>
+                ) : (
+                  <button onClick={handleNext} className="px-8 py-3.5 btn-premium inline-flex items-center gap-2">
+                    Finish <Trophy size={16} />
+                  </button>
+                )}
+              </motion.div>
+            ) : null}
+          </AnimatePresence>
         </motion.div>
+
+        {/* Revealed cards grid */}
+        {revealed.size > 1 && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl mx-auto"
+          >
+            {facts.map((fact, i) => {
+              const FIcon = fact.icon;
+              return (
+                <button
+                  key={i}
+                  onClick={() => revealed.has(i) && setCurrentIndex(i)}
+                  className={`p-3 rounded-xl text-center transition-all duration-300 ${
+                    revealed.has(i)
+                      ? i === currentIndex
+                        ? "card-premium ring-1 ring-primary/30 scale-105"
+                        : "card-premium opacity-70 hover:opacity-100 cursor-pointer"
+                      : "bg-muted/30 opacity-30"
+                  }`}
+                >
+                  <FIcon size={18} className={revealed.has(i) ? "text-primary mx-auto mb-1" : "text-muted-foreground mx-auto mb-1"} />
+                  <p className="text-[11px] font-medium truncate">{revealed.has(i) ? fact.title : "???"}</p>
+                </button>
+              );
+            })}
+          </motion.div>
+        )}
       </div>
     </section>
   );
