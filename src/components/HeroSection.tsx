@@ -1,12 +1,18 @@
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 import { Github, Linkedin, Mail, ArrowDown, FileDown } from "lucide-react";
 import PhoneFrame from "./PhoneFrame";
-import developerHero from "@/assets/developer-hero.png";
 
 const socials = [
   { icon: Github, href: "#", label: "GitHub" },
   { icon: Linkedin, href: "#", label: "LinkedIn" },
   { icon: Mail, href: "mailto:hello@example.com", label: "Email" },
+];
+
+const roles = [
+  "Android Developer",
+  "Backend Developer",
+  "Python Developer",
 ];
 
 const container = {
@@ -17,6 +23,41 @@ const container = {
 const item = {
   hidden: { opacity: 0, y: 30 },
   show: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+};
+
+const TypingEffect = () => {
+  const [roleIndex, setRoleIndex] = useState(0);
+  const [charIndex, setCharIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    const currentRole = roles[roleIndex];
+    const speed = isDeleting ? 40 : 80;
+
+    if (!isDeleting && charIndex === currentRole.length) {
+      setTimeout(() => setIsDeleting(true), 1500);
+      return;
+    }
+
+    if (isDeleting && charIndex === 0) {
+      setIsDeleting(false);
+      setRoleIndex((prev) => (prev + 1) % roles.length);
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      setCharIndex((prev) => prev + (isDeleting ? -1 : 1));
+    }, speed);
+
+    return () => clearTimeout(timer);
+  }, [charIndex, isDeleting, roleIndex]);
+
+  return (
+    <span className="text-gradient">
+      {roles[roleIndex].substring(0, charIndex)}
+      <span className="animate-pulse text-primary">|</span>
+    </span>
+  );
 };
 
 const HeroSection = () => {
@@ -44,13 +85,9 @@ const HeroSection = () => {
           </motion.h1>
           <motion.p
             variants={item}
-            className="text-xl md:text-2xl text-muted-foreground font-display"
+            className="text-xl md:text-2xl text-muted-foreground font-display h-10"
           >
-            Android Developer · Backend Developer · Python Developer
-          </motion.p>
-          <motion.p variants={item} className="text-muted-foreground max-w-lg leading-relaxed">
-            Crafting beautiful mobile experiences and robust backend systems. I turn ideas into
-            production-ready applications with clean, maintainable code.
+            <TypingEffect />
           </motion.p>
 
           {/* Socials */}
@@ -89,7 +126,7 @@ const HeroSection = () => {
           </motion.div>
         </motion.div>
 
-        {/* Right - Phone */}
+        {/* Right - Phone (static, video placeholder) */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -97,14 +134,13 @@ const HeroSection = () => {
           className="flex-shrink-0"
         >
           <PhoneFrame>
-            <div className="w-full h-full flex items-center justify-center p-4">
-              <motion.img
-                src={developerHero}
-                alt="Developer illustration"
-                className="w-full h-full object-contain"
-                animate={{ scale: [1, 1.03, 1] }}
-                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-              />
+            <div className="w-full h-full flex items-center justify-center bg-card">
+              <div className="text-center space-y-3">
+                <div className="w-16 h-16 mx-auto rounded-full bg-primary/20 flex items-center justify-center">
+                  <div className="w-0 h-0 border-l-[14px] border-l-primary border-t-[9px] border-t-transparent border-b-[9px] border-b-transparent ml-1" />
+                </div>
+                <p className="text-xs text-muted-foreground font-display">Video Coming Soon</p>
+              </div>
             </div>
           </PhoneFrame>
         </motion.div>
