@@ -6,6 +6,7 @@ import LiveProjectsSection from "@/components/LiveProjectsSection";
 import AndroidProjectsSection from "@/components/AndroidProjectsSection";
 import DesktopProjectsSection from "@/components/DesktopProjectsSection";
 import SkillsSection from "@/components/SkillsSection";
+import AchievementsPreview from "@/components/AchievementsPreview";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import ParticleBackground from "@/components/ParticleBackground";
@@ -29,6 +30,7 @@ const Index = () => {
       <AndroidProjectsSection />
       <DesktopProjectsSection />
       <SkillsSection />
+      <AchievementsPreview />
       <ContactSection />
       <Footer />
     </div>
