@@ -40,31 +40,31 @@ const AboutSection = () => {
           transition={{ duration: 0.7 }}
         >
           <div>
-            <p className="text-primary font-display font-medium mb-2">Who Am I?</p>
-            <h2 className="font-display text-3xl md:text-4xl font-bold">
+            <p className="text-primary font-display font-medium mb-2 tracking-premium text-sm">Who Am I?</p>
+            <h2 className="font-display text-3xl md:text-5xl font-extrabold">
               Passionate about building{" "}
               <span className="text-gradient">impactful</span> software
             </h2>
           </div>
 
-          <p className="text-muted-foreground leading-relaxed max-w-lg">
+          <p className="text-muted-foreground leading-relaxed max-w-lg text-base">
             I am a passionate developer specializing in Android development and backend engineering. 
             With expertise in Java, Python, and modern frameworks, I create robust mobile applications 
             and scalable server solutions.
           </p>
 
-          <p className="text-muted-foreground leading-relaxed max-w-lg">
+          <p className="text-muted-foreground leading-relaxed max-w-lg text-base">
             My journey in programming started with a curiosity for problem-solving, which has evolved 
             into a career focused on building innovative solutions. I thrive in hackathon environments 
             and enjoy collaborating on challenging projects.
           </p>
 
           <div className="flex items-center gap-4">
-            <div className="px-5 py-3 rounded-xl border border-border bg-card">
-              <p className="font-display text-2xl font-bold text-primary">15+</p>
+            <div className="px-5 py-3 rounded-2xl card-premium">
+              <p className="font-display text-3xl font-extrabold text-primary">15+</p>
               <p className="text-xs text-muted-foreground">Projects Built</p>
             </div>
-            <a href="#android-projects" className="px-5 py-3 rounded-xl bg-primary text-primary-foreground font-display font-semibold text-sm hover:opacity-90 transition-opacity glow-sm">
+            <a href="#android-projects" className="px-8 py-3.5 btn-premium">
               View My Projects
             </a>
           </div>
@@ -73,10 +73,10 @@ const AboutSection = () => {
             {skills.map((s) => (
               <div
                 key={s.label}
-                className="p-4 rounded-xl border border-border bg-card hover:border-primary/30 transition-colors group"
+                className="p-4 rounded-2xl card-premium group"
               >
                 <s.icon className="text-primary mb-2 group-hover:scale-110 transition-transform" size={22} />
-                <h3 className="font-display font-semibold text-sm mb-1">{s.label}</h3>
+                <h3 className="font-display font-bold text-sm mb-1">{s.label}</h3>
                 <p className="text-xs text-muted-foreground">{s.items.join(", ")}</p>
               </div>
             ))}

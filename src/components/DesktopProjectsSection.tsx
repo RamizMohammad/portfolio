@@ -89,8 +89,8 @@ const DesktopProjectsSection = () => {
           transition={{ duration: 0.6 }}
           className="mb-12"
         >
-          <p className="text-primary font-display font-medium mb-2">Python & Web Projects</p>
-          <h2 className="font-display text-3xl md:text-4xl font-bold">
+          <p className="text-primary font-display font-medium mb-2 tracking-premium text-sm">Python & Web Projects</p>
+          <h2 className="font-display text-3xl md:text-5xl font-extrabold">
             Desktop Apps I've <span className="text-gradient">Built</span>
           </h2>
         </motion.div>
@@ -102,7 +102,7 @@ const DesktopProjectsSection = () => {
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.2 }}
           >
-            <div className="relative h-[280px] flex items-center justify-center overflow-hidden">
+            <div className="relative h-[300px] flex items-center justify-center overflow-hidden">
               <AnimatePresence mode="wait" custom={direction}>
                 <motion.div
                   key={selected}
@@ -118,17 +118,17 @@ const DesktopProjectsSection = () => {
                   transition={{ duration: 0.5, ease: "easeInOut" }}
                   className="absolute flex flex-col items-center gap-4"
                 >
-                  <div className="w-28 h-28 rounded-2xl bg-card border-2 border-border flex items-center justify-center glow-sm">
+                  <div className="w-28 h-28 rounded-2xl bg-card border-2 border-border flex items-center justify-center glow-md">
                     <span className="text-5xl">{project.emoji}</span>
                   </div>
-                  <h3 className="font-display text-xl font-bold text-center">{project.name}</h3>
+                  <h3 className="font-display text-2xl font-extrabold text-center">{project.name}</h3>
                   <p className="text-muted-foreground text-sm text-center max-w-xs">{project.description}</p>
                 </motion.div>
               </AnimatePresence>
             </div>
 
             <div className="flex items-center justify-center gap-4 mt-4">
-              <button onClick={() => goTo(-1)} className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-all">
+              <button onClick={() => goTo(-1)} className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-all hover:-translate-y-0.5">
                 <ChevronLeft size={20} />
               </button>
               <div className="flex gap-2">
@@ -136,11 +136,11 @@ const DesktopProjectsSection = () => {
                   <button
                     key={i}
                     onClick={() => { setDirection(i > selected ? 1 : -1); setSelected(i); setMonitorView("ui"); }}
-                    className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${selected === i ? "bg-primary w-6" : "bg-muted-foreground/30"}`}
+                    className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${selected === i ? "bg-primary w-6 glow-sm" : "bg-muted-foreground/30"}`}
                   />
                 ))}
               </div>
-              <button onClick={() => goTo(1)} className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-all">
+              <button onClick={() => goTo(1)} className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-all hover:-translate-y-0.5">
                 <ChevronRight size={20} />
               </button>
             </div>
@@ -164,7 +164,7 @@ const DesktopProjectsSection = () => {
                   >
                     <div className="flex gap-6">
                       <div className="flex-1 space-y-2">
-                        <h4 className="font-display text-xs font-semibold text-primary">Features</h4>
+                        <h4 className="font-display text-xs font-semibold text-primary tracking-premium">Features</h4>
                         <ul className="space-y-1">
                           {project.features.map((f) => (
                             <li key={f} className="text-[11px] text-muted-foreground flex gap-1.5">
@@ -174,19 +174,19 @@ const DesktopProjectsSection = () => {
                         </ul>
                       </div>
                       <div className="flex-1 space-y-2">
-                        <h4 className="font-display text-xs font-semibold text-primary">Tech Stack</h4>
+                        <h4 className="font-display text-xs font-semibold text-primary tracking-premium">Tech Stack</h4>
                         <div className="flex flex-wrap gap-1">
                           {project.tech.map((t) => (
-                            <span key={t} className="px-2 py-0.5 rounded border border-border text-[10px] text-muted-foreground">{t}</span>
+                            <span key={t} className="px-2 py-0.5 rounded-full border border-border text-[10px] text-muted-foreground">{t}</span>
                           ))}
                         </div>
                         <div className="flex flex-col gap-1 mt-2">
                           {project.website && (
-                            <a href={project.website} target="_blank" rel="noopener noreferrer" className="text-[11px] text-primary flex items-center gap-1 hover:underline">
+                            <a href={project.website} target="_blank" rel="noopener noreferrer" className="text-[11px] text-primary flex items-center gap-1 hover:underline font-display font-semibold">
                               <ExternalLink size={12} /> Live Site
                             </a>
                           )}
-                          <a href={project.github} target="_blank" rel="noopener noreferrer" className="text-[11px] text-primary flex items-center gap-1 hover:underline">
+                          <a href={project.github} target="_blank" rel="noopener noreferrer" className="text-[11px] text-primary flex items-center gap-1 hover:underline font-display font-semibold">
                             <Github size={12} /> GitHub
                           </a>
                         </div>
@@ -194,7 +194,7 @@ const DesktopProjectsSection = () => {
                     </div>
                     <button
                       onClick={() => setMonitorView("ui")}
-                      className="w-full py-2 mt-4 rounded-lg bg-primary text-primary-foreground text-[11px] font-display font-semibold hover:opacity-90 transition-opacity"
+                      className="w-full py-2 mt-4 rounded-full bg-primary text-primary-foreground text-[11px] font-display font-semibold hover:opacity-90 transition-opacity"
                     >
                       View App UI
                     </button>
@@ -215,7 +215,7 @@ const DesktopProjectsSection = () => {
                     <div className="absolute bottom-3 left-4 right-4">
                       <button
                         onClick={() => setMonitorView("details")}
-                        className="w-full py-2 rounded-lg bg-primary text-primary-foreground text-[11px] font-display font-semibold hover:opacity-90 transition-opacity shadow-lg"
+                        className="w-full py-2 rounded-full bg-primary text-primary-foreground text-[11px] font-display font-semibold hover:opacity-90 transition-opacity shadow-lg"
                       >
                         See Details
                       </button>
