@@ -1,5 +1,5 @@
 import { motion, useInView, AnimatePresence } from "framer-motion";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import PhoneFrame from "./PhoneFrame";
 import { ChevronLeft, ChevronRight, Github, ExternalLink } from "lucide-react";
 
@@ -72,6 +72,15 @@ const AndroidProjectsSection = () => {
   const [direction, setDirection] = useState(1);
 
   const project = projects[selected];
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setDirection(1);
+      setSelected((prev) => (prev + 1) % projects.length);
+      setPhoneView("ui");
+    }, 4000);
+    return () => clearInterval(timer);
+  }, []);
 
   const goTo = (dir: -1 | 1) => {
     setDirection(dir);
