@@ -1,7 +1,7 @@
-import { motion } from "framer-motion";
-import { useState } from "react";
+import { motion, useInView } from "framer-motion";
+import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Download, Search, ExternalLink } from "lucide-react";
+import { ArrowLeft, Download, Search, Monitor, Package, Sparkles, ArrowUpRight } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -13,6 +13,8 @@ const apps = [
     description: "A powerful all-in-one productivity tool for managing tasks, notes, and projects efficiently.",
     downloadUrl: "https://github.com/RamizMohammad/SteamDeck/releases/download/v1.0/Linkium.exe",
     emoji: "🔗",
+    category: "Productivity",
+    highlights: ["Task Management", "Notes", "Project Tracking"],
   },
   {
     name: "Backup Engine",
@@ -21,11 +23,21 @@ const apps = [
     description: "A powerful automatic backup utility tool which tracks your changes like GitHub and merges but offline.",
     downloadUrl: "https://github.com/RamizMohammad/Backup_Engine/releases/download/v1.0/Backup.Engine.Installer.exe",
     emoji: "💾",
+    category: "Utilities",
+    highlights: ["Auto Backup", "Change Tracking", "Offline Merge"],
   },
+];
+
+const stats = [
+  { label: "Applications", value: apps.length, icon: Package },
+  { label: "Downloads", value: "500+", icon: Download },
+  { label: "Platform", value: "Windows", icon: Monitor },
 ];
 
 const WindowsApps = () => {
   const [search, setSearch] = useState("");
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   const filtered = apps.filter(
     (app) =>
@@ -39,96 +51,186 @@ const WindowsApps = () => {
       <Navbar />
 
       {/* Hero */}
-      <section className="pt-32 pb-16 section-padding relative z-10">
-        <div className="max-w-4xl mx-auto text-center">
+      <section className="pt-32 pb-8 section-padding relative z-10">
+        <div className="max-w-5xl mx-auto text-center">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.7 }}
           >
-            <h1 className="font-display text-4xl md:text-5xl font-bold mb-4">
+            <motion.div
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-border bg-card/50 text-xs text-muted-foreground font-display mb-6"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.2 }}
+            >
+              <Sparkles size={12} className="text-primary" />
+              Desktop Software Collection
+            </motion.div>
+
+            <h1 className="font-display text-5xl md:text-7xl font-extrabold mb-5 leading-[0.95]">
               Win<span className="text-gradient">Store</span>
             </h1>
-            <p className="text-muted-foreground max-w-lg mx-auto mb-2">
-              I build powerful desktop applications for Windows.
+
+            <p className="text-muted-foreground max-w-md mx-auto text-sm md:text-base leading-relaxed">
+              Powerful desktop applications crafted for Windows — built for productivity, designed with precision.
             </p>
-            <p className="text-sm text-muted-foreground/60">
-              Crafting innovative software solutions that enhance productivity and user experience.
-            </p>
+          </motion.div>
+
+          {/* Stats */}
+          <motion.div
+            className="flex items-center justify-center gap-6 md:gap-10 mt-10"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.6 }}
+          >
+            {stats.map((s, i) => (
+              <div key={i} className="flex items-center gap-2.5">
+                <div className="w-9 h-9 rounded-xl bg-primary/10 border border-border flex items-center justify-center">
+                  <s.icon size={16} className="text-primary" />
+                </div>
+                <div className="text-left">
+                  <p className="font-display font-bold text-foreground text-sm">{s.value}</p>
+                  <p className="text-[10px] text-muted-foreground">{s.label}</p>
+                </div>
+              </div>
+            ))}
           </motion.div>
         </div>
       </section>
 
-      {/* Apps */}
-      <section className="section-padding pt-0 relative z-10">
-        <div className="max-w-4xl mx-auto">
+      {/* Gradient divider */}
+      <div className="max-w-5xl mx-auto px-6">
+        <div className="gradient-line rounded-full" />
+      </div>
+
+      {/* Apps Section */}
+      <section className="section-padding pt-12 relative z-10" ref={ref}>
+        <div className="max-w-5xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6 }}
           >
-            <h2 className="font-display text-2xl font-bold mb-2">My Applications</h2>
-            <p className="text-sm text-muted-foreground mb-6">Explore and download my latest Windows applications</p>
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+              <div>
+                <p className="text-primary font-display font-medium mb-1 tracking-premium text-xs">Applications</p>
+                <h2 className="font-display text-2xl md:text-3xl font-extrabold">
+                  My <span className="text-gradient">Software</span>
+                </h2>
+              </div>
 
-            {/* Search */}
-            <div className="relative mb-8">
-              <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" />
-              <input
-                type="text"
-                placeholder="Search applications..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 rounded-xl bg-card border border-border focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors text-sm"
-              />
+              {/* Search */}
+              <div className="relative w-full md:w-72">
+                <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
+                <input
+                  type="text"
+                  placeholder="Search apps..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-card border border-border focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary/30 transition-all text-sm font-display"
+                />
+              </div>
             </div>
 
-            {/* App list */}
-            <div className="space-y-4">
-              {filtered.map((app) => (
+            {/* App Cards */}
+            <div className="grid gap-5">
+              {filtered.map((app, i) => (
                 <motion.div
                   key={app.name}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="p-5 rounded-2xl bg-card border border-border hover:border-primary/30 transition-all group"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ delay: 0.15 * i, duration: 0.5 }}
+                  className="group relative card-premium p-0 overflow-hidden"
                 >
-                  <div className="flex items-center gap-4">
-                    <div className="w-14 h-14 rounded-xl bg-primary/10 border border-border flex items-center justify-center flex-shrink-0">
-                      <span className="text-2xl">{app.emoji}</span>
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <h3 className="font-display font-bold group-hover:text-primary transition-colors">{app.name}</h3>
-                      <p className="text-xs text-muted-foreground mt-0.5">{app.description}</p>
-                      <div className="flex items-center gap-4 mt-2 text-[11px] text-muted-foreground/60">
-                        <span>{app.version}</span>
-                        <span>Updated: {app.updated}</span>
+                  {/* Gradient accent top */}
+                  <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-primary via-secondary to-primary opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                  <div className="flex flex-col md:flex-row">
+                    {/* Left: Icon + branding area */}
+                    <div className="relative md:w-[200px] lg:w-[240px] flex-shrink-0 flex items-center justify-center p-8 md:p-10 bg-gradient-to-br from-primary/5 to-secondary/5 border-b md:border-b-0 md:border-r border-border">
+                      <div className="relative">
+                        <div className="w-20 h-20 rounded-2xl bg-card border-2 border-border flex items-center justify-center glow-sm group-hover:glow-md transition-all duration-500">
+                          <span className="text-4xl">{app.emoji}</span>
+                        </div>
+                        <div className="absolute -bottom-2 -right-2 px-2 py-0.5 rounded-md bg-primary/15 border border-primary/20 text-[9px] font-display font-semibold text-primary">
+                          {app.version}
+                        </div>
                       </div>
                     </div>
-                    <a
-                      href={app.downloadUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-display font-semibold hover:opacity-90 transition-opacity flex-shrink-0"
-                    >
-                      <Download size={14} /> Download
-                    </a>
+
+                    {/* Right: Content */}
+                    <div className="flex-1 p-6 md:p-8 flex flex-col justify-center gap-4">
+                      <div>
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="px-2 py-0.5 rounded-md bg-secondary/10 border border-secondary/15 text-[10px] font-display font-semibold text-secondary">
+                            {app.category}
+                          </span>
+                          <span className="text-[10px] text-muted-foreground/50">Updated {app.updated}</span>
+                        </div>
+                        <h3 className="font-display text-xl font-extrabold group-hover:text-primary transition-colors">
+                          {app.name}
+                        </h3>
+                        <p className="text-sm text-muted-foreground mt-1 leading-relaxed max-w-lg">{app.description}</p>
+                      </div>
+
+                      {/* Highlights */}
+                      <div className="flex flex-wrap gap-1.5">
+                        {app.highlights.map((h) => (
+                          <span
+                            key={h}
+                            className="px-2.5 py-1 rounded-lg bg-muted border border-border text-[10px] font-display font-medium text-muted-foreground"
+                          >
+                            {h}
+                          </span>
+                        ))}
+                      </div>
+
+                      {/* Download */}
+                      <div className="flex items-center gap-3 mt-1">
+                        <a
+                          href={app.downloadUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="btn-premium inline-flex items-center gap-2 px-5 py-2.5"
+                        >
+                          <Download size={14} /> Download
+                        </a>
+                        <a
+                          href={app.downloadUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="w-9 h-9 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-all"
+                        >
+                          <ArrowUpRight size={14} />
+                        </a>
+                      </div>
+                    </div>
                   </div>
                 </motion.div>
               ))}
 
               {filtered.length === 0 && (
-                <p className="text-center text-muted-foreground py-8">No applications found.</p>
+                <div className="text-center py-16 rounded-2xl border border-border bg-card/30">
+                  <Package size={40} className="mx-auto text-muted-foreground/30 mb-3" />
+                  <p className="text-muted-foreground font-display">No applications found.</p>
+                  <p className="text-xs text-muted-foreground/50 mt-1">Try adjusting your search</p>
+                </div>
               )}
             </div>
           </motion.div>
 
-          <div className="text-center mt-12">
-            <Link
-              to="/"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-border text-foreground font-display font-semibold text-sm hover:border-primary hover:text-primary transition-all"
-            >
+          {/* Back */}
+          <motion.div
+            className="text-center mt-16"
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : {}}
+            transition={{ delay: 0.6 }}
+          >
+            <Link to="/" className="btn-outline-premium inline-flex items-center gap-2 px-6 py-3">
               <ArrowLeft size={16} /> Back to Home
             </Link>
-          </div>
+          </motion.div>
         </div>
       </section>
 
