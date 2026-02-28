@@ -8,6 +8,7 @@ import DesktopProjectsSection from "@/components/DesktopProjectsSection";
 import SkillsSection from "@/components/SkillsSection";
 import AchievementsPreview from "@/components/AchievementsPreview";
 import ContactSection from "@/components/ContactSection";
+import MiniGame from "@/components/MiniGame";
 import Footer from "@/components/Footer";
 import ParticleBackground from "@/components/ParticleBackground";
 
@@ -32,6 +33,7 @@ const Index = () => {
       <SkillsSection />
       <AchievementsPreview />
       <ContactSection />
+      <MiniGame />
       <Footer />
     </div>
   );
