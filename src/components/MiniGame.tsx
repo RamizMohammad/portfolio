@@ -102,7 +102,7 @@ const MiniGame = () => {
   const Icon = current?.icon || Rocket;
 
   return (
-    <section className="section-padding relative z-10">
+    <section id="mini-game" className="section-padding relative z-10">
       <div className="max-w-5xl mx-auto text-center">
         <motion.div
           initial={{ opacity: 0, y: 30 }}

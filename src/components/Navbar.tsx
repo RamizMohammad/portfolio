@@ -78,6 +78,14 @@ const Navbar = () => {
           <Link to="/windows-apps" className={`px-4 py-2 text-sm font-medium transition-colors rounded-full ${location.pathname === '/windows-apps' ? 'text-primary' : 'text-muted-foreground hover:text-foreground'}`}>
             Win Store
           </Link>
+          {isHome && (
+            <a href="#mini-game" className={`px-4 py-2 text-sm font-medium transition-colors rounded-full ${active === 'mini-game' ? 'text-primary' : 'text-muted-foreground hover:text-foreground'}`}>
+              Mini Game
+            </a>
+          )}
+          <a href="https://play.google.com/store/apps/developer?id=Mohammad+Ramiz" target="_blank" rel="noopener noreferrer" className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors rounded-full">
+            Play Store ↗
+          </a>
         </div>
 
         {/* Mobile toggle */}
@@ -116,6 +124,14 @@ const Navbar = () => {
           <Link to="/windows-apps" onClick={() => setMobileOpen(false)} className="block py-3 px-4 rounded-xl text-sm font-medium text-muted-foreground">
             Win Store
           </Link>
+          {isHome && (
+            <a href="#mini-game" onClick={() => setMobileOpen(false)} className="block py-3 px-4 rounded-xl text-sm font-medium text-muted-foreground">
+              Mini Game
+            </a>
+          )}
+          <a href="https://play.google.com/store/apps/developer?id=Mohammad+Ramiz" target="_blank" rel="noopener noreferrer" onClick={() => setMobileOpen(false)} className="block py-3 px-4 rounded-xl text-sm font-medium text-muted-foreground">
+            Play Store ↗
+          </a>
         </motion.div>
       )}
     </motion.nav>
