@@ -1,0 +1,107 @@
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+
+const navItems = [
+  { label: "Home", href: "#hero" },
+  { label: "About", href: "#about" },
+  { label: "Experience", href: "#experience" },
+  { label: "Projects", href: "#projects" },
+  { label: "Skills", href: "#skills" },
+  { label: "Contact", href: "#contact" },
+];
+
+const Navbar = () => {
+  const [active, setActive] = useState("hero");
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+      const sections = navItems.map((i) => i.href.slice(1));
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const el = document.getElementById(sections[i]);
+        if (el && el.getBoundingClientRect().top <= 150) {
+          setActive(sections[i]);
+          break;
+        }
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  return (
+    <motion.nav
+      initial={{ y: -80 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.6 }}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled ? "glass-strong py-3" : "py-5"
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
+        <a href="#hero" className="font-display text-xl font-bold text-primary">
+          {"<Dev />"}
+        </a>
+
+        {/* Desktop */}
+        <div className="hidden md:flex items-center gap-1">
+          {navItems.map((item) => (
+            <a
+              key={item.href}
+              href={item.href}
+              className={`relative px-4 py-2 text-sm font-medium transition-colors rounded-lg ${
+                active === item.href.slice(1)
+                  ? "text-primary"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              {item.label}
+              {active === item.href.slice(1) && (
+                <motion.div
+                  layoutId="nav-indicator"
+                  className="absolute bottom-0 left-2 right-2 h-0.5 bg-primary rounded-full"
+                />
+              )}
+            </a>
+          ))}
+        </div>
+
+        {/* Mobile toggle */}
+        <button
+          onClick={() => setMobileOpen(!mobileOpen)}
+          className="md:hidden flex flex-col gap-1.5 p-2"
+        >
+          <span className={`block w-6 h-0.5 bg-foreground transition-transform ${mobileOpen ? "rotate-45 translate-y-2" : ""}`} />
+          <span className={`block w-6 h-0.5 bg-foreground transition-opacity ${mobileOpen ? "opacity-0" : ""}`} />
+          <span className={`block w-6 h-0.5 bg-foreground transition-transform ${mobileOpen ? "-rotate-45 -translate-y-2" : ""}`} />
+        </button>
+      </div>
+
+      {/* Mobile menu */}
+      {mobileOpen && (
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="md:hidden glass-strong mt-2 mx-4 rounded-xl p-4"
+        >
+          {navItems.map((item) => (
+            <a
+              key={item.href}
+              href={item.href}
+              onClick={() => setMobileOpen(false)}
+              className={`block py-3 px-4 rounded-lg text-sm font-medium ${
+                active === item.href.slice(1) ? "text-primary bg-primary/10" : "text-muted-foreground"
+              }`}
+            >
+              {item.label}
+            </a>
+          ))}
+        </motion.div>
+      )}
+    </motion.nav>
+  );
+};
+
+export default Navbar;
