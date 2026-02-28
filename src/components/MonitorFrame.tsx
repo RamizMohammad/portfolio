@@ -9,9 +9,9 @@ const MonitorFrame = ({ children, className = "" }: MonitorFrameProps) => {
   return (
     <div className={`flex flex-col items-center ${className}`}>
       {/* Monitor body */}
-      <div className="relative w-[480px] rounded-2xl bg-[hsl(220,20%,12%)] border-[3px] border-[hsl(220,15%,22%)] shadow-[0_0_40px_rgba(0,0,0,0.5)] p-[6px]">
+      <div className="relative w-[560px] rounded-2xl bg-[hsl(220,20%,12%)] border-[3px] border-[hsl(220,15%,22%)] shadow-[0_0_40px_rgba(0,0,0,0.5)] p-[6px]">
         {/* Screen */}
-        <div className="relative w-full h-[300px] rounded-xl overflow-hidden bg-background">
+        <div className="relative w-full h-[350px] rounded-xl overflow-hidden bg-background">
           {/* Webcam dot */}
           <div className="absolute top-2 left-1/2 -translate-x-1/2 z-20">
             <div className="w-2 h-2 rounded-full bg-[hsl(220,15%,18%)] border border-[hsl(220,10%,25%)]" />

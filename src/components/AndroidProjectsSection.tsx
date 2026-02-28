@@ -173,22 +173,25 @@ const AndroidProjectsSection = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
-                    className="w-full h-full pt-10 overflow-y-auto phone-screen-content"
+                    className="w-full h-full flex flex-col"
                   >
-                    {/* App UI screenshots */}
-                    <div className="space-y-0">
-                      {project.screenshots.map((src, i) => (
-                        <img key={i} src={src} alt={`${project.name} screenshot ${i + 1}`} className="w-full" />
-                      ))}
-                      {project.screenshots.length === 0 && (
+                    {/* Single screenshot filling the screen */}
+                    <div className="flex-1 pt-10 overflow-hidden">
+                      {project.screenshots.length > 0 ? (
+                        <img
+                          src={project.screenshots[0]}
+                          alt={`${project.name} UI`}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
                         <div className="flex items-center justify-center h-full text-muted-foreground text-xs">No screenshots</div>
                       )}
                     </div>
-                    {/* Floating button */}
-                    <div className="sticky bottom-2 px-4 pb-2">
+                    {/* Button below screenshot */}
+                    <div className="px-4 py-3 bg-background">
                       <button
                         onClick={() => setPhoneView("details")}
-                        className="w-full py-2 rounded-lg bg-primary text-primary-foreground text-[11px] font-display font-semibold hover:opacity-90 transition-opacity shadow-lg"
+                        className="w-full py-2 rounded-lg bg-primary text-primary-foreground text-[11px] font-display font-semibold hover:opacity-90 transition-opacity"
                       >
                         See Details
                       </button>
