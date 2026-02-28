@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Trophy, Award, Lightbulb, Code } from "lucide-react";
+import { ArrowLeft, Trophy, Award, Lightbulb, Code, Star } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -19,6 +19,8 @@ const achievements = [
     date: "2024",
     status: "Finalist",
     icon: "🏆",
+    gradient: "from-yellow-500 to-amber-400",
+    accent: "shadow-yellow-500/15",
   },
   {
     category: "Patent",
@@ -27,6 +29,8 @@ const achievements = [
     date: "2024",
     status: "Filed",
     icon: "💡",
+    gradient: "from-violet-500 to-purple-400",
+    accent: "shadow-violet-500/15",
   },
   {
     category: "Certification",
@@ -35,6 +39,8 @@ const achievements = [
     date: "2023",
     status: "Certified",
     icon: "📱",
+    gradient: "from-green-500 to-emerald-400",
+    accent: "shadow-green-500/15",
   },
   {
     category: "Hackathon",
@@ -43,6 +49,8 @@ const achievements = [
     date: "2023",
     status: "Winner",
     icon: "🥇",
+    gradient: "from-orange-500 to-yellow-400",
+    accent: "shadow-orange-500/15",
   },
   {
     category: "Certification",
@@ -51,6 +59,8 @@ const achievements = [
     date: "2023",
     status: "Certified",
     icon: "🐍",
+    gradient: "from-blue-500 to-cyan-400",
+    accent: "shadow-blue-500/15",
   },
   {
     category: "Achievement",
@@ -59,17 +69,19 @@ const achievements = [
     date: "2022",
     status: "Published",
     icon: "🚀",
+    gradient: "from-red-500 to-rose-400",
+    accent: "shadow-red-500/15",
   },
 ];
 
 const container = {
   hidden: {},
-  show: { transition: { staggerChildren: 0.1 } },
+  show: { transition: { staggerChildren: 0.12 } },
 };
 
 const item = {
-  hidden: { opacity: 0, y: 30 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+  hidden: { opacity: 0, y: 40 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as const } },
 };
 
 const Achievements = () => {
@@ -89,11 +101,11 @@ const Achievements = () => {
             <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/30 bg-primary/10 text-primary text-sm font-display font-semibold mb-6">
               <Trophy size={16} /> MY JOURNEY
             </span>
-            <h1 className="font-display text-4xl md:text-5xl font-bold mb-4">
-              My <span className="text-gradient">Achievements</span>
+            <h1 className="font-display text-4xl md:text-6xl font-extrabold mb-4">
+              Hall of <span className="text-gradient">Honors</span>
             </h1>
-            <p className="text-muted-foreground max-w-lg mx-auto">
-              Certifications, awards, and milestones that define my professional journey
+            <p className="text-muted-foreground max-w-lg mx-auto text-base">
+              Certifications, awards, and milestones — each framed as a moment of pride
             </p>
           </motion.div>
         </div>
@@ -109,7 +121,7 @@ const Achievements = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.1 }}
-                className="text-center p-6 rounded-xl bg-card border border-border hover:border-primary/30 transition-colors"
+                className="text-center p-6 rounded-xl card-premium"
               >
                 <stat.icon className="text-primary mx-auto mb-3" size={28} />
                 <p className="font-display text-2xl font-bold">{stat.number}</p>
@@ -120,41 +132,100 @@ const Achievements = () => {
         </div>
       </section>
 
-      {/* Achievement Cards */}
+      {/* Honor Frames */}
       <section className="section-padding relative z-10">
         <motion.div
-          className="max-w-5xl mx-auto"
+          className="max-w-6xl mx-auto"
           variants={container}
           initial="hidden"
           animate="show"
         >
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid md:grid-cols-2 gap-8 lg:gap-10">
             {achievements.map((a, i) => (
-              <motion.div
-                key={i}
-                variants={item}
-                className="p-6 rounded-2xl bg-card border border-border hover:border-primary/30 transition-all hover:-translate-y-1 group"
-              >
-                <div className="flex items-start gap-4">
-                  <span className="text-3xl">{a.icon}</span>
-                  <div className="flex-1">
-                    <span className="text-[10px] font-display font-semibold text-primary uppercase tracking-wider">{a.category}</span>
-                    <h3 className="font-display font-bold mt-1 mb-2 group-hover:text-primary transition-colors">{a.title}</h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">{a.description}</p>
-                    <div className="flex items-center justify-between mt-4 pt-3 border-t border-border">
-                      <span className="text-xs text-muted-foreground">{a.date}</span>
-                      <span className="px-3 py-1 rounded-full bg-accent text-accent-foreground text-[10px] font-semibold">{a.status}</span>
+              <motion.div key={i} variants={item}>
+                {/* Honor Frame */}
+                <div className="group relative">
+                  {/* Outer ornamental frame */}
+                  <div className={`absolute -inset-[3px] rounded-[20px] bg-gradient-to-br ${a.gradient} opacity-30 group-hover:opacity-50 transition-opacity duration-500`} />
+                  <div className="absolute -inset-[1px] rounded-[19px] bg-background" />
+
+                  {/* Inner ornamental border */}
+                  <div className="relative rounded-2xl overflow-hidden">
+                    {/* Top ornamental bar */}
+                    <div className={`h-1.5 w-full bg-gradient-to-r ${a.gradient}`} />
+
+                    <div className="bg-card/80 backdrop-blur-sm p-6 md:p-8">
+                      {/* Corner ornaments */}
+                      <div className="absolute top-4 left-4 w-5 h-5 border-t-2 border-l-2 border-primary/30 rounded-tl-sm" />
+                      <div className="absolute top-4 right-4 w-5 h-5 border-t-2 border-r-2 border-primary/30 rounded-tr-sm" />
+                      <div className="absolute bottom-4 left-4 w-5 h-5 border-b-2 border-l-2 border-primary/30 rounded-bl-sm" />
+                      <div className="absolute bottom-4 right-4 w-5 h-5 border-b-2 border-r-2 border-primary/30 rounded-br-sm" />
+
+                      {/* Content */}
+                      <div className="relative z-10 text-center px-2 md:px-6 py-2">
+                        {/* Category ribbon */}
+                        <div className="mb-4">
+                          <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase bg-gradient-to-r ${a.gradient} text-white`}>
+                            <Star size={10} /> {a.category}
+                          </span>
+                        </div>
+
+                        {/* Icon plaque */}
+                        <div className="relative mx-auto w-20 h-20 mb-5">
+                          <motion.div
+                            className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${a.gradient} opacity-15 blur-xl`}
+                            animate={{ scale: [1, 1.2, 1] }}
+                            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                          />
+                          <div className={`relative w-full h-full rounded-2xl bg-gradient-to-br ${a.gradient} bg-opacity-10 border-2 border-primary/10 flex items-center justify-center shadow-xl ${a.accent}`}
+                            style={{
+                              background: `linear-gradient(135deg, hsl(var(--card)) 0%, hsl(var(--background)) 100%)`,
+                            }}
+                          >
+                            <span className="text-4xl drop-shadow-lg">{a.icon}</span>
+                          </div>
+                        </div>
+
+                        {/* Title */}
+                        <h3 className="font-display text-xl md:text-2xl font-extrabold mb-3 group-hover:text-primary transition-colors">
+                          {a.title}
+                        </h3>
+
+                        {/* Decorative divider */}
+                        <div className="flex items-center justify-center gap-2 mb-3">
+                          <div className={`h-[1px] w-8 bg-gradient-to-r from-transparent ${a.gradient}`} />
+                          <Star size={10} className="text-primary/40" />
+                          <div className={`h-[1px] w-8 bg-gradient-to-l from-transparent ${a.gradient}`} />
+                        </div>
+
+                        {/* Description */}
+                        <p className="text-sm text-muted-foreground leading-relaxed max-w-xs mx-auto mb-5">
+                          {a.description}
+                        </p>
+
+                        {/* Bottom plaque */}
+                        <div className="inline-flex items-center gap-4 px-5 py-2.5 rounded-xl border border-border bg-background/80">
+                          <span className="text-xs text-muted-foreground font-medium">{a.date}</span>
+                          <div className="w-px h-4 bg-border" />
+                          <span className={`text-xs font-bold bg-gradient-to-r ${a.gradient} bg-clip-text text-transparent`}>
+                            {a.status}
+                          </span>
+                        </div>
+                      </div>
                     </div>
+
+                    {/* Bottom ornamental bar */}
+                    <div className={`h-1 w-full bg-gradient-to-r ${a.gradient} opacity-60`} />
                   </div>
                 </div>
               </motion.div>
             ))}
           </div>
 
-          <div className="text-center mt-12">
+          <div className="text-center mt-16">
             <Link
               to="/"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary text-primary-foreground font-display font-semibold text-sm hover:opacity-90 transition-opacity glow-sm"
+              className="inline-flex items-center gap-2 px-8 py-3.5 btn-premium"
             >
               <ArrowLeft size={16} /> Back to Home
             </Link>
