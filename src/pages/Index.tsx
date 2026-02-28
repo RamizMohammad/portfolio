@@ -8,11 +8,13 @@ import DesktopProjectsSection from "@/components/DesktopProjectsSection";
 import SkillsSection from "@/components/SkillsSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
+import ParticleBackground from "@/components/ParticleBackground";
 
 const Index = () => {
   return (
     <div className="relative overflow-hidden">
       <div className="checkerboard-bg" />
+      <ParticleBackground />
       {/* Floating gradient orbs */}
       <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
         <div className="absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full bg-primary/[0.03] blur-[120px] animate-[float_8s_ease-in-out_infinite]" />
