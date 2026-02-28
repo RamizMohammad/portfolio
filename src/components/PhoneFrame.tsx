@@ -12,7 +12,7 @@ const PhoneFrame = ({ children, className = "", landscape = false }: PhoneFrameP
       {/* Outer body */}
       <div
         className={`relative rounded-[3rem] bg-[hsl(220,20%,12%)] border-[2px] border-[hsl(220,15%,22%)] shadow-[0_0_40px_rgba(0,0,0,0.5)] ${
-          landscape ? "w-[420px] h-[260px] p-[6px]" : "w-[280px] h-[560px] p-[6px]"
+          landscape ? "w-[460px] h-[290px] p-[6px]" : "w-[300px] h-[600px] p-[6px]"
         }`}
       >
         {/* Side buttons - right */}
@@ -39,7 +39,7 @@ const PhoneFrame = ({ children, className = "", landscape = false }: PhoneFrameP
           )}
 
           {/* Screen content */}
-          <div className="w-full h-full overflow-hidden">
+          <div className="w-full h-full overflow-hidden phone-screen-content">
             {children}
           </div>
 

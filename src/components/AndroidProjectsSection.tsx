@@ -31,11 +31,13 @@ const projects = [
   },
 ];
 
+type PhoneView = "ui" | "details";
+
 const AndroidProjectsSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [selected, setSelected] = useState(0);
-  const [showDetails, setShowDetails] = useState(false);
+  const [phoneView, setPhoneView] = useState<PhoneView>("ui");
   const [direction, setDirection] = useState(1);
 
   const project = projects[selected];
@@ -43,11 +45,11 @@ const AndroidProjectsSection = () => {
   const goTo = (dir: -1 | 1) => {
     setDirection(dir);
     setSelected((prev) => (prev + dir + projects.length) % projects.length);
-    setShowDetails(false);
+    setPhoneView("ui");
   };
 
   return (
-    <section id="android-projects" className="section-padding" ref={ref}>
+    <section id="android-projects" className="section-padding relative z-10" ref={ref}>
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -57,12 +59,12 @@ const AndroidProjectsSection = () => {
         >
           <p className="text-primary font-display font-medium mb-2">Android Projects</p>
           <h2 className="font-display text-3xl md:text-4xl font-bold">
-            📱 Mobile Apps I've <span className="text-gradient">built</span>
+            Mobile Apps I've <span className="text-gradient">Built</span>
           </h2>
         </motion.div>
 
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
-          {/* Left - Big project logo carousel */}
+          {/* Left - Project carousel */}
           <motion.div
             className="flex-1 w-full"
             initial={{ opacity: 0, x: -40 }}
@@ -85,7 +87,7 @@ const AndroidProjectsSection = () => {
                   transition={{ duration: 0.5, ease: "easeInOut" }}
                   className="absolute flex flex-col items-center gap-4"
                 >
-                  <div className="w-28 h-28 rounded-full bg-card border-2 border-border flex items-center justify-center glow-sm">
+                  <div className="w-28 h-28 rounded-2xl bg-card border-2 border-border flex items-center justify-center glow-sm">
                     <span className="text-5xl">{project.emoji}</span>
                   </div>
                   <h3 className="font-display text-xl font-bold text-center">{project.name}</h3>
@@ -94,7 +96,6 @@ const AndroidProjectsSection = () => {
               </AnimatePresence>
             </div>
 
-            {/* Navigation */}
             <div className="flex items-center justify-center gap-4 mt-4">
               <button onClick={() => goTo(-1)} className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-all">
                 <ChevronLeft size={20} />
@@ -103,7 +104,7 @@ const AndroidProjectsSection = () => {
                 {projects.map((_, i) => (
                   <button
                     key={i}
-                    onClick={() => { setDirection(i > selected ? 1 : -1); setSelected(i); setShowDetails(false); }}
+                    onClick={() => { setDirection(i > selected ? 1 : -1); setSelected(i); setPhoneView("ui"); }}
                     className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${selected === i ? "bg-primary w-6" : "bg-muted-foreground/30"}`}
                   />
                 ))}
@@ -123,13 +124,13 @@ const AndroidProjectsSection = () => {
           >
             <PhoneFrame>
               <AnimatePresence mode="wait">
-                {showDetails ? (
+                {phoneView === "details" ? (
                   <motion.div
                     key="details"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
-                    className="w-full h-full p-4 pt-12 overflow-y-auto space-y-3"
+                    className="w-full h-full p-4 pt-12 overflow-y-auto phone-screen-content space-y-3"
                   >
                     <div>
                       <h4 className="font-display text-xs font-semibold text-primary mb-1.5">Features</h4>
@@ -159,37 +160,39 @@ const AndroidProjectsSection = () => {
                         <Github size={10} /> GitHub
                       </a>
                     </div>
-                    {/* Screenshots inside device */}
-                    <div className="space-y-2">
-                      <h4 className="font-display text-xs font-semibold text-primary">App UI</h4>
-                      {project.screenshots.map((src, i) => (
-                        <img key={i} src={src} alt={`Screenshot ${i + 1}`} className="w-full rounded-lg border border-border" />
-                      ))}
-                    </div>
                     <button
-                      onClick={() => setShowDetails(false)}
-                      className="w-full py-2 rounded-lg border border-border text-[11px] font-display font-semibold text-muted-foreground hover:text-primary hover:border-primary transition-all"
+                      onClick={() => setPhoneView("ui")}
+                      className="w-full py-2 rounded-lg bg-primary text-primary-foreground text-[11px] font-display font-semibold hover:opacity-90 transition-opacity"
                     >
-                      ← Back
+                      View App UI
                     </button>
                   </motion.div>
                 ) : (
                   <motion.div
-                    key="overview"
+                    key="ui"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
-                    className="w-full h-full p-5 pt-12 overflow-y-auto space-y-3 flex flex-col items-center justify-center text-center"
+                    className="w-full h-full pt-10 overflow-y-auto phone-screen-content"
                   >
-                    <span className="text-4xl">{project.emoji}</span>
-                    <h3 className="font-display font-bold text-sm">{project.name}</h3>
-                    <p className="text-[11px] text-muted-foreground leading-relaxed">{project.description}</p>
-                    <button
-                      onClick={() => setShowDetails(true)}
-                      className="w-full py-2 rounded-lg bg-primary text-primary-foreground text-[11px] font-display font-semibold hover:opacity-90 transition-opacity mt-4"
-                    >
-                      See Details
-                    </button>
+                    {/* App UI screenshots */}
+                    <div className="space-y-0">
+                      {project.screenshots.map((src, i) => (
+                        <img key={i} src={src} alt={`${project.name} screenshot ${i + 1}`} className="w-full" />
+                      ))}
+                      {project.screenshots.length === 0 && (
+                        <div className="flex items-center justify-center h-full text-muted-foreground text-xs">No screenshots</div>
+                      )}
+                    </div>
+                    {/* Floating button */}
+                    <div className="sticky bottom-2 px-4 pb-2">
+                      <button
+                        onClick={() => setPhoneView("details")}
+                        className="w-full py-2 rounded-lg bg-primary text-primary-foreground text-[11px] font-display font-semibold hover:opacity-90 transition-opacity shadow-lg"
+                      >
+                        See Details
+                      </button>
+                    </div>
                   </motion.div>
                 )}
               </AnimatePresence>

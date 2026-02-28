@@ -11,6 +11,7 @@ import Footer from "@/components/Footer";
 const Index = () => {
   return (
     <div className="relative">
+      <div className="checkerboard-bg" />
       <Navbar />
       <HeroSection />
       <AboutSection />
