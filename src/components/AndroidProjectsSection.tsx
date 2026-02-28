@@ -88,8 +88,8 @@ const AndroidProjectsSection = () => {
           transition={{ duration: 0.6 }}
           className="mb-12"
         >
-          <p className="text-primary font-display font-medium mb-2">Android Projects</p>
-          <h2 className="font-display text-3xl md:text-4xl font-bold">
+          <p className="text-primary font-display font-medium mb-2 tracking-premium text-sm">Android Projects</p>
+          <h2 className="font-display text-3xl md:text-5xl font-extrabold">
             Mobile Apps I've <span className="text-gradient">Built</span>
           </h2>
         </motion.div>
@@ -101,7 +101,7 @@ const AndroidProjectsSection = () => {
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.2 }}
           >
-            <div className="relative h-[280px] flex items-center justify-center overflow-hidden">
+            <div className="relative h-[300px] flex items-center justify-center overflow-hidden">
               <AnimatePresence mode="wait" custom={direction}>
                 <motion.div
                   key={selected}
@@ -117,17 +117,17 @@ const AndroidProjectsSection = () => {
                   transition={{ duration: 0.5, ease: "easeInOut" }}
                   className="absolute flex flex-col items-center gap-4"
                 >
-                  <div className="w-28 h-28 rounded-2xl bg-card border-2 border-border flex items-center justify-center glow-sm">
+                  <div className="w-28 h-28 rounded-2xl bg-card border-2 border-border flex items-center justify-center glow-md">
                     <span className="text-5xl">{project.emoji}</span>
                   </div>
-                  <h3 className="font-display text-xl font-bold text-center">{project.name}</h3>
+                  <h3 className="font-display text-2xl font-extrabold text-center">{project.name}</h3>
                   <p className="text-muted-foreground text-sm text-center max-w-xs">{project.description}</p>
                 </motion.div>
               </AnimatePresence>
             </div>
 
             <div className="flex items-center justify-center gap-4 mt-4">
-              <button onClick={() => goTo(-1)} className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-all">
+              <button onClick={() => goTo(-1)} className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-all hover:-translate-y-0.5">
                 <ChevronLeft size={20} />
               </button>
               <div className="flex gap-2">
@@ -135,11 +135,11 @@ const AndroidProjectsSection = () => {
                   <button
                     key={i}
                     onClick={() => { setDirection(i > selected ? 1 : -1); setSelected(i); setPhoneView("ui"); }}
-                    className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${selected === i ? "bg-primary w-6" : "bg-muted-foreground/30"}`}
+                    className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${selected === i ? "bg-primary w-6 glow-sm" : "bg-muted-foreground/30"}`}
                   />
                 ))}
               </div>
-              <button onClick={() => goTo(1)} className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-all">
+              <button onClick={() => goTo(1)} className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-all hover:-translate-y-0.5">
                 <ChevronRight size={20} />
               </button>
             </div>
@@ -162,7 +162,7 @@ const AndroidProjectsSection = () => {
                     className="w-full h-full p-4 pt-12 overflow-y-auto phone-screen-content space-y-3"
                   >
                     <div>
-                      <h4 className="font-display text-xs font-semibold text-primary mb-1.5">Features</h4>
+                      <h4 className="font-display text-xs font-semibold text-primary mb-1.5 tracking-premium">Features</h4>
                       <ul className="space-y-1">
                         {project.features.map((f) => (
                           <li key={f} className="text-[10px] text-muted-foreground flex gap-1.5">
@@ -172,26 +172,26 @@ const AndroidProjectsSection = () => {
                       </ul>
                     </div>
                     <div>
-                      <h4 className="font-display text-xs font-semibold text-primary mb-1.5">Tech Stack</h4>
+                      <h4 className="font-display text-xs font-semibold text-primary mb-1.5 tracking-premium">Tech Stack</h4>
                       <div className="flex flex-wrap gap-1">
                         {project.tech.map((t) => (
-                          <span key={t} className="px-2 py-0.5 rounded border border-border text-[9px] text-muted-foreground">{t}</span>
+                          <span key={t} className="px-2 py-0.5 rounded-full border border-border text-[9px] text-muted-foreground">{t}</span>
                         ))}
                       </div>
                     </div>
                     <div className="flex gap-2">
                       {project.playStore && (
-                        <a href={project.playStore} target="_blank" rel="noopener noreferrer" className="text-[10px] text-primary flex items-center gap-1 hover:underline">
+                        <a href={project.playStore} target="_blank" rel="noopener noreferrer" className="text-[10px] text-primary flex items-center gap-1 hover:underline font-display font-semibold">
                           <ExternalLink size={10} /> Play Store
                         </a>
                       )}
-                      <a href={project.github} target="_blank" rel="noopener noreferrer" className="text-[10px] text-primary flex items-center gap-1 hover:underline">
+                      <a href={project.github} target="_blank" rel="noopener noreferrer" className="text-[10px] text-primary flex items-center gap-1 hover:underline font-display font-semibold">
                         <Github size={10} /> GitHub
                       </a>
                     </div>
                     <button
                       onClick={() => setPhoneView("ui")}
-                      className="w-full py-2 rounded-lg bg-primary text-primary-foreground text-[11px] font-display font-semibold hover:opacity-90 transition-opacity"
+                      className="w-full py-2 rounded-full bg-primary text-primary-foreground text-[11px] font-display font-semibold hover:opacity-90 transition-opacity"
                     >
                       View App UI
                     </button>
@@ -218,7 +218,7 @@ const AndroidProjectsSection = () => {
                     <div className="px-4 py-3 bg-background">
                       <button
                         onClick={() => setPhoneView("details")}
-                        className="w-full py-2 rounded-lg bg-primary text-primary-foreground text-[11px] font-display font-semibold hover:opacity-90 transition-opacity"
+                        className="w-full py-2 rounded-full bg-primary text-primary-foreground text-[11px] font-display font-semibold hover:opacity-90 transition-opacity"
                       >
                         See Details
                       </button>

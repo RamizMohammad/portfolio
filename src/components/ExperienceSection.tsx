@@ -81,8 +81,8 @@ const ExperienceSection = () => {
           transition={{ duration: 0.6 }}
           className="mb-12"
         >
-          <p className="text-primary font-display font-medium mb-2">Experience</p>
-          <h2 className="font-display text-3xl md:text-4xl font-bold">
+          <p className="text-primary font-display font-medium mb-2 tracking-premium text-sm">Experience</p>
+          <h2 className="font-display text-3xl md:text-5xl font-extrabold">
             Where I've <span className="text-gradient">worked</span>
           </h2>
         </motion.div>
@@ -110,18 +110,18 @@ const ExperienceSection = () => {
                   transition={{ duration: 0.5, ease: "easeInOut" }}
                   className="absolute flex flex-col items-center gap-4"
                 >
-                  <div className="w-32 h-32 rounded-full bg-card border-2 border-border flex items-center justify-center glow-sm">
+                  <div className="w-32 h-32 rounded-full bg-card border-2 border-border flex items-center justify-center glow-md">
                     <span className="text-6xl">{company.logo}</span>
                   </div>
-                  <h3 className="font-display text-2xl font-bold text-center">{company.name}</h3>
+                  <h3 className="font-display text-2xl font-extrabold text-center">{company.name}</h3>
                   <p className="text-muted-foreground font-display text-sm">{company.role}</p>
-                  <p className="text-muted-foreground/60 text-xs">{company.duration}</p>
+                  <p className="text-muted-foreground/60 text-xs tracking-premium">{company.duration}</p>
                 </motion.div>
               </AnimatePresence>
             </div>
 
             <div className="flex items-center justify-center gap-4 mt-6">
-              <button onClick={() => goTo(-1)} className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-all">
+              <button onClick={() => goTo(-1)} className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-all hover:-translate-y-0.5">
                 <ChevronLeft size={20} />
               </button>
               <div className="flex gap-2">
@@ -129,11 +129,11 @@ const ExperienceSection = () => {
                   <button
                     key={i}
                     onClick={() => { setAutoPlay(false); setDirection(i > selected ? 1 : -1); setSelected(i); }}
-                    className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${selected === i ? "bg-primary w-6" : "bg-muted-foreground/30 hover:bg-muted-foreground/50"}`}
+                    className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${selected === i ? "bg-primary w-6 glow-sm" : "bg-muted-foreground/30 hover:bg-muted-foreground/50"}`}
                   />
                 ))}
               </div>
-              <button onClick={() => goTo(1)} className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-all">
+              <button onClick={() => goTo(1)} className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-all hover:-translate-y-0.5">
                 <ChevronRight size={20} />
               </button>
             </div>
@@ -174,7 +174,7 @@ const ExperienceSection = () => {
                 </div>
 
                 <div>
-                  <h4 className="font-display text-xs font-semibold text-primary mb-2">Key Responsibilities</h4>
+                  <h4 className="font-display text-xs font-semibold text-primary mb-2 tracking-premium">Key Responsibilities</h4>
                   <ul className="space-y-1.5">
                     {company.responsibilities.map((r) => (
                       <li key={r} className="text-[11px] text-muted-foreground flex gap-2">
@@ -186,10 +186,10 @@ const ExperienceSection = () => {
                 </div>
 
                 <div>
-                  <h4 className="font-display text-xs font-semibold text-primary mb-2">Projects</h4>
+                  <h4 className="font-display text-xs font-semibold text-primary mb-2 tracking-premium">Projects</h4>
                   <div className="flex flex-wrap gap-1.5">
                     {company.projects.map((p) => (
-                      <span key={p} className="px-2 py-1 rounded-md bg-primary/10 text-[10px] text-primary font-medium">
+                      <span key={p} className="px-2 py-1 rounded-full bg-primary/10 text-[10px] text-primary font-medium">
                         {p}
                       </span>
                     ))}
@@ -197,10 +197,10 @@ const ExperienceSection = () => {
                 </div>
 
                 <div>
-                  <h4 className="font-display text-xs font-semibold text-primary mb-2">Tech Stack</h4>
+                  <h4 className="font-display text-xs font-semibold text-primary mb-2 tracking-premium">Tech Stack</h4>
                   <div className="flex flex-wrap gap-1.5">
                     {company.tech.map((t) => (
-                      <span key={t} className="px-2 py-1 rounded-md border border-border text-[10px] text-muted-foreground">
+                      <span key={t} className="px-2 py-1 rounded-full border border-border text-[10px] text-muted-foreground">
                         {t}
                       </span>
                     ))}

@@ -76,12 +76,12 @@ const HeroSection = () => {
           animate="show"
           className="flex-1 space-y-6"
         >
-          <motion.p variants={item} className="text-primary font-display font-medium text-lg">
+          <motion.p variants={item} className="text-primary font-display font-medium text-lg tracking-premium">
             Hello, I'm
           </motion.p>
           <motion.h1
             variants={item}
-            className="font-display text-5xl md:text-7xl font-bold leading-tight"
+            className="font-display text-5xl md:text-7xl font-extrabold leading-tight"
           >
             Mohammad <span className="text-gradient">Ramiz</span>
           </motion.h1>
@@ -93,19 +93,20 @@ const HeroSection = () => {
           </motion.p>
 
           {/* Stats */}
-          <motion.div variants={item} className="flex gap-6">
-            <div className="text-center">
-              <p className="font-display text-2xl font-bold text-primary">1</p>
-              <p className="text-xs text-muted-foreground">Patents</p>
-            </div>
-            <div className="text-center">
-              <p className="font-display text-2xl font-bold text-primary">3</p>
-              <p className="text-xs text-muted-foreground">Hackathons</p>
-            </div>
-            <div className="text-center">
-              <p className="font-display text-2xl font-bold text-primary">15+</p>
-              <p className="text-xs text-muted-foreground">Projects</p>
-            </div>
+          <motion.div variants={item} className="flex gap-4">
+            {[
+              { num: "1", label: "Patents" },
+              { num: "3", label: "Hackathons" },
+              { num: "15+", label: "Projects" },
+            ].map((stat) => (
+              <div
+                key={stat.label}
+                className="text-center px-5 py-3 rounded-2xl card-premium cursor-default"
+              >
+                <p className="font-display text-2xl font-extrabold text-primary">{stat.num}</p>
+                <p className="text-xs text-muted-foreground mt-0.5">{stat.label}</p>
+              </div>
+            ))}
           </motion.div>
 
           {/* Socials */}
@@ -116,7 +117,7 @@ const HeroSection = () => {
                 href={s.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-11 h-11 rounded-xl border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-all duration-300 hover:glow-sm"
+                className="w-12 h-12 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-primary-foreground hover:bg-primary hover:border-primary transition-all duration-300 hover:glow-sm hover:-translate-y-1"
               >
                 <s.icon size={18} />
               </a>
@@ -127,26 +128,26 @@ const HeroSection = () => {
           <motion.div variants={item} className="flex flex-wrap gap-4 pt-2">
             <a
               href="#android-projects"
-              className="px-6 py-3 rounded-xl bg-primary text-primary-foreground font-display font-semibold text-sm hover:opacity-90 transition-opacity glow-sm"
+              className="px-8 py-3.5 btn-premium"
             >
               View Projects
             </a>
             <a
               href="#"
-              className="px-6 py-3 rounded-xl border border-border text-foreground font-display font-semibold text-sm hover:border-primary hover:text-primary transition-all flex items-center gap-2"
+              className="px-8 py-3.5 btn-outline-premium flex items-center gap-2"
             >
               <FileDown size={16} /> Download CV
             </a>
             <a
               href="#contact"
-              className="px-6 py-3 rounded-xl border border-border text-foreground font-display font-semibold text-sm hover:border-primary hover:text-primary transition-all"
+              className="px-8 py-3.5 btn-outline-premium"
             >
               Hire Me
             </a>
           </motion.div>
         </motion.div>
 
-        {/* Right - Phone (static, video placeholder) */}
+        {/* Right - Phone */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -156,7 +157,7 @@ const HeroSection = () => {
           <PhoneFrame>
             <div className="w-full h-full flex items-center justify-center bg-card">
               <div className="text-center space-y-3">
-                <div className="w-16 h-16 mx-auto rounded-full bg-primary/20 flex items-center justify-center">
+                <div className="w-16 h-16 mx-auto rounded-full bg-primary/20 flex items-center justify-center glow-sm">
                   <div className="w-0 h-0 border-l-[14px] border-l-primary border-t-[9px] border-t-transparent border-b-[9px] border-b-transparent ml-1" />
                 </div>
                 <p className="text-xs text-muted-foreground font-display">Video Coming Soon</p>

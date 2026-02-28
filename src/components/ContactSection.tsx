@@ -22,11 +22,11 @@ const ContactSection = () => {
           transition={{ duration: 0.6 }}
           className="mb-12"
         >
-          <p className="text-primary font-display font-medium mb-2">Contact</p>
-          <h2 className="font-display text-3xl md:text-4xl font-bold">
+          <p className="text-primary font-display font-medium mb-2 tracking-premium text-sm">Contact</p>
+          <h2 className="font-display text-3xl md:text-5xl font-extrabold">
             Let's <span className="text-gradient">connect</span>
           </h2>
-          <p className="text-muted-foreground mt-2">Ready to bring your ideas to life</p>
+          <p className="text-muted-foreground mt-3 text-base">Ready to bring your ideas to life</p>
         </motion.div>
 
         <div className="grid md:grid-cols-2 gap-12">
@@ -38,41 +38,41 @@ const ContactSection = () => {
             className="space-y-5"
           >
             <div>
-              <label className="text-sm text-muted-foreground mb-1.5 block">Full Name</label>
+              <label className="text-sm text-muted-foreground mb-1.5 block font-display tracking-premium text-xs">Full Name</label>
               <input
                 type="text"
                 required
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full px-4 py-3 rounded-xl bg-card border border-border focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors text-sm"
+                className="w-full px-5 py-3.5 rounded-2xl bg-card border border-border focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors text-sm"
                 placeholder="Enter your full name"
               />
             </div>
             <div>
-              <label className="text-sm text-muted-foreground mb-1.5 block">Email Address</label>
+              <label className="text-sm text-muted-foreground mb-1.5 block font-display tracking-premium text-xs">Email Address</label>
               <input
                 type="email"
                 required
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full px-4 py-3 rounded-xl bg-card border border-border focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors text-sm"
+                className="w-full px-5 py-3.5 rounded-2xl bg-card border border-border focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors text-sm"
                 placeholder="Enter your email"
               />
             </div>
             <div>
-              <label className="text-sm text-muted-foreground mb-1.5 block">Message</label>
+              <label className="text-sm text-muted-foreground mb-1.5 block font-display tracking-premium text-xs">Message</label>
               <textarea
                 required
                 rows={5}
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                className="w-full px-4 py-3 rounded-xl bg-card border border-border focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors text-sm resize-none"
+                className="w-full px-5 py-3.5 rounded-2xl bg-card border border-border focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors text-sm resize-none"
                 placeholder="Tell me about your project or just say hello..."
               />
             </div>
             <button
               type="submit"
-              className="px-6 py-3 rounded-xl bg-primary text-primary-foreground font-display font-semibold text-sm hover:opacity-90 transition-opacity glow-sm flex items-center gap-2"
+              className="px-8 py-3.5 btn-premium flex items-center gap-2"
             >
               <Send size={16} /> Send Message
             </button>
@@ -85,47 +85,39 @@ const ContactSection = () => {
             className="space-y-8"
           >
             <div className="space-y-4">
-              <div className="flex items-center gap-3 text-muted-foreground">
-                <div className="w-10 h-10 rounded-xl border border-border flex items-center justify-center">
-                  <MapPin size={16} className="text-primary" />
+              {[
+                { icon: MapPin, label: "Location", value: "Greater Noida, Uttar Pradesh" },
+                { icon: Phone, label: "Phone", value: "+91 9517028373", href: "tel:+919517028373" },
+                { icon: Mail, label: "Email", value: "ramizanas6@gmail.com", href: "mailto:ramizanas6@gmail.com" },
+              ].map((item) => (
+                <div key={item.label} className="flex items-center gap-3 text-muted-foreground">
+                  <div className="w-12 h-12 rounded-2xl border border-border bg-card flex items-center justify-center">
+                    <item.icon size={16} className="text-primary" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-foreground font-display">{item.label}</p>
+                    {item.href ? (
+                      <a href={item.href} className="text-sm hover:text-primary transition-colors">{item.value}</a>
+                    ) : (
+                      <p className="text-sm">{item.value}</p>
+                    )}
+                  </div>
                 </div>
-                <div>
-                  <p className="text-sm font-medium text-foreground">Location</p>
-                  <p className="text-sm">Greater Noida, Uttar Pradesh</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3 text-muted-foreground">
-                <div className="w-10 h-10 rounded-xl border border-border flex items-center justify-center">
-                  <Phone size={16} className="text-primary" />
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-foreground">Phone</p>
-                  <a href="tel:+919517028373" className="text-sm hover:text-primary transition-colors">+91 9517028373</a>
-                </div>
-              </div>
-              <div className="flex items-center gap-3 text-muted-foreground">
-                <div className="w-10 h-10 rounded-xl border border-border flex items-center justify-center">
-                  <Mail size={16} className="text-primary" />
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-foreground">Email</p>
-                  <a href="mailto:ramizanas6@gmail.com" className="text-sm hover:text-primary transition-colors">ramizanas6@gmail.com</a>
-                </div>
-              </div>
+              ))}
             </div>
 
             <div>
-              <p className="text-sm font-medium mb-3">Follow me</p>
+              <p className="text-sm font-display font-bold mb-3 tracking-premium">Follow me</p>
               <div className="flex gap-3">
-                <a href="https://github.com/RamizMohammad" target="_blank" rel="noopener noreferrer" className="w-11 h-11 rounded-xl border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-all">
-                  <Github size={18} />
-                </a>
-                <a href="https://www.linkedin.com/in/mohammad-ramiz-886468217/" target="_blank" rel="noopener noreferrer" className="w-11 h-11 rounded-xl border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-all">
-                  <Linkedin size={18} />
-                </a>
-                <a href="https://x.com/Mohammad__Ramiz" target="_blank" rel="noopener noreferrer" className="w-11 h-11 rounded-xl border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-all">
-                  <Twitter size={18} />
-                </a>
+                {[
+                  { icon: Github, href: "https://github.com/RamizMohammad" },
+                  { icon: Linkedin, href: "https://www.linkedin.com/in/mohammad-ramiz-886468217/" },
+                  { icon: Twitter, href: "https://x.com/Mohammad__Ramiz" },
+                ].map((s, i) => (
+                  <a key={i} href={s.href} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-primary-foreground hover:bg-primary hover:border-primary transition-all hover:-translate-y-1">
+                    <s.icon size={18} />
+                  </a>
+                ))}
               </div>
             </div>
           </motion.div>
