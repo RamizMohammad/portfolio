@@ -1,242 +1,152 @@
-import { motion, useInView, AnimatePresence } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
-import PhoneFrame from "./PhoneFrame";
-import { ChevronLeft, ChevronRight, Github, ExternalLink } from "lucide-react";
+import { motion } from "framer-motion";
+import { Github, ExternalLink } from "lucide-react";
 
 const projects = [
   {
     name: "Confess App",
-    emoji: "🔮",
-    description: "Anonymous confession sharing platform with real-time updates.",
-    features: ["Anonymous confessions", "Real-time feed", "Push notifications", "Dark mode"],
-    tech: ["Java", "Firebase", "Android SDK"],
+    description: "Anonymous confession sharing platform",
+    tech: ["Java", "Firebase"],
     playStore: "https://play.google.com/store/apps/details?id=in.mohammad.ramiz.confess",
     github: "https://github.com/RamizMohammad/ConfessApp.git",
-    screenshots: [
-      "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=280&h=500&fit=crop",
-    ],
+    screenshot: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=280&h=500&fit=crop",
   },
   {
     name: "Share Wheels",
-    emoji: "🚗",
-    description: "Smart ride sharing application with GPS tracking and route optimization.",
-    features: ["GPS tracking", "Route optimization", "Real-time matching", "Payment integration"],
-    tech: ["Android", "Maps API", "Firebase"],
+    description: "Smart ride sharing application",
+    tech: ["Android", "Maps API"],
     github: "https://github.com/RamizMohammad/FinalYearProject---RideShiled.git",
-    screenshots: [
-      "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=280&h=500&fit=crop",
-    ],
+    screenshot: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=280&h=500&fit=crop",
   },
   {
     name: "BuddyCode",
-    emoji: "💻",
-    description: "Python-enabled online compiler for multi-language coding on mobile.",
-    features: ["Multi-language support", "Code execution", "Syntax highlighting", "Save projects"],
-    tech: ["Java", "REST APIs", "Python"],
+    description: "Python-enabled online compiler for multi-language coding",
+    tech: ["Java", "REST APIs"],
     github: "https://github.com/RamizMohammad/BuddyCodeAndroid.git",
-    screenshots: [
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=280&h=500&fit=crop",
-    ],
+    screenshot: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=280&h=500&fit=crop",
   },
   {
     name: "Hotel Manager",
-    emoji: "🏨",
-    description: "Staff & guest operations system for hotel management.",
-    features: ["Room booking", "Staff management", "Guest tracking", "Reports"],
-    tech: ["Android", "Database", "Java"],
+    description: "Staff & guest operations system",
+    tech: ["Android", "Database"],
     github: "https://github.com/RamizMohammad/Hotel_manager",
-    screenshots: [
-      "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=280&h=500&fit=crop",
-    ],
+    screenshot: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=280&h=500&fit=crop",
+  },
+  {
+    name: "Task Manager Pro",
+    description: "Advanced productivity app",
+    tech: ["Kotlin", "Room DB"],
+    github: "https://github.com/RamizMohammad",
+    screenshot: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=280&h=500&fit=crop",
   },
   {
     name: "Inventory Fetcher",
-    emoji: "📦",
-    description: "Inventory fetcher and automatic server management system.",
-    features: ["Auto-sync", "Server management", "Data tracking", "Reports"],
-    tech: ["Android", "API", "Python"],
+    description: "Inventory fetcher and automatic server management",
+    tech: ["Android", "API"],
     github: "https://github.com/RamizMohammad/IndianOilFetcher.git",
-    screenshots: [
-      "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=280&h=500&fit=crop",
-    ],
+    screenshot: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=280&h=500&fit=crop",
   },
 ];
 
-type PhoneView = "ui" | "details";
+const AndroidProjectCard = ({ project, index }: { project: typeof projects[0]; index: number }) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+      className="group flex flex-col items-center text-center"
+    >
+      {/* Phone mockup */}
+      <div className="relative mb-5 transition-transform duration-300 group-hover:-translate-y-3">
+        <div className="w-[180px] h-[360px] sm:w-[200px] sm:h-[400px] lg:w-[220px] lg:h-[440px] rounded-[25px] bg-[hsl(220,20%,14%)] p-[10px] shadow-[0_20px_40px_rgba(0,0,0,0.3),inset_0_2px_4px_rgba(255,255,255,0.08)] border border-border/30">
+          {/* Notch */}
+          <div className="absolute top-[6px] left-1/2 -translate-x-1/2 w-[50px] h-[4px] bg-[hsl(220,15%,20%)] rounded-full z-10" />
+          
+          {/* Screen */}
+          <div className="relative w-full h-full rounded-[17px] overflow-hidden bg-background">
+            <img
+              src={project.screenshot}
+              alt={`${project.name} screenshot`}
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              loading="lazy"
+            />
+            
+            {/* Hover overlay with links */}
+            <div className="absolute inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center gap-4 opacity-0 group-hover:opacity-100 transition-all duration-300">
+              {project.playStore && (
+                <a
+                  href={project.playStore}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center hover:scale-110 transition-transform shadow-lg"
+                  aria-label={`View ${project.name} on Play Store`}
+                >
+                  <ExternalLink size={20} />
+                </a>
+              )}
+              <a
+                href={project.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center hover:scale-110 transition-transform shadow-lg"
+                aria-label={`View ${project.name} source code`}
+              >
+                <Github size={20} />
+              </a>
+            </div>
+          </div>
+          
+          {/* Home indicator */}
+          <div className="absolute bottom-[6px] left-1/2 -translate-x-1/2 w-[35px] h-[4px] bg-[hsl(220,15%,20%)] rounded-full" />
+        </div>
+      </div>
+
+      {/* Project info */}
+      <h4 className="font-display text-lg font-bold group-hover:text-primary transition-colors">
+        {project.name}
+      </h4>
+      <p className="text-muted-foreground text-sm mt-1 max-w-[220px] leading-relaxed">
+        {project.description}
+      </p>
+      
+      {/* Tech tags */}
+      <div className="flex gap-2 mt-3 flex-wrap justify-center">
+        {project.tech.map((t) => (
+          <span
+            key={t}
+            className="px-3 py-1 rounded-full text-xs font-semibold bg-gradient-to-r from-primary to-secondary text-primary-foreground tracking-wide"
+          >
+            {t}
+          </span>
+        ))}
+      </div>
+    </motion.div>
+  );
+};
 
 const AndroidProjectsSection = () => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const [selected, setSelected] = useState(0);
-  const [phoneView, setPhoneView] = useState<PhoneView>("ui");
-  const [direction, setDirection] = useState(1);
-
-  const project = projects[selected];
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setDirection(1);
-      setSelected((prev) => (prev + 1) % projects.length);
-      setPhoneView("ui");
-    }, 4000);
-    return () => clearInterval(timer);
-  }, []);
-
-  const goTo = (dir: -1 | 1) => {
-    setDirection(dir);
-    setSelected((prev) => (prev + dir + projects.length) % projects.length);
-    setPhoneView("ui");
-  };
-
   return (
-    <section id="android-projects" className="section-padding relative z-10" ref={ref}>
+    <section id="android-projects" className="section-padding relative z-10">
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="mb-12"
+          className="text-center mb-14"
         >
-          <p className="text-primary font-display font-medium mb-2 tracking-premium text-sm">Android Projects</p>
+          <p className="text-primary font-display font-medium mb-2 tracking-premium text-sm">
+            📱 Android Projects
+          </p>
           <h2 className="font-display text-3xl md:text-5xl font-extrabold">
-            Mobile Apps I've <span className="text-gradient">Built</span>
+            <span className="text-gradient">ANDROID PROJECTS</span>
           </h2>
         </motion.div>
 
-        <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
-          <motion.div
-            className="flex-1 w-full"
-            initial={{ opacity: 0, x: -40 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.2 }}
-          >
-            <div className="relative h-[300px] flex items-center justify-center overflow-hidden">
-              <AnimatePresence mode="wait" custom={direction}>
-                <motion.div
-                  key={selected}
-                  custom={direction}
-                  variants={{
-                    enter: (d: number) => ({ x: d * 200, opacity: 0, scale: 0.8 }),
-                    center: { x: 0, opacity: 1, scale: 1 },
-                    exit: (d: number) => ({ x: d * -200, opacity: 0, scale: 0.8 }),
-                  }}
-                  initial="enter"
-                  animate="center"
-                  exit="exit"
-                  transition={{ duration: 0.5, ease: "easeInOut" }}
-                  className="absolute flex flex-col items-center gap-4"
-                >
-                  <div className="w-28 h-28 rounded-2xl bg-card border-2 border-border flex items-center justify-center glow-md">
-                    <span className="text-5xl">{project.emoji}</span>
-                  </div>
-                  <h3 className="font-display text-2xl font-extrabold text-center">{project.name}</h3>
-                  <p className="text-muted-foreground text-sm text-center max-w-xs">{project.description}</p>
-                </motion.div>
-              </AnimatePresence>
-            </div>
-
-            <div className="flex items-center justify-center gap-4 mt-4">
-              <button onClick={() => goTo(-1)} className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-all hover:-translate-y-0.5">
-                <ChevronLeft size={20} />
-              </button>
-              <div className="flex gap-2">
-                {projects.map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => { setDirection(i > selected ? 1 : -1); setSelected(i); setPhoneView("ui"); }}
-                    className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${selected === i ? "bg-primary w-6 glow-sm" : "bg-muted-foreground/30"}`}
-                  />
-                ))}
-              </div>
-              <button onClick={() => goTo(1)} className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-all hover:-translate-y-0.5">
-                <ChevronRight size={20} />
-              </button>
-            </div>
-          </motion.div>
-
-          <motion.div
-            className="flex-shrink-0"
-            initial={{ opacity: 0, x: 40 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.3 }}
-          >
-            <PhoneFrame>
-              <AnimatePresence mode="wait">
-                {phoneView === "details" ? (
-                  <motion.div
-                    key="details"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    className="w-full h-full p-4 pt-12 overflow-y-auto phone-screen-content space-y-3"
-                  >
-                    <div>
-                      <h4 className="font-display text-xs font-semibold text-primary mb-1.5 tracking-premium">Features</h4>
-                      <ul className="space-y-1">
-                        {project.features.map((f) => (
-                          <li key={f} className="text-[10px] text-muted-foreground flex gap-1.5">
-                            <span className="text-primary">✦</span> {f}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    <div>
-                      <h4 className="font-display text-xs font-semibold text-primary mb-1.5 tracking-premium">Tech Stack</h4>
-                      <div className="flex flex-wrap gap-1">
-                        {project.tech.map((t) => (
-                          <span key={t} className="px-2 py-0.5 rounded-full border border-border text-[9px] text-muted-foreground">{t}</span>
-                        ))}
-                      </div>
-                    </div>
-                    <div className="flex gap-2">
-                      {project.playStore && (
-                        <a href={project.playStore} target="_blank" rel="noopener noreferrer" className="text-[10px] text-primary flex items-center gap-1 hover:underline font-display font-semibold">
-                          <ExternalLink size={10} /> Play Store
-                        </a>
-                      )}
-                      <a href={project.github} target="_blank" rel="noopener noreferrer" className="text-[10px] text-primary flex items-center gap-1 hover:underline font-display font-semibold">
-                        <Github size={10} /> GitHub
-                      </a>
-                    </div>
-                    <button
-                      onClick={() => setPhoneView("ui")}
-                      className="w-full py-2 rounded-full bg-primary text-primary-foreground text-[11px] font-display font-semibold hover:opacity-90 transition-opacity"
-                    >
-                      View App UI
-                    </button>
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    key="ui"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    className="w-full h-full flex flex-col"
-                  >
-                    <div className="flex-1 pt-10 overflow-hidden">
-                      {project.screenshots.length > 0 ? (
-                        <img
-                          src={project.screenshots[0]}
-                          alt={`${project.name} UI`}
-                          className="w-full h-full object-cover"
-                        />
-                      ) : (
-                        <div className="flex items-center justify-center h-full text-muted-foreground text-xs">No screenshots</div>
-                      )}
-                    </div>
-                    <div className="px-4 py-3 bg-background">
-                      <button
-                        onClick={() => setPhoneView("details")}
-                        className="w-full py-2 rounded-full bg-primary text-primary-foreground text-[11px] font-display font-semibold hover:opacity-90 transition-opacity"
-                      >
-                        See Details
-                      </button>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </PhoneFrame>
-          </motion.div>
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12">
+          {projects.map((project, i) => (
+            <AndroidProjectCard key={project.name} project={project} index={i} />
+          ))}
         </div>
       </div>
     </section>
