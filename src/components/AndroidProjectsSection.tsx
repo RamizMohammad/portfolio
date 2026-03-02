@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
 import { Github, ExternalLink, X, Smartphone, Code2, Database } from "lucide-react";
 
@@ -110,15 +110,7 @@ const MarqueeBorder = () => {
             <stop offset="100%" stopColor="hsl(152 100% 50%)" />
           </linearGradient>
         </defs>
-        {/* Glow border */}
-        <use
-          href={`#${pathId}`}
-          stroke="hsl(152 100% 50%)"
-          strokeWidth="1.5"
-          strokeOpacity="0.35"
-          fill="none"
-          filter="url(#glow-filter)"
-        />
+        {/* No visible border line — text only */}
         {/* Outer glow filter */}
         <defs>
           <filter id="glow-filter" x="-50%" y="-50%" width="200%" height="200%">
@@ -150,10 +142,20 @@ const MarqueeBorder = () => {
 const AndroidProjectsSection = () => {
   const [expandedId, setExpandedId] = useState<number | null>(null);
   const [hoveredId, setHoveredId] = useState<number | null>(null);
+  const expandedRef = useRef<HTMLDivElement>(null);
 
-  const handleClick = (index: number) => {
-    setExpandedId(expandedId === index ? null : index);
-  };
+  const handleClick = useCallback((index: number) => {
+    setExpandedId((prev) => (prev === index ? null : index));
+  }, []);
+
+  // Scroll to expanded card
+  useEffect(() => {
+    if (expandedId !== null && expandedRef.current) {
+      setTimeout(() => {
+        expandedRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      }, 100);
+    }
+  }, [expandedId]);
 
   return (
     <section id="android-projects" className="section-padding relative z-10">
@@ -191,16 +193,17 @@ const AndroidProjectsSection = () => {
               return (
                 <motion.div
                   key={project.name}
+                  ref={isExpanded ? expandedRef : undefined}
                   layout
                   transition={{
                     layout: { type: "spring", stiffness: 180, damping: 26 },
                   }}
-                  className={isExpanded ? "col-span-2 md:col-span-3" : "col-span-1"}
+                  className={isExpanded ? "col-span-2 md:col-span-3 relative z-30" : "col-span-1"}
                 >
                   <motion.div
                     layout
                     className={`group relative rounded-xl cursor-pointer overflow-visible ${
-                      isExpanded ? "bg-card" : "bg-card/40"
+                      isExpanded ? "bg-card shadow-[0_0_80px_hsl(152,100%,50%,0.08)]" : "bg-card/40"
                     }`}
                     onClick={() => handleClick(index)}
                     onMouseEnter={() => setHoveredId(index)}
@@ -209,12 +212,9 @@ const AndroidProjectsSection = () => {
                     {/* LED Marquee on hover (collapsed only) */}
                     {isHovered && <MarqueeBorder />}
 
-                    {/* Static borders */}
+                    {/* Expanded: subtle primary border */}
                     {isExpanded && (
-                      <div className="absolute inset-0 rounded-xl border border-primary/30 pointer-events-none z-10" />
-                    )}
-                    {!isExpanded && !isHovered && (
-                      <div className="absolute inset-0 rounded-xl border border-border/20 pointer-events-none z-10" />
+                      <div className="absolute inset-0 rounded-xl border border-primary/20 pointer-events-none z-10" />
                     )}
 
                     <motion.div
