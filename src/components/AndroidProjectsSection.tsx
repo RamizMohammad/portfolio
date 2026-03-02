@@ -4,6 +4,34 @@ import { Github, ExternalLink, X, Smartphone, Code2, Database } from "lucide-rea
 
 const projects = [
   {
+    name: "Ramiz Mohammad",
+    description: "Personal portfolio website showcasing projects and skills.",
+    tech: ["Next.js", "Tailwind CSS", "Framer Motion"],
+    github: "https://github.com/RamizMohammad/ramiz-io",
+    live: "https://ramiz.io",
+    screenshot: "https://images.unsplash.com/photo-1670272506307-3099c968777a?w=280&h=500&fit=crop",
+    icon: "👋",
+    year: "2024",
+  },
+  {
+    name: "GPT-4 Enhanced Resume",
+    description: "AI-powered resume builder with GPT-4 integration for content enhancement and optimization.",
+    tech: ["Next.js", "OpenAI API", "Tailwind CSS"],
+    github: "https://github.com/RamizMohammad",
+    screenshot: "https://images.unsplash.com/photo-1585463730690-635a87e29c44?w=280&h=500&fit=crop",
+    icon: "🤖",
+    year: "2024",
+  },
+  {
+    name: "Taskify",
+    description: "A simple task management app built with React and Firebase.",
+    tech: ["React", "Firebase"],
+    github: "https://github.com/RamizMohammad",
+    screenshot: "https://images.unsplash.com/photo-1542903660-7d672d52abb2?w=280&h=500&fit=crop",
+    icon: "📝",
+    year: "2024",
+  },
+  {
     name: "Confess App",
     description: "Anonymous confession sharing platform built with real-time Firebase backend. Users can post, react, and engage with confessions anonymously.",
     tech: ["Java", "Firebase"],
@@ -72,8 +100,73 @@ const techIcons: Record<string, React.ReactNode> = {
   API: <Code2 size={12} />,
 };
 
+/* SVG marquee text that revolves around the card border */
+const MarqueeBorder = ({ width, height }: { width: number; height: number }) => {
+  const text = "CLICK TO EXPAND • CLICK TO EXPAND • CLICK TO EXPAND • CLICK TO EXPAND • ";
+  const r = 8; // corner radius
+  // Build a rounded-rect path (clockwise from top-left)
+  const path = `
+    M ${r} 0
+    H ${width - r} Q ${width} 0 ${width} ${r}
+    V ${height - r} Q ${width} ${height} ${width - r} ${height}
+    H ${r} Q 0 ${height} 0 ${height - r}
+    V ${r} Q 0 0 ${r} 0
+    Z
+  `;
+
+  return (
+    <svg
+      className="absolute inset-0 w-full h-full pointer-events-none z-20"
+      viewBox={`0 0 ${width} ${height}`}
+      preserveAspectRatio="none"
+      fill="none"
+    >
+      <defs>
+        <path id="card-path" d={path} />
+      </defs>
+      {/* Glowing path stroke */}
+      <use
+        href="#card-path"
+        stroke="hsl(152 100% 50% / 0.15)"
+        strokeWidth="1.5"
+        fill="none"
+      />
+      {/* Animated text along path */}
+      <text
+        className="fill-primary"
+        fontSize="7"
+        fontFamily="monospace"
+        fontWeight="600"
+        letterSpacing="2"
+      >
+        <textPath href="#card-path" startOffset="0%">
+          <animate
+            attributeName="startOffset"
+            from="0%"
+            to="100%"
+            dur="12s"
+            repeatCount="indefinite"
+          />
+          {text}
+        </textPath>
+        <textPath href="#card-path" startOffset="-50%">
+          <animate
+            attributeName="startOffset"
+            from="-50%"
+            to="50%"
+            dur="12s"
+            repeatCount="indefinite"
+          />
+          {text}
+        </textPath>
+      </text>
+    </svg>
+  );
+};
+
 const AndroidProjectsSection = () => {
   const [expandedId, setExpandedId] = useState<number | null>(null);
+  const [hoveredId, setHoveredId] = useState<number | null>(null);
 
   const handleClick = (index: number) => {
     setExpandedId(expandedId === index ? null : index);
@@ -106,9 +199,11 @@ const AndroidProjectsSection = () => {
           <motion.div
             layout
             className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-8"
+            transition={{ layout: { type: "spring", stiffness: 200, damping: 28 } }}
           >
             {projects.map((project, index) => {
               const isExpanded = expandedId === index;
+              const isHovered = hoveredId === index && !isExpanded;
 
               return (
                 <motion.div
@@ -117,25 +212,47 @@ const AndroidProjectsSection = () => {
                   transition={{
                     layout: {
                       type: "spring",
-                      stiffness: 350,
-                      damping: 30,
+                      stiffness: 200,
+                      damping: 28,
                     },
                   }}
                   className={`${
-                    isExpanded
-                      ? "col-span-2 md:col-span-2"
-                      : "col-span-1"
+                    isExpanded ? "col-span-2 md:col-span-2" : "col-span-1"
                   }`}
                 >
                   <motion.div
                     layout
-                    className={`group relative rounded-2xl border transition-colors duration-300 cursor-pointer overflow-hidden ${
-                      isExpanded
-                        ? "border-primary/30 bg-card"
-                        : "border-border/30 bg-card/50 hover:border-primary/20"
+                    className={`group relative rounded-lg cursor-pointer overflow-visible ${
+                      isExpanded ? "bg-card" : "bg-card/50"
                     }`}
                     onClick={() => handleClick(index)}
+                    onMouseEnter={() => setHoveredId(index)}
+                    onMouseLeave={() => setHoveredId(null)}
                   >
+                    {/* LED Marquee Border on hover (collapsed only) */}
+                    <AnimatePresence>
+                      {isHovered && (
+                        <motion.div
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          exit={{ opacity: 0 }}
+                          transition={{ duration: 0.3 }}
+                          className="absolute inset-0 z-20 pointer-events-none"
+                        >
+                          <MarqueeBorder width={300} height={420} />
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+
+                    {/* Expanded border */}
+                    {isExpanded && (
+                      <div className="absolute inset-0 rounded-lg border border-primary/25 pointer-events-none z-10" />
+                    )}
+                    {/* Default border */}
+                    {!isExpanded && !isHovered && (
+                      <div className="absolute inset-0 rounded-lg border border-border/20 pointer-events-none z-10" />
+                    )}
+
                     <motion.div
                       layout
                       className={`flex ${
@@ -143,7 +260,7 @@ const AndroidProjectsSection = () => {
                       }`}
                     >
                       {/* Expanded detail panel */}
-                      <AnimatePresence>
+                      <AnimatePresence mode="popLayout">
                         {isExpanded && (
                           <motion.div
                             initial={{ width: 0, opacity: 0 }}
@@ -151,14 +268,14 @@ const AndroidProjectsSection = () => {
                             exit={{ width: 0, opacity: 0 }}
                             transition={{
                               type: "spring",
-                              stiffness: 350,
-                              damping: 30,
-                              opacity: { duration: 0.2 },
+                              stiffness: 200,
+                              damping: 28,
+                              opacity: { duration: 0.25, ease: "easeOut" },
                             }}
                             className="overflow-hidden"
                           >
                             <div className="p-6 sm:p-8 flex flex-col justify-center h-full min-w-[200px] sm:min-w-[280px] lg:min-w-[320px]">
-                              {/* Close hint */}
+                              {/* Close */}
                               <motion.button
                                 initial={{ opacity: 0, scale: 0.8 }}
                                 animate={{ opacity: 1, scale: 1 }}
@@ -172,7 +289,6 @@ const AndroidProjectsSection = () => {
                                 <X size={14} />
                               </motion.button>
 
-                              {/* Year badge */}
                               <motion.span
                                 initial={{ opacity: 0, x: -20 }}
                                 animate={{ opacity: 1, x: 0 }}
@@ -182,7 +298,6 @@ const AndroidProjectsSection = () => {
                                 {project.year}
                               </motion.span>
 
-                              {/* Icon */}
                               <motion.div
                                 initial={{ opacity: 0, scale: 0.5 }}
                                 animate={{ opacity: 1, scale: 1 }}
@@ -192,7 +307,6 @@ const AndroidProjectsSection = () => {
                                 {project.icon}
                               </motion.div>
 
-                              {/* Title */}
                               <motion.h4
                                 initial={{ opacity: 0, x: -20 }}
                                 animate={{ opacity: 1, x: 0 }}
@@ -202,7 +316,6 @@ const AndroidProjectsSection = () => {
                                 {project.name}
                               </motion.h4>
 
-                              {/* Description */}
                               <motion.p
                                 initial={{ opacity: 0, x: -20 }}
                                 animate={{ opacity: 1, x: 0 }}
@@ -212,7 +325,6 @@ const AndroidProjectsSection = () => {
                                 {project.description}
                               </motion.p>
 
-                              {/* Tech tags */}
                               <motion.div
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
@@ -230,7 +342,6 @@ const AndroidProjectsSection = () => {
                                 ))}
                               </motion.div>
 
-                              {/* Action buttons */}
                               <motion.div
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
@@ -265,47 +376,29 @@ const AndroidProjectsSection = () => {
                         )}
                       </AnimatePresence>
 
-                      {/* Phone mockup — always visible */}
+                      {/* Phone mockup */}
                       <motion.div
                         layout
                         className={`flex flex-col items-center text-center ${
                           isExpanded ? "p-4 sm:p-6" : "p-4 sm:p-6 pt-6 sm:pt-8"
                         }`}
                       >
-                        <div className="relative mb-4 transition-all duration-500 group-hover:-translate-y-2 group-hover:drop-shadow-[0_15px_30px_hsl(var(--primary)/0.12)]">
-                          {/* Ambient glow */}
-                          <div className="absolute -inset-3 rounded-[32px] bg-gradient-to-b from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl" />
-
-                          <div className="relative w-[130px] h-[260px] sm:w-[150px] sm:h-[300px] lg:w-[170px] lg:h-[340px] rounded-[24px] bg-gradient-to-b from-[hsl(220,20%,16%)] to-[hsl(220,20%,10%)] p-[6px] shadow-[0_20px_40px_rgba(0,0,0,0.35),inset_0_1px_1px_rgba(255,255,255,0.05)] border border-border/15">
-                            {/* Notch */}
+                        <div className="relative mb-4">
+                          <div className="relative w-[130px] h-[260px] sm:w-[150px] sm:h-[300px] lg:w-[170px] lg:h-[340px] rounded-[24px] bg-gradient-to-b from-[hsl(220,20%,16%)] to-[hsl(220,20%,10%)] p-[6px] shadow-[0_20px_40px_rgba(0,0,0,0.35),inset_0_1px_1px_rgba(255,255,255,0.05)] border border-border/15 transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-[0_25px_50px_rgba(0,0,0,0.45)]">
                             <div className="absolute top-[4px] left-1/2 -translate-x-1/2 w-[36px] h-[3px] bg-[hsl(220,15%,20%)] rounded-full z-10" />
-
-                            {/* Screen */}
                             <div className="relative w-full h-full rounded-[19px] overflow-hidden bg-background">
                               <img
                                 src={project.screenshot}
                                 alt={`${project.name} screenshot`}
-                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                                 loading="lazy"
                               />
-
-                              {/* Hover overlay (only when not expanded) */}
-                              {!isExpanded && (
-                                <div className="absolute inset-0 bg-background/80 backdrop-blur-md flex flex-col items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300">
-                                  <span className="text-3xl">{project.icon}</span>
-                                  <span className="text-xs font-display font-semibold text-foreground">
-                                    Click to expand
-                                  </span>
-                                </div>
-                              )}
                             </div>
-
-                            {/* Home indicator */}
                             <div className="absolute bottom-[4px] left-1/2 -translate-x-1/2 w-[24px] h-[2.5px] bg-[hsl(220,15%,22%)] rounded-full" />
                           </div>
                         </div>
 
-                        {/* Project name & tags (collapsed state) */}
+                        {/* Project info (collapsed) */}
                         {!isExpanded && (
                           <>
                             <h4 className="font-display text-sm sm:text-base font-bold group-hover:text-primary transition-colors duration-300">
