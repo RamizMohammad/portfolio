@@ -72,69 +72,51 @@ const techIcons: Record<string, React.ReactNode> = {
   API: <Code2 size={12} />,
 };
 
-/* Revolving LED marquee border using CSS animation on an SVG textPath */
-const MarqueeBorder = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [dims, setDims] = useState({ w: 0, h: 0 });
-
-  useEffect(() => {
-    if (!containerRef.current) return;
-    const obs = new ResizeObserver(([entry]) => {
-      setDims({ w: entry.contentRect.width, h: entry.contentRect.height });
-    });
-    obs.observe(containerRef.current);
-    return () => obs.disconnect();
-  }, []);
-
-  const { w, h } = dims;
-  if (w === 0 || h === 0)
-    return <div ref={containerRef} className="absolute inset-0 pointer-events-none z-20" />;
-
-  const r = 12;
-  const pathId = `mp-${w}-${h}`;
-  const d = `M ${r},0 H ${w - r} A ${r},${r} 0 0 1 ${w},${r} V ${h - r} A ${r},${r} 0 0 1 ${w - r},${h} H ${r} A ${r},${r} 0 0 1 0,${h - r} V ${r} A ${r},${r} 0 0 1 ${r},0 Z`;
-  const label = "  ✦ CLICK TO EXPAND  ✦ TAP TO VIEW  ";
-
+/**
+ * CSS-based revolving marquee text around card edges.
+ * Uses 4 edges (top, right, bottom, left) with CSS translate animations.
+ */
+const MarqueeEdge = () => {
+  const text = "✦ CLICK TO EXPAND ✦ TAP TO VIEW ";
+  const repeated = (text + text + text + text);
   return (
-    <div ref={containerRef} className="absolute inset-0 pointer-events-none z-20">
-      <svg
-        className="absolute inset-0 w-full h-full overflow-visible"
-        viewBox={`-1 -1 ${w + 2} ${h + 2}`}
-        fill="none"
-      >
-        <defs>
-          <path id={pathId} d={d} />
-          <linearGradient id="led-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="hsl(152 100% 50%)" />
-            <stop offset="50%" stopColor="hsl(216 100% 60%)" />
-            <stop offset="100%" stopColor="hsl(152 100% 50%)" />
-          </linearGradient>
-        </defs>
-        {/* No visible border line — text only */}
-        {/* Outer glow filter */}
-        <defs>
-          <filter id="glow-filter" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="3" result="blur" />
-            <feMerge>
-              <feMergeNode in="blur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-        </defs>
-        {/* Revolving text — two copies for seamless loop */}
-        <text fontSize="9" fontWeight="700" letterSpacing="3" fill="url(#led-grad)" opacity="0.9">
-          <textPath href={`#${pathId}`}>
-            <animate attributeName="startOffset" from="0%" to="100%" dur="10s" repeatCount="indefinite" />
-            {label}{label}
-          </textPath>
-        </text>
-        <text fontSize="9" fontWeight="700" letterSpacing="3" fill="url(#led-grad)" opacity="0.9">
-          <textPath href={`#${pathId}`}>
-            <animate attributeName="startOffset" from="-100%" to="0%" dur="10s" repeatCount="indefinite" />
-            {label}{label}
-          </textPath>
-        </text>
-      </svg>
+    <div className="absolute inset-0 pointer-events-none z-20 overflow-hidden rounded-xl">
+      {/* Top edge — moves right */}
+      <div className="absolute top-0 left-0 right-0 h-[14px] overflow-hidden">
+        <div className="marquee-right whitespace-nowrap text-[8px] font-bold tracking-[3px] font-mono leading-[14px]"
+          style={{ color: "hsl(152 100% 50%)" }}>
+          {repeated}
+        </div>
+      </div>
+      {/* Bottom edge — moves left */}
+      <div className="absolute bottom-0 left-0 right-0 h-[14px] overflow-hidden">
+        <div className="marquee-left whitespace-nowrap text-[8px] font-bold tracking-[3px] font-mono leading-[14px]"
+          style={{ color: "hsl(152 100% 50%)" }}>
+          {repeated}
+        </div>
+      </div>
+      {/* Right edge — moves down */}
+      <div className="absolute top-0 right-0 bottom-0 w-[14px] overflow-hidden">
+        <div className="marquee-down whitespace-nowrap text-[8px] font-bold tracking-[3px] font-mono"
+          style={{
+            color: "hsl(152 100% 50%)",
+            writingMode: "vertical-rl",
+            lineHeight: "14px",
+          }}>
+          {repeated}
+        </div>
+      </div>
+      {/* Left edge — moves up */}
+      <div className="absolute top-0 left-0 bottom-0 w-[14px] overflow-hidden">
+        <div className="marquee-up whitespace-nowrap text-[8px] font-bold tracking-[3px] font-mono"
+          style={{
+            color: "hsl(152 100% 50%)",
+            writingMode: "vertical-rl",
+            lineHeight: "14px",
+          }}>
+          {repeated}
+        </div>
+      </div>
     </div>
   );
 };
@@ -142,7 +124,7 @@ const MarqueeBorder = () => {
 const AndroidProjectsSection = () => {
   const [expandedId, setExpandedId] = useState<number | null>(null);
   const [hoveredId, setHoveredId] = useState<number | null>(null);
-  const expandedRef = useRef<HTMLDivElement>(null);
+  const cardRefs = useRef<Map<number, HTMLDivElement>>(new Map());
 
   const handleClick = useCallback((index: number) => {
     setExpandedId((prev) => (prev === index ? null : index));
@@ -150,15 +132,33 @@ const AndroidProjectsSection = () => {
 
   // Scroll to expanded card
   useEffect(() => {
-    if (expandedId !== null && expandedRef.current) {
-      setTimeout(() => {
-        expandedRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
-      }, 100);
-    }
+    if (expandedId === null) return;
+    // Wait for layout animation to settle
+    const timer = setTimeout(() => {
+      const el = cardRefs.current.get(expandedId);
+      if (el) {
+        const rect = el.getBoundingClientRect();
+        const scrollTarget = window.scrollY + rect.top - window.innerHeight / 2 + rect.height / 2;
+        window.scrollTo({ top: scrollTarget, behavior: "smooth" });
+      }
+    }, 250);
+    return () => clearTimeout(timer);
   }, [expandedId]);
 
   return (
     <section id="android-projects" className="section-padding relative z-10">
+      {/* Marquee animation styles */}
+      <style>{`
+        @keyframes marquee-r { from { transform: translateX(-50%); } to { transform: translateX(0%); } }
+        @keyframes marquee-l { from { transform: translateX(0%); } to { transform: translateX(-50%); } }
+        @keyframes marquee-d { from { transform: translateY(-50%); } to { transform: translateY(0%); } }
+        @keyframes marquee-u { from { transform: translateY(0%); } to { transform: translateY(-50%); } }
+        .marquee-right { animation: marquee-r 8s linear infinite; }
+        .marquee-left  { animation: marquee-l 8s linear infinite; }
+        .marquee-down  { animation: marquee-d 8s linear infinite; }
+        .marquee-up    { animation: marquee-u 8s linear infinite; }
+      `}</style>
+
       <div className="max-w-7xl mx-auto">
         {/* Left-aligned heading */}
         <motion.div
@@ -183,7 +183,7 @@ const AndroidProjectsSection = () => {
         <LayoutGroup>
           <motion.div
             layout
-            className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-8"
+            className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 relative"
             transition={{ layout: { type: "spring", stiffness: 180, damping: 26 } }}
           >
             {projects.map((project, index) => {
@@ -193,7 +193,10 @@ const AndroidProjectsSection = () => {
               return (
                 <motion.div
                   key={project.name}
-                  ref={isExpanded ? expandedRef : undefined}
+                  ref={(el) => {
+                    if (el) cardRefs.current.set(index, el);
+                    else cardRefs.current.delete(index);
+                  }}
                   layout
                   transition={{
                     layout: { type: "spring", stiffness: 180, damping: 26 },
@@ -210,9 +213,9 @@ const AndroidProjectsSection = () => {
                     onMouseLeave={() => setHoveredId(null)}
                   >
                     {/* LED Marquee on hover (collapsed only) */}
-                    {isHovered && <MarqueeBorder />}
+                    {isHovered && <MarqueeEdge />}
 
-                    {/* Expanded: subtle primary border */}
+                    {/* Expanded border */}
                     {isExpanded && (
                       <div className="absolute inset-0 rounded-xl border border-primary/20 pointer-events-none z-10" />
                     )}
@@ -220,18 +223,16 @@ const AndroidProjectsSection = () => {
                     <motion.div
                       layout
                       className={`flex ${
-                        isExpanded
-                          ? "flex-col md:flex-row"
-                          : "flex-col items-center"
+                        isExpanded ? "flex-col sm:flex-row" : "flex-col items-center"
                       }`}
                     >
                       {/* === EXPANDED: Info panel (left) === */}
                       <AnimatePresence mode="popLayout">
                         {isExpanded && (
                           <motion.div
-                            initial={{ opacity: 0, x: -40 }}
+                            initial={{ opacity: 0, x: -30 }}
                             animate={{ opacity: 1, x: 0 }}
-                            exit={{ opacity: 0, x: -40 }}
+                            exit={{ opacity: 0, x: -30 }}
                             transition={{
                               type: "spring",
                               stiffness: 200,
@@ -339,7 +340,7 @@ const AndroidProjectsSection = () => {
                         )}
                       </AnimatePresence>
 
-                      {/* === Phone mockup (always visible) === */}
+                      {/* === Phone mockup (right side when expanded) === */}
                       <motion.div
                         layout
                         className={`flex flex-col items-center text-center ${
