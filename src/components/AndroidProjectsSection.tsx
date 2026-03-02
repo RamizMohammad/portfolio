@@ -1,36 +1,8 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
 import { Github, ExternalLink, X, Smartphone, Code2, Database } from "lucide-react";
 
 const projects = [
-  {
-    name: "Ramiz Mohammad",
-    description: "Personal portfolio website showcasing projects and skills.",
-    tech: ["Next.js", "Tailwind CSS", "Framer Motion"],
-    github: "https://github.com/RamizMohammad/ramiz-io",
-    live: "https://ramiz.io",
-    screenshot: "https://images.unsplash.com/photo-1670272506307-3099c968777a?w=280&h=500&fit=crop",
-    icon: "👋",
-    year: "2024",
-  },
-  {
-    name: "GPT-4 Enhanced Resume",
-    description: "AI-powered resume builder with GPT-4 integration for content enhancement and optimization.",
-    tech: ["Next.js", "OpenAI API", "Tailwind CSS"],
-    github: "https://github.com/RamizMohammad",
-    screenshot: "https://images.unsplash.com/photo-1585463730690-635a87e29c44?w=280&h=500&fit=crop",
-    icon: "🤖",
-    year: "2024",
-  },
-  {
-    name: "Taskify",
-    description: "A simple task management app built with React and Firebase.",
-    tech: ["React", "Firebase"],
-    github: "https://github.com/RamizMohammad",
-    screenshot: "https://images.unsplash.com/photo-1542903660-7d672d52abb2?w=280&h=500&fit=crop",
-    icon: "📝",
-    year: "2024",
-  },
   {
     name: "Confess App",
     description: "Anonymous confession sharing platform built with real-time Firebase backend. Users can post, react, and engage with confessions anonymously.",
@@ -100,67 +72,78 @@ const techIcons: Record<string, React.ReactNode> = {
   API: <Code2 size={12} />,
 };
 
-/* SVG marquee text that revolves around the card border */
-const MarqueeBorder = ({ width, height }: { width: number; height: number }) => {
-  const text = "CLICK TO EXPAND • CLICK TO EXPAND • CLICK TO EXPAND • CLICK TO EXPAND • ";
-  const r = 8; // corner radius
-  // Build a rounded-rect path (clockwise from top-left)
-  const path = `
-    M ${r} 0
-    H ${width - r} Q ${width} 0 ${width} ${r}
-    V ${height - r} Q ${width} ${height} ${width - r} ${height}
-    H ${r} Q 0 ${height} 0 ${height - r}
-    V ${r} Q 0 0 ${r} 0
-    Z
-  `;
+/* Revolving LED marquee border using CSS animation on an SVG textPath */
+const MarqueeBorder = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [dims, setDims] = useState({ w: 0, h: 0 });
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const obs = new ResizeObserver(([entry]) => {
+      setDims({ w: entry.contentRect.width, h: entry.contentRect.height });
+    });
+    obs.observe(containerRef.current);
+    return () => obs.disconnect();
+  }, []);
+
+  const { w, h } = dims;
+  if (w === 0 || h === 0)
+    return <div ref={containerRef} className="absolute inset-0 pointer-events-none z-20" />;
+
+  const r = 12;
+  const pathId = `mp-${w}-${h}`;
+  const d = `M ${r},0 H ${w - r} A ${r},${r} 0 0 1 ${w},${r} V ${h - r} A ${r},${r} 0 0 1 ${w - r},${h} H ${r} A ${r},${r} 0 0 1 0,${h - r} V ${r} A ${r},${r} 0 0 1 ${r},0 Z`;
+  const label = "  ✦ CLICK TO EXPAND  ✦ TAP TO VIEW  ";
 
   return (
-    <svg
-      className="absolute inset-0 w-full h-full pointer-events-none z-20"
-      viewBox={`0 0 ${width} ${height}`}
-      preserveAspectRatio="none"
-      fill="none"
-    >
-      <defs>
-        <path id="card-path" d={path} />
-      </defs>
-      {/* Glowing path stroke */}
-      <use
-        href="#card-path"
-        stroke="hsl(152 100% 50% / 0.15)"
-        strokeWidth="1.5"
+    <div ref={containerRef} className="absolute inset-0 pointer-events-none z-20">
+      <svg
+        className="absolute inset-0 w-full h-full overflow-visible"
+        viewBox={`-1 -1 ${w + 2} ${h + 2}`}
         fill="none"
-      />
-      {/* Animated text along path */}
-      <text
-        className="fill-primary"
-        fontSize="7"
-        fontFamily="monospace"
-        fontWeight="600"
-        letterSpacing="2"
       >
-        <textPath href="#card-path" startOffset="0%">
-          <animate
-            attributeName="startOffset"
-            from="0%"
-            to="100%"
-            dur="12s"
-            repeatCount="indefinite"
-          />
-          {text}
-        </textPath>
-        <textPath href="#card-path" startOffset="-50%">
-          <animate
-            attributeName="startOffset"
-            from="-50%"
-            to="50%"
-            dur="12s"
-            repeatCount="indefinite"
-          />
-          {text}
-        </textPath>
-      </text>
-    </svg>
+        <defs>
+          <path id={pathId} d={d} />
+          <linearGradient id="led-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="hsl(152 100% 50%)" />
+            <stop offset="50%" stopColor="hsl(216 100% 60%)" />
+            <stop offset="100%" stopColor="hsl(152 100% 50%)" />
+          </linearGradient>
+        </defs>
+        {/* Glow border */}
+        <use
+          href={`#${pathId}`}
+          stroke="hsl(152 100% 50%)"
+          strokeWidth="1.5"
+          strokeOpacity="0.35"
+          fill="none"
+          filter="url(#glow-filter)"
+        />
+        {/* Outer glow filter */}
+        <defs>
+          <filter id="glow-filter" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="3" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+        {/* Revolving text — two copies for seamless loop */}
+        <text fontSize="9" fontWeight="700" letterSpacing="3" fill="url(#led-grad)" opacity="0.9">
+          <textPath href={`#${pathId}`}>
+            <animate attributeName="startOffset" from="0%" to="100%" dur="10s" repeatCount="indefinite" />
+            {label}{label}
+          </textPath>
+        </text>
+        <text fontSize="9" fontWeight="700" letterSpacing="3" fill="url(#led-grad)" opacity="0.9">
+          <textPath href={`#${pathId}`}>
+            <animate attributeName="startOffset" from="-100%" to="0%" dur="10s" repeatCount="indefinite" />
+            {label}{label}
+          </textPath>
+        </text>
+      </svg>
+    </div>
   );
 };
 
@@ -194,12 +177,12 @@ const AndroidProjectsSection = () => {
           </p>
         </motion.div>
 
-        {/* Grid with layout animations */}
+        {/* Grid */}
         <LayoutGroup>
           <motion.div
             layout
             className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-8"
-            transition={{ layout: { type: "spring", stiffness: 200, damping: 28 } }}
+            transition={{ layout: { type: "spring", stiffness: 180, damping: 26 } }}
           >
             {projects.map((project, index) => {
               const isExpanded = expandedId === index;
@@ -210,181 +193,169 @@ const AndroidProjectsSection = () => {
                   key={project.name}
                   layout
                   transition={{
-                    layout: {
-                      type: "spring",
-                      stiffness: 200,
-                      damping: 28,
-                    },
+                    layout: { type: "spring", stiffness: 180, damping: 26 },
                   }}
-                  className={`${
-                    isExpanded ? "col-span-2 md:col-span-2" : "col-span-1"
-                  }`}
+                  className={isExpanded ? "col-span-2 md:col-span-3" : "col-span-1"}
                 >
                   <motion.div
                     layout
-                    className={`group relative rounded-lg cursor-pointer overflow-visible ${
-                      isExpanded ? "bg-card" : "bg-card/50"
+                    className={`group relative rounded-xl cursor-pointer overflow-visible ${
+                      isExpanded ? "bg-card" : "bg-card/40"
                     }`}
                     onClick={() => handleClick(index)}
                     onMouseEnter={() => setHoveredId(index)}
                     onMouseLeave={() => setHoveredId(null)}
                   >
-                    {/* LED Marquee Border on hover (collapsed only) */}
-                    <AnimatePresence>
-                      {isHovered && (
-                        <motion.div
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          exit={{ opacity: 0 }}
-                          transition={{ duration: 0.3 }}
-                          className="absolute inset-0 z-20 pointer-events-none"
-                        >
-                          <MarqueeBorder width={300} height={420} />
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
+                    {/* LED Marquee on hover (collapsed only) */}
+                    {isHovered && <MarqueeBorder />}
 
-                    {/* Expanded border */}
+                    {/* Static borders */}
                     {isExpanded && (
-                      <div className="absolute inset-0 rounded-lg border border-primary/25 pointer-events-none z-10" />
+                      <div className="absolute inset-0 rounded-xl border border-primary/30 pointer-events-none z-10" />
                     )}
-                    {/* Default border */}
                     {!isExpanded && !isHovered && (
-                      <div className="absolute inset-0 rounded-lg border border-border/20 pointer-events-none z-10" />
+                      <div className="absolute inset-0 rounded-xl border border-border/20 pointer-events-none z-10" />
                     )}
 
                     <motion.div
                       layout
                       className={`flex ${
-                        isExpanded ? "flex-row" : "flex-col items-center"
+                        isExpanded
+                          ? "flex-col md:flex-row"
+                          : "flex-col items-center"
                       }`}
                     >
-                      {/* Expanded detail panel */}
+                      {/* === EXPANDED: Info panel (left) === */}
                       <AnimatePresence mode="popLayout">
                         {isExpanded && (
                           <motion.div
-                            initial={{ width: 0, opacity: 0 }}
-                            animate={{ width: "auto", opacity: 1 }}
-                            exit={{ width: 0, opacity: 0 }}
+                            initial={{ opacity: 0, x: -40 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: -40 }}
                             transition={{
                               type: "spring",
                               stiffness: 200,
-                              damping: 28,
-                              opacity: { duration: 0.25, ease: "easeOut" },
+                              damping: 26,
                             }}
-                            className="overflow-hidden"
+                            className="flex-1 p-6 sm:p-8 lg:p-10 flex flex-col justify-center relative"
                           >
-                            <div className="p-6 sm:p-8 flex flex-col justify-center h-full min-w-[200px] sm:min-w-[280px] lg:min-w-[320px]">
-                              {/* Close */}
-                              <motion.button
-                                initial={{ opacity: 0, scale: 0.8 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{ delay: 0.15 }}
-                                className="absolute top-3 right-3 w-7 h-7 rounded-full bg-muted flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/80 transition-colors z-10"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  setExpandedId(null);
-                                }}
-                              >
-                                <X size={14} />
-                              </motion.button>
+                            {/* Close */}
+                            <motion.button
+                              initial={{ opacity: 0, scale: 0.8 }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              transition={{ delay: 0.1 }}
+                              className="absolute top-4 right-4 w-8 h-8 rounded-full bg-muted flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/80 transition-colors z-10"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setExpandedId(null);
+                              }}
+                            >
+                              <X size={14} />
+                            </motion.button>
 
-                              <motion.span
-                                initial={{ opacity: 0, x: -20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: 0.1 }}
-                                className="text-xs font-display tracking-premium text-primary mb-3 w-fit"
-                              >
-                                {project.year}
-                              </motion.span>
+                            <motion.span
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: 0.05 }}
+                              className="text-xs font-display tracking-premium text-primary mb-4 w-fit"
+                            >
+                              {project.year}
+                            </motion.span>
 
-                              <motion.div
-                                initial={{ opacity: 0, scale: 0.5 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{ delay: 0.12, type: "spring" }}
-                                className="text-4xl mb-4"
-                              >
-                                {project.icon}
-                              </motion.div>
+                            <motion.div
+                              initial={{ opacity: 0, scale: 0.5 }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              transition={{ delay: 0.08, type: "spring" }}
+                              className="text-5xl mb-5"
+                            >
+                              {project.icon}
+                            </motion.div>
 
-                              <motion.h4
-                                initial={{ opacity: 0, x: -20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: 0.15 }}
-                                className="font-display text-xl sm:text-2xl font-bold mb-2"
-                              >
-                                {project.name}
-                              </motion.h4>
+                            <motion.h4
+                              initial={{ opacity: 0, y: 15 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: 0.12 }}
+                              className="font-display text-2xl sm:text-3xl font-bold mb-3"
+                            >
+                              {project.name}
+                            </motion.h4>
 
-                              <motion.p
-                                initial={{ opacity: 0, x: -20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: 0.2 }}
-                                className="text-muted-foreground text-sm leading-relaxed mb-5"
-                              >
-                                {project.description}
-                              </motion.p>
+                            <motion.p
+                              initial={{ opacity: 0, y: 15 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: 0.16 }}
+                              className="text-muted-foreground text-sm sm:text-base leading-relaxed mb-6 max-w-md"
+                            >
+                              {project.description}
+                            </motion.p>
 
-                              <motion.div
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.25 }}
-                                className="flex gap-2 flex-wrap mb-5"
-                              >
-                                {project.tech.map((t) => (
-                                  <span
-                                    key={t}
-                                    className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-primary/10 text-primary border border-primary/20"
-                                  >
-                                    {techIcons[t]}
-                                    {t}
-                                  </span>
-                                ))}
-                              </motion.div>
+                            <motion.div
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: 0.2 }}
+                              className="flex gap-2 flex-wrap mb-6"
+                            >
+                              {project.tech.map((t) => (
+                                <span
+                                  key={t}
+                                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-primary/10 text-primary border border-primary/20"
+                                >
+                                  {techIcons[t]}
+                                  {t}
+                                </span>
+                              ))}
+                            </motion.div>
 
-                              <motion.div
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.3 }}
-                                className="flex gap-3"
+                            <motion.div
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: 0.24 }}
+                              className="flex gap-3"
+                            >
+                              <a
+                                href={project.github}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onClick={(e) => e.stopPropagation()}
+                                className="flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-display font-semibold bg-foreground text-background hover:bg-foreground/90 transition-colors"
                               >
+                                <Github size={14} />
+                                Source Code
+                              </a>
+                              {project.playStore && (
                                 <a
-                                  href={project.github}
+                                  href={project.playStore}
                                   target="_blank"
                                   rel="noopener noreferrer"
                                   onClick={(e) => e.stopPropagation()}
-                                  className="flex items-center gap-2 px-4 py-2 rounded-full text-xs font-display font-semibold bg-foreground text-background hover:bg-foreground/90 transition-colors"
+                                  className="flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-display font-semibold border border-border text-foreground hover:border-primary hover:text-primary transition-colors"
                                 >
-                                  <Github size={14} />
-                                  Source Code
+                                  <ExternalLink size={14} />
+                                  Play Store
                                 </a>
-                                {project.playStore && (
-                                  <a
-                                    href={project.playStore}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    onClick={(e) => e.stopPropagation()}
-                                    className="flex items-center gap-2 px-4 py-2 rounded-full text-xs font-display font-semibold border border-border text-foreground hover:border-primary hover:text-primary transition-colors"
-                                  >
-                                    <ExternalLink size={14} />
-                                    Play Store
-                                  </a>
-                                )}
-                              </motion.div>
-                            </div>
+                              )}
+                            </motion.div>
                           </motion.div>
                         )}
                       </AnimatePresence>
 
-                      {/* Phone mockup */}
+                      {/* === Phone mockup (always visible) === */}
                       <motion.div
                         layout
                         className={`flex flex-col items-center text-center ${
-                          isExpanded ? "p-4 sm:p-6" : "p-4 sm:p-6 pt-6 sm:pt-8"
+                          isExpanded
+                            ? "p-6 sm:p-8 lg:p-10 flex-shrink-0"
+                            : "p-4 sm:p-6 pt-6 sm:pt-8"
                         }`}
                       >
                         <div className="relative mb-4">
-                          <div className="relative w-[130px] h-[260px] sm:w-[150px] sm:h-[300px] lg:w-[170px] lg:h-[340px] rounded-[24px] bg-gradient-to-b from-[hsl(220,20%,16%)] to-[hsl(220,20%,10%)] p-[6px] shadow-[0_20px_40px_rgba(0,0,0,0.35),inset_0_1px_1px_rgba(255,255,255,0.05)] border border-border/15 transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-[0_25px_50px_rgba(0,0,0,0.45)]">
+                          <div
+                            className={`relative rounded-[24px] bg-gradient-to-b from-[hsl(220,20%,16%)] to-[hsl(220,20%,10%)] p-[6px] border border-border/15 transition-all duration-500 group-hover:-translate-y-2 ${
+                              isExpanded
+                                ? "w-[180px] h-[360px] sm:w-[200px] sm:h-[400px] lg:w-[220px] lg:h-[440px] shadow-[0_30px_60px_rgba(0,0,0,0.5)]"
+                                : "w-[130px] h-[260px] sm:w-[150px] sm:h-[300px] lg:w-[170px] lg:h-[340px] shadow-[0_20px_40px_rgba(0,0,0,0.35)]"
+                            }`}
+                          >
                             <div className="absolute top-[4px] left-1/2 -translate-x-1/2 w-[36px] h-[3px] bg-[hsl(220,15%,20%)] rounded-full z-10" />
                             <div className="relative w-full h-full rounded-[19px] overflow-hidden bg-background">
                               <img
@@ -398,7 +369,7 @@ const AndroidProjectsSection = () => {
                           </div>
                         </div>
 
-                        {/* Project info (collapsed) */}
+                        {/* Collapsed info */}
                         {!isExpanded && (
                           <>
                             <h4 className="font-display text-sm sm:text-base font-bold group-hover:text-primary transition-colors duration-300">
