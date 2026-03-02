@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
-import { Github, ExternalLink, X, Smartphone, Code2, Database } from "lucide-react";
+import { Github, ExternalLink, X, Smartphone, Code2, Database, ChevronRight } from "lucide-react";
 
 const projects = [
   {
@@ -72,54 +72,25 @@ const techIcons: Record<string, React.ReactNode> = {
   API: <Code2 size={12} />,
 };
 
-/**
- * CSS-based revolving marquee text around card edges.
- * Uses 4 edges (top, right, bottom, left) with CSS translate animations.
- */
-const MarqueeEdge = () => {
-  const text = "✦ CLICK TO EXPAND ✦ TAP TO VIEW ";
-  const repeated = (text + text + text + text);
-  return (
-    <div className="absolute inset-0 pointer-events-none z-20 overflow-hidden rounded-xl">
-      {/* Top edge — moves right */}
-      <div className="absolute top-0 left-0 right-0 h-[14px] overflow-hidden">
-        <div className="marquee-right whitespace-nowrap text-[8px] font-bold tracking-[3px] font-mono leading-[14px]"
-          style={{ color: "hsl(152 100% 50%)" }}>
-          {repeated}
-        </div>
-      </div>
-      {/* Bottom edge — moves left */}
-      <div className="absolute bottom-0 left-0 right-0 h-[14px] overflow-hidden">
-        <div className="marquee-left whitespace-nowrap text-[8px] font-bold tracking-[3px] font-mono leading-[14px]"
-          style={{ color: "hsl(152 100% 50%)" }}>
-          {repeated}
-        </div>
-      </div>
-      {/* Right edge — moves down */}
-      <div className="absolute top-0 right-0 bottom-0 w-[14px] overflow-hidden">
-        <div className="marquee-down whitespace-nowrap text-[8px] font-bold tracking-[3px] font-mono"
-          style={{
-            color: "hsl(152 100% 50%)",
-            writingMode: "vertical-rl",
-            lineHeight: "14px",
-          }}>
-          {repeated}
-        </div>
-      </div>
-      {/* Left edge — moves up */}
-      <div className="absolute top-0 left-0 bottom-0 w-[14px] overflow-hidden">
-        <div className="marquee-up whitespace-nowrap text-[8px] font-bold tracking-[3px] font-mono"
-          style={{
-            color: "hsl(152 100% 50%)",
-            writingMode: "vertical-rl",
-            lineHeight: "14px",
-          }}>
-          {repeated}
-        </div>
-      </div>
-    </div>
-  );
-};
+/** Animated gradient ring that pulses on hover — replaces the old marquee text */
+const HoverRing = () => (
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+    transition={{ duration: 0.3 }}
+    className="absolute -inset-[2px] rounded-xl z-20 pointer-events-none"
+    style={{
+      background: "linear-gradient(135deg, hsl(152 100% 50%), hsl(216 100% 60%), hsl(270 100% 60%), hsl(152 100% 50%))",
+      backgroundSize: "300% 300%",
+      animation: "gradient-spin 3s linear infinite",
+      padding: "2px",
+      WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+      WebkitMaskComposite: "xor",
+      maskComposite: "exclude",
+    }}
+  />
+);
 
 const AndroidProjectsSection = () => {
   const [expandedId, setExpandedId] = useState<number | null>(null);
@@ -130,33 +101,29 @@ const AndroidProjectsSection = () => {
     setExpandedId((prev) => (prev === index ? null : index));
   }, []);
 
-  // Scroll to expanded card
+  // Smooth scroll to expanded card
   useEffect(() => {
     if (expandedId === null) return;
-    // Wait for layout animation to settle
     const timer = setTimeout(() => {
       const el = cardRefs.current.get(expandedId);
       if (el) {
         const rect = el.getBoundingClientRect();
-        const scrollTarget = window.scrollY + rect.top - window.innerHeight / 2 + rect.height / 2;
-        window.scrollTo({ top: scrollTarget, behavior: "smooth" });
+        const offset = rect.top + window.scrollY - 120;
+        window.scrollTo({ top: offset, behavior: "smooth" });
       }
-    }, 250);
+    }, 350);
     return () => clearTimeout(timer);
   }, [expandedId]);
 
   return (
     <section id="android-projects" className="section-padding relative z-10">
-      {/* Marquee animation styles */}
+      {/* Gradient ring animation */}
       <style>{`
-        @keyframes marquee-r { from { transform: translateX(-50%); } to { transform: translateX(0%); } }
-        @keyframes marquee-l { from { transform: translateX(0%); } to { transform: translateX(-50%); } }
-        @keyframes marquee-d { from { transform: translateY(-50%); } to { transform: translateY(0%); } }
-        @keyframes marquee-u { from { transform: translateY(0%); } to { transform: translateY(-50%); } }
-        .marquee-right { animation: marquee-r 8s linear infinite; }
-        .marquee-left  { animation: marquee-l 8s linear infinite; }
-        .marquee-down  { animation: marquee-d 8s linear infinite; }
-        .marquee-up    { animation: marquee-u 8s linear infinite; }
+        @keyframes gradient-spin {
+          0%   { background-position: 0% 50%; }
+          50%  { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
       `}</style>
 
       <div className="max-w-7xl mx-auto">
@@ -184,7 +151,7 @@ const AndroidProjectsSection = () => {
           <motion.div
             layout
             className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 relative"
-            transition={{ layout: { type: "spring", stiffness: 180, damping: 26 } }}
+            transition={{ layout: { duration: 0.5, ease: [0.4, 0, 0.2, 1] } }}
           >
             {projects.map((project, index) => {
               const isExpanded = expandedId === index;
@@ -199,25 +166,31 @@ const AndroidProjectsSection = () => {
                   }}
                   layout
                   transition={{
-                    layout: { type: "spring", stiffness: 180, damping: 26 },
+                    layout: { duration: 0.5, ease: [0.4, 0, 0.2, 1] },
                   }}
-                  className={isExpanded ? "col-span-2 md:col-span-3 relative z-30" : "col-span-1"}
+                  className={
+                    isExpanded ? "col-span-2 md:col-span-3 relative z-30" : "col-span-1"
+                  }
                 >
                   <motion.div
                     layout
-                    className={`group relative rounded-xl cursor-pointer overflow-visible ${
-                      isExpanded ? "bg-card shadow-[0_0_80px_hsl(152,100%,50%,0.08)]" : "bg-card/40"
+                    className={`group relative rounded-xl cursor-pointer ${
+                      isExpanded
+                        ? "bg-card"
+                        : "bg-card/40"
                     }`}
                     onClick={() => handleClick(index)}
                     onMouseEnter={() => setHoveredId(index)}
                     onMouseLeave={() => setHoveredId(null)}
                   >
-                    {/* LED Marquee on hover (collapsed only) */}
-                    {isHovered && <MarqueeEdge />}
+                    {/* Animated gradient ring on hover */}
+                    <AnimatePresence>
+                      {isHovered && <HoverRing />}
+                    </AnimatePresence>
 
-                    {/* Expanded border */}
+                    {/* Expanded glow border */}
                     {isExpanded && (
-                      <div className="absolute inset-0 rounded-xl border border-primary/20 pointer-events-none z-10" />
+                      <div className="absolute -inset-[1px] rounded-xl border border-primary/25 pointer-events-none z-10" />
                     )}
 
                     <motion.div
@@ -225,75 +198,72 @@ const AndroidProjectsSection = () => {
                       className={`flex ${
                         isExpanded ? "flex-col sm:flex-row" : "flex-col items-center"
                       }`}
+                      transition={{ layout: { duration: 0.5, ease: [0.4, 0, 0.2, 1] } }}
                     >
                       {/* === EXPANDED: Info panel (left) === */}
-                      <AnimatePresence mode="popLayout">
+                      <AnimatePresence>
                         {isExpanded && (
                           <motion.div
-                            initial={{ opacity: 0, x: -30 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            exit={{ opacity: 0, x: -30 }}
-                            transition={{
-                              type: "spring",
-                              stiffness: 200,
-                              damping: 26,
-                            }}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.35, ease: "easeOut" }}
                             className="flex-1 p-6 sm:p-8 lg:p-10 flex flex-col justify-center relative"
                           >
                             {/* Close */}
                             <motion.button
-                              initial={{ opacity: 0, scale: 0.8 }}
-                              animate={{ opacity: 1, scale: 1 }}
-                              transition={{ delay: 0.1 }}
-                              className="absolute top-4 right-4 w-8 h-8 rounded-full bg-muted flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/80 transition-colors z-10"
+                              initial={{ opacity: 0, scale: 0.5, rotate: -90 }}
+                              animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                              transition={{ delay: 0.2, type: "spring", stiffness: 300 }}
+                              className="absolute top-4 right-4 w-9 h-9 rounded-full bg-muted/80 backdrop-blur-sm flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-destructive/20 hover:text-destructive transition-all z-10"
                               onClick={(e) => {
                                 e.stopPropagation();
                                 setExpandedId(null);
                               }}
                             >
-                              <X size={14} />
+                              <X size={16} />
                             </motion.button>
 
                             <motion.span
-                              initial={{ opacity: 0, y: 10 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              transition={{ delay: 0.05 }}
+                              initial={{ opacity: 0, x: -20 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              transition={{ delay: 0.1, duration: 0.4 }}
                               className="text-xs font-display tracking-premium text-primary mb-4 w-fit"
                             >
                               {project.year}
                             </motion.span>
 
                             <motion.div
-                              initial={{ opacity: 0, scale: 0.5 }}
+                              initial={{ opacity: 0, scale: 0.3 }}
                               animate={{ opacity: 1, scale: 1 }}
-                              transition={{ delay: 0.08, type: "spring" }}
+                              transition={{ delay: 0.15, type: "spring", stiffness: 400, damping: 15 }}
                               className="text-5xl mb-5"
                             >
                               {project.icon}
                             </motion.div>
 
                             <motion.h4
-                              initial={{ opacity: 0, y: 15 }}
+                              initial={{ opacity: 0, y: 20 }}
                               animate={{ opacity: 1, y: 0 }}
-                              transition={{ delay: 0.12 }}
+                              transition={{ delay: 0.2, duration: 0.4 }}
                               className="font-display text-2xl sm:text-3xl font-bold mb-3"
                             >
                               {project.name}
                             </motion.h4>
 
                             <motion.p
-                              initial={{ opacity: 0, y: 15 }}
+                              initial={{ opacity: 0, y: 20 }}
                               animate={{ opacity: 1, y: 0 }}
-                              transition={{ delay: 0.16 }}
+                              transition={{ delay: 0.25, duration: 0.4 }}
                               className="text-muted-foreground text-sm sm:text-base leading-relaxed mb-6 max-w-md"
                             >
                               {project.description}
                             </motion.p>
 
                             <motion.div
-                              initial={{ opacity: 0, y: 10 }}
+                              initial={{ opacity: 0, y: 15 }}
                               animate={{ opacity: 1, y: 0 }}
-                              transition={{ delay: 0.2 }}
+                              transition={{ delay: 0.3, duration: 0.4 }}
                               className="flex gap-2 flex-wrap mb-6"
                             >
                               {project.tech.map((t) => (
@@ -308,10 +278,10 @@ const AndroidProjectsSection = () => {
                             </motion.div>
 
                             <motion.div
-                              initial={{ opacity: 0, y: 10 }}
+                              initial={{ opacity: 0, y: 15 }}
                               animate={{ opacity: 1, y: 0 }}
-                              transition={{ delay: 0.24 }}
-                              className="flex gap-3"
+                              transition={{ delay: 0.35, duration: 0.4 }}
+                              className="flex gap-3 flex-wrap"
                             >
                               <a
                                 href={project.github}
@@ -340,7 +310,7 @@ const AndroidProjectsSection = () => {
                         )}
                       </AnimatePresence>
 
-                      {/* === Phone mockup (right side when expanded) === */}
+                      {/* === Phone mockup === */}
                       <motion.div
                         layout
                         className={`flex flex-col items-center text-center ${
@@ -348,14 +318,17 @@ const AndroidProjectsSection = () => {
                             ? "p-6 sm:p-8 lg:p-10 flex-shrink-0"
                             : "p-4 sm:p-6 pt-6 sm:pt-8"
                         }`}
+                        transition={{ layout: { duration: 0.5, ease: [0.4, 0, 0.2, 1] } }}
                       >
                         <div className="relative mb-4">
-                          <div
-                            className={`relative rounded-[24px] bg-gradient-to-b from-[hsl(220,20%,16%)] to-[hsl(220,20%,10%)] p-[6px] border border-border/15 transition-all duration-500 group-hover:-translate-y-2 ${
+                          <motion.div
+                            layout
+                            className={`relative rounded-[24px] bg-gradient-to-b from-[hsl(220,20%,16%)] to-[hsl(220,20%,10%)] p-[6px] border border-border/15 ${
                               isExpanded
                                 ? "w-[180px] h-[360px] sm:w-[200px] sm:h-[400px] lg:w-[220px] lg:h-[440px] shadow-[0_30px_60px_rgba(0,0,0,0.5)]"
-                                : "w-[130px] h-[260px] sm:w-[150px] sm:h-[300px] lg:w-[170px] lg:h-[340px] shadow-[0_20px_40px_rgba(0,0,0,0.35)]"
+                                : "w-[130px] h-[260px] sm:w-[150px] sm:h-[300px] lg:w-[170px] lg:h-[340px] shadow-[0_20px_40px_rgba(0,0,0,0.35)] group-hover:-translate-y-2 transition-transform duration-500"
                             }`}
+                            transition={{ layout: { duration: 0.5, ease: [0.4, 0, 0.2, 1] } }}
                           >
                             <div className="absolute top-[4px] left-1/2 -translate-x-1/2 w-[36px] h-[3px] bg-[hsl(220,15%,20%)] rounded-full z-10" />
                             <div className="relative w-full h-full rounded-[19px] overflow-hidden bg-background">
@@ -367,12 +340,12 @@ const AndroidProjectsSection = () => {
                               />
                             </div>
                             <div className="absolute bottom-[4px] left-1/2 -translate-x-1/2 w-[24px] h-[2.5px] bg-[hsl(220,15%,22%)] rounded-full" />
-                          </div>
+                          </motion.div>
                         </div>
 
-                        {/* Collapsed info */}
+                        {/* Collapsed: name + explore hint */}
                         {!isExpanded && (
-                          <>
+                          <motion.div layout className="flex flex-col items-center">
                             <h4 className="font-display text-sm sm:text-base font-bold group-hover:text-primary transition-colors duration-300">
                               {project.name}
                             </h4>
@@ -389,7 +362,12 @@ const AndroidProjectsSection = () => {
                                 </span>
                               ))}
                             </div>
-                          </>
+                            {/* Subtle explore hint */}
+                            <span className="mt-3 flex items-center gap-1 text-[10px] text-muted-foreground/50 group-hover:text-primary/70 transition-colors font-display tracking-wider uppercase opacity-0 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0 transition-all duration-300">
+                              Explore
+                              <ChevronRight size={10} className="group-hover:translate-x-0.5 transition-transform" />
+                            </span>
+                          </motion.div>
                         )}
                       </motion.div>
                     </motion.div>
