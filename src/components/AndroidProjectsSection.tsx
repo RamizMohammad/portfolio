@@ -89,21 +89,21 @@ const AndroidProjectsSection = () => {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7 }}
-          className="mb-16"
+          className="mb-8"
         >
-          <div className="flex items-center gap-3 mb-3">
+          <div className="flex items-center gap-3 mb-2">
             <Smartphone size={14} className="text-primary" />
             <p className="text-primary font-display font-medium tracking-premium text-sm">
               Android Projects
             </p>
           </div>
-          <h2 className="font-display text-4xl md:text-6xl font-extrabold leading-tight">
+          <h2 className="font-display text-3xl md:text-4xl font-extrabold leading-tight">
             Mobile Apps I've <span className="text-gradient">Crafted</span>
           </h2>
-          <p className="text-muted-foreground mt-4 text-lg max-w-lg">
+          <p className="text-muted-foreground mt-2 text-sm max-w-lg">
             Native Android apps built with obsessive attention to performance and UX.
           </p>
         </motion.div>
@@ -125,9 +125,9 @@ const AndroidProjectsSection = () => {
               }}
             />
 
-            <div className="relative flex flex-col lg:flex-row items-center gap-8 lg:gap-0 p-8 md:p-12 lg:p-16">
+            <div className="relative flex flex-col lg:flex-row items-center gap-6 lg:gap-0 p-6 md:p-8 lg:p-10">
               {/* Left: Project info */}
-              <div className="flex-1 lg:pr-12 relative z-10">
+              <div className="flex-1 lg:pr-8 relative z-10">
                 <AnimatePresence mode="wait" custom={direction}>
                   <motion.div
                     key={selected}
@@ -138,25 +138,22 @@ const AndroidProjectsSection = () => {
                     transition={{ duration: 0.45, ease: [0.4, 0, 0.2, 1] }}
                   >
                     {/* Year badge */}
-                    <span className="inline-block px-3 py-1 rounded-full text-[10px] font-display font-bold tracking-premium border border-border text-muted-foreground mb-6">
+                    <span className="inline-block px-3 py-1 rounded-full text-[10px] font-display font-bold tracking-premium border border-border text-muted-foreground mb-3">
                       {project.year}
                     </span>
 
-                    {/* Icon + Name */}
-                    <div className="flex items-center gap-4 mb-4">
-                      <span className="text-5xl">{project.icon}</span>
-                      <h3 className="font-display text-3xl md:text-4xl font-extrabold">
+                    <div className="flex items-center gap-3 mb-3">
+                      <span className="text-3xl">{project.icon}</span>
+                      <h3 className="font-display text-2xl md:text-3xl font-extrabold">
                         {project.name}
                       </h3>
                     </div>
 
-                    {/* Description */}
-                    <p className="text-muted-foreground text-base md:text-lg leading-relaxed mb-6 max-w-lg">
+                    <p className="text-muted-foreground text-sm leading-relaxed mb-4 max-w-lg">
                       {project.description}
                     </p>
 
-                    {/* Tech */}
-                    <div className="flex gap-2 flex-wrap mb-8">
+                    <div className="flex gap-2 flex-wrap mb-5">
                       {project.tech.map((t) => (
                         <span
                           key={t}
@@ -167,15 +164,14 @@ const AndroidProjectsSection = () => {
                       ))}
                     </div>
 
-                    {/* Actions */}
                     <div className="flex gap-3 flex-wrap">
                       <a
                         href={project.github}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="btn-premium px-6 py-3 flex items-center gap-2 text-sm"
+                        className="btn-premium px-5 py-2.5 flex items-center gap-2 text-xs"
                       >
-                        <Github size={15} />
+                        <Github size={14} />
                         View Code
                       </a>
                       {project.playStore && (
@@ -183,9 +179,9 @@ const AndroidProjectsSection = () => {
                           href={project.playStore}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="btn-outline-premium px-6 py-3 flex items-center gap-2 text-sm"
+                          className="btn-outline-premium px-5 py-2.5 flex items-center gap-2 text-xs"
                         >
-                          <ExternalLink size={15} />
+                          <ExternalLink size={14} />
                           Play Store
                         </a>
                       )}
@@ -204,7 +200,7 @@ const AndroidProjectsSection = () => {
 
                 <div className="relative">
                   {/* Phone frame */}
-                  <div className="relative w-[220px] h-[440px] md:w-[250px] md:h-[500px] rounded-[2.5rem] bg-gradient-to-b from-[hsl(220,20%,16%)] to-[hsl(220,20%,10%)] p-[5px] border border-border/30 shadow-[0_40px_80px_rgba(0,0,0,0.5)]">
+                  <div className="relative w-[180px] h-[360px] md:w-[200px] md:h-[400px] rounded-[2.5rem] bg-gradient-to-b from-[hsl(220,20%,16%)] to-[hsl(220,20%,10%)] p-[5px] border border-border/30 shadow-[0_40px_80px_rgba(0,0,0,0.5)]">
                     {/* Notch */}
                     <div className="absolute top-[6px] left-1/2 -translate-x-1/2 w-16 h-[20px] bg-[hsl(220,25%,6%)] rounded-full z-10 flex items-center px-2">
                       <div className="w-[8px] h-[8px] rounded-full bg-[hsl(220,15%,18%)] border border-[hsl(220,10%,25%)]" />

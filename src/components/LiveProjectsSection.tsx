@@ -48,33 +48,32 @@ const LiveProjectsSection = () => {
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7 }}
-          className="mb-16"
+          className="mb-8"
         >
-          <div className="flex items-center gap-3 mb-3">
+          <div className="flex items-center gap-3 mb-2">
             <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
             <p className="text-primary font-display font-medium tracking-premium text-sm">
               Live & Deployed
             </p>
           </div>
-          <h2 className="font-display text-4xl md:text-6xl font-extrabold leading-tight">
+          <h2 className="font-display text-3xl md:text-4xl font-extrabold leading-tight">
             Projects in the <span className="text-gradient">Wild</span>
           </h2>
-          <p className="text-muted-foreground mt-4 text-lg max-w-lg">
+          <p className="text-muted-foreground mt-2 text-sm max-w-lg">
             Real products, real users, real impact.
           </p>
         </motion.div>
 
         {/* Bento Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
           {liveProjects.map((project, i) => {
             const isHovered = hoveredIndex === i;
-            // First card spans 7 cols, second 5, third full width
             const colSpan =
               i === 0 ? "md:col-span-7" : i === 1 ? "md:col-span-5" : "md:col-span-12";
-            const height = i === 2 ? "md:h-[220px]" : "md:h-[320px]";
+            const height = i === 2 ? "md:h-[160px]" : "md:h-[240px]";
 
             return (
               <motion.a
@@ -87,7 +86,7 @@ const LiveProjectsSection = () => {
                 transition={{ duration: 0.6, delay: 0.15 * i }}
                 onMouseEnter={() => setHoveredIndex(i)}
                 onMouseLeave={() => setHoveredIndex(null)}
-                className={`${colSpan} group relative rounded-2xl overflow-hidden cursor-pointer h-[280px] ${height}`}
+                className={`${colSpan} group relative rounded-2xl overflow-hidden cursor-pointer h-[220px] ${height}`}
               >
                 {/* Base bg */}
                 <div className="absolute inset-0 bg-card" />
@@ -109,7 +108,7 @@ const LiveProjectsSection = () => {
                 <div className="absolute inset-0 rounded-2xl border border-border group-hover:border-transparent transition-colors duration-500" />
 
                 {/* Content */}
-                <div className={`relative z-10 h-full p-7 flex ${i === 2 ? "flex-row items-center gap-8" : "flex-col justify-between"}`}>
+                <div className={`relative z-10 h-full p-5 flex ${i === 2 ? "flex-row items-center gap-6" : "flex-col justify-between"}`}>
                   <div className={`${i === 2 ? "flex items-center gap-6 flex-1" : ""}`}>
                     {/* Emoji + Live badge */}
                     <div className="flex items-start justify-between mb-auto">
