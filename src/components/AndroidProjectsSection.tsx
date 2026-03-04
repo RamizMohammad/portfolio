@@ -1,6 +1,6 @@
-import { useState, useRef, useEffect, useCallback } from "react";
-import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
-import { Github, ExternalLink, X, Smartphone, Code2, Database, ChevronRight } from "lucide-react";
+import { useState, useRef } from "react";
+import { motion, AnimatePresence, useInView } from "framer-motion";
+import { Github, ExternalLink, ChevronLeft, ChevronRight, Smartphone } from "lucide-react";
 
 const projects = [
   {
@@ -12,6 +12,7 @@ const projects = [
     screenshot: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=280&h=500&fit=crop",
     icon: "🔥",
     year: "2023",
+    color: "152 100% 50%",
   },
   {
     name: "Share Wheels",
@@ -21,6 +22,7 @@ const projects = [
     screenshot: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=280&h=500&fit=crop",
     icon: "🚗",
     year: "2023",
+    color: "216 100% 50%",
   },
   {
     name: "BuddyCode",
@@ -30,6 +32,7 @@ const projects = [
     screenshot: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=280&h=500&fit=crop",
     icon: "💻",
     year: "2022",
+    color: "270 100% 60%",
   },
   {
     name: "Hotel Manager",
@@ -39,6 +42,7 @@ const projects = [
     screenshot: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=280&h=500&fit=crop",
     icon: "🏨",
     year: "2022",
+    color: "45 90% 55%",
   },
   {
     name: "Task Manager Pro",
@@ -48,6 +52,7 @@ const projects = [
     screenshot: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=280&h=500&fit=crop",
     icon: "✅",
     year: "2022",
+    color: "152 100% 50%",
   },
   {
     name: "Inventory Fetcher",
@@ -57,326 +62,228 @@ const projects = [
     screenshot: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=280&h=500&fit=crop",
     icon: "📦",
     year: "2021",
+    color: "216 100% 50%",
   },
 ];
 
-const techIcons: Record<string, React.ReactNode> = {
-  Java: <Code2 size={12} />,
-  Firebase: <Database size={12} />,
-  Android: <Smartphone size={12} />,
-  Kotlin: <Code2 size={12} />,
-  "Maps API": <ExternalLink size={12} />,
-  "REST APIs": <Code2 size={12} />,
-  Database: <Database size={12} />,
-  "Room DB": <Database size={12} />,
-  API: <Code2 size={12} />,
-};
-
-/** Animated gradient ring that pulses on hover — replaces the old marquee text */
-const HoverRing = () => (
-  <motion.div
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0 }}
-    transition={{ duration: 0.3 }}
-    className="absolute -inset-[2px] rounded-xl z-20 pointer-events-none"
-    style={{
-      background: "linear-gradient(135deg, hsl(152 100% 50%), hsl(216 100% 60%), hsl(270 100% 60%), hsl(152 100% 50%))",
-      backgroundSize: "300% 300%",
-      animation: "gradient-spin 3s linear infinite",
-      padding: "2px",
-      WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-      WebkitMaskComposite: "xor",
-      maskComposite: "exclude",
-    }}
-  />
-);
-
 const AndroidProjectsSection = () => {
-  const [expandedId, setExpandedId] = useState<number | null>(null);
-  const [hoveredId, setHoveredId] = useState<number | null>(null);
-  const cardRefs = useRef<Map<number, HTMLDivElement>>(new Map());
+  const [selected, setSelected] = useState(0);
+  const [direction, setDirection] = useState(0);
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true, margin: "-80px" });
 
-  const handleClick = useCallback((index: number) => {
-    setExpandedId((prev) => (prev === index ? null : index));
-  }, []);
+  const project = projects[selected];
 
-  // Smooth scroll to expanded card
-  useEffect(() => {
-    if (expandedId === null) return;
-    const timer = setTimeout(() => {
-      const el = cardRefs.current.get(expandedId);
-      if (el) {
-        const rect = el.getBoundingClientRect();
-        const offset = rect.top + window.scrollY - 120;
-        window.scrollTo({ top: offset, behavior: "smooth" });
-      }
-    }, 350);
-    return () => clearTimeout(timer);
-  }, [expandedId]);
+  const navigate = (dir: -1 | 1) => {
+    setDirection(dir);
+    setSelected((prev) => (prev + dir + projects.length) % projects.length);
+  };
+
+  const goTo = (i: number) => {
+    setDirection(i > selected ? 1 : -1);
+    setSelected(i);
+  };
 
   return (
-    <section id="android-projects" className="section-padding relative z-10">
-      {/* Gradient ring animation */}
-      <style>{`
-        @keyframes gradient-spin {
-          0%   { background-position: 0% 50%; }
-          50%  { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
-        }
-      `}</style>
-
+    <section id="android-projects" className="section-padding relative z-10" ref={sectionRef}>
       <div className="max-w-7xl mx-auto">
-        {/* Left-aligned heading */}
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mb-14"
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7 }}
+          className="mb-16"
         >
-          <p className="text-primary font-display font-medium mb-2 tracking-premium text-sm">
-            Android Projects
-          </p>
-          <h2 className="font-display text-3xl md:text-5xl font-extrabold">
-            Mobile Apps I've <span className="text-gradient">Built</span>
+          <div className="flex items-center gap-3 mb-3">
+            <Smartphone size={14} className="text-primary" />
+            <p className="text-primary font-display font-medium tracking-premium text-sm">
+              Android Projects
+            </p>
+          </div>
+          <h2 className="font-display text-4xl md:text-6xl font-extrabold leading-tight">
+            Mobile Apps I've <span className="text-gradient">Crafted</span>
           </h2>
-          <p className="text-muted-foreground mt-3 text-base max-w-lg">
-            Native Android applications crafted with performance and user experience in mind
+          <p className="text-muted-foreground mt-4 text-lg max-w-lg">
+            Native Android apps built with obsessive attention to performance and UX.
           </p>
         </motion.div>
 
-        {/* Grid */}
-        <LayoutGroup>
-          <motion.div
-            layout
-            className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 relative"
-            transition={{ layout: { duration: 0.5, ease: [0.4, 0, 0.2, 1] } }}
-          >
-            {projects.map((project, index) => {
-              const isExpanded = expandedId === index;
-              const isHovered = hoveredId === index && !isExpanded;
+        {/* Showcase */}
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="relative"
+        >
+          {/* Main stage */}
+          <div className="relative rounded-3xl overflow-hidden border border-border bg-card/30">
+            {/* Background glow */}
+            <div
+              className="absolute inset-0 opacity-20 transition-all duration-1000"
+              style={{
+                background: `radial-gradient(ellipse at 70% 50%, hsl(${project.color} / 0.15) 0%, transparent 70%)`,
+              }}
+            />
 
-              return (
-                <motion.div
-                  key={project.name}
-                  ref={(el) => {
-                    if (el) cardRefs.current.set(index, el);
-                    else cardRefs.current.delete(index);
-                  }}
-                  layout
-                  transition={{
-                    layout: { duration: 0.5, ease: [0.4, 0, 0.2, 1] },
-                  }}
-                  className={
-                    isExpanded ? "col-span-2 md:col-span-3 relative z-30" : "col-span-1"
-                  }
-                >
+            <div className="relative flex flex-col lg:flex-row items-center gap-8 lg:gap-0 p-8 md:p-12 lg:p-16">
+              {/* Left: Project info */}
+              <div className="flex-1 lg:pr-12 relative z-10">
+                <AnimatePresence mode="wait" custom={direction}>
                   <motion.div
-                    layout
-                    className={`group relative rounded-xl cursor-pointer ${
-                      isExpanded
-                        ? "bg-card"
-                        : "bg-card/40"
-                    }`}
-                    onClick={() => handleClick(index)}
-                    onMouseEnter={() => setHoveredId(index)}
-                    onMouseLeave={() => setHoveredId(null)}
+                    key={selected}
+                    custom={direction}
+                    initial={{ opacity: 0, x: direction * 60 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: direction * -60 }}
+                    transition={{ duration: 0.45, ease: [0.4, 0, 0.2, 1] }}
                   >
-                    {/* Animated gradient ring on hover */}
-                    <AnimatePresence>
-                      {isHovered && <HoverRing />}
-                    </AnimatePresence>
+                    {/* Year badge */}
+                    <span className="inline-block px-3 py-1 rounded-full text-[10px] font-display font-bold tracking-premium border border-border text-muted-foreground mb-6">
+                      {project.year}
+                    </span>
 
-                    {/* Expanded glow border */}
-                    {isExpanded && (
-                      <div className="absolute -inset-[1px] rounded-xl border border-primary/25 pointer-events-none z-10" />
-                    )}
+                    {/* Icon + Name */}
+                    <div className="flex items-center gap-4 mb-4">
+                      <span className="text-5xl">{project.icon}</span>
+                      <h3 className="font-display text-3xl md:text-4xl font-extrabold">
+                        {project.name}
+                      </h3>
+                    </div>
 
-                    <motion.div
-                      layout
-                      className={`flex ${
-                        isExpanded ? "flex-col sm:flex-row" : "flex-col items-center"
-                      }`}
-                      transition={{ layout: { duration: 0.5, ease: [0.4, 0, 0.2, 1] } }}
-                    >
-                      {/* === EXPANDED: Info panel (left) === */}
-                      <AnimatePresence>
-                        {isExpanded && (
-                          <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            transition={{ duration: 0.35, ease: "easeOut" }}
-                            className="flex-1 p-6 sm:p-8 lg:p-10 flex flex-col justify-center relative"
-                          >
-                            {/* Close */}
-                            <motion.button
-                              initial={{ opacity: 0, scale: 0.5, rotate: -90 }}
-                              animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                              transition={{ delay: 0.2, type: "spring", stiffness: 300 }}
-                              className="absolute top-4 right-4 w-9 h-9 rounded-full bg-muted/80 backdrop-blur-sm flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-destructive/20 hover:text-destructive transition-all z-10"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setExpandedId(null);
-                              }}
-                            >
-                              <X size={16} />
-                            </motion.button>
+                    {/* Description */}
+                    <p className="text-muted-foreground text-base md:text-lg leading-relaxed mb-6 max-w-lg">
+                      {project.description}
+                    </p>
 
-                            <motion.span
-                              initial={{ opacity: 0, x: -20 }}
-                              animate={{ opacity: 1, x: 0 }}
-                              transition={{ delay: 0.1, duration: 0.4 }}
-                              className="text-xs font-display tracking-premium text-primary mb-4 w-fit"
-                            >
-                              {project.year}
-                            </motion.span>
+                    {/* Tech */}
+                    <div className="flex gap-2 flex-wrap mb-8">
+                      {project.tech.map((t) => (
+                        <span
+                          key={t}
+                          className="px-3 py-1.5 rounded-lg text-xs font-semibold bg-muted/50 text-muted-foreground border border-border/60"
+                        >
+                          {t}
+                        </span>
+                      ))}
+                    </div>
 
-                            <motion.div
-                              initial={{ opacity: 0, scale: 0.3 }}
-                              animate={{ opacity: 1, scale: 1 }}
-                              transition={{ delay: 0.15, type: "spring", stiffness: 400, damping: 15 }}
-                              className="text-5xl mb-5"
-                            >
-                              {project.icon}
-                            </motion.div>
-
-                            <motion.h4
-                              initial={{ opacity: 0, y: 20 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              transition={{ delay: 0.2, duration: 0.4 }}
-                              className="font-display text-2xl sm:text-3xl font-bold mb-3"
-                            >
-                              {project.name}
-                            </motion.h4>
-
-                            <motion.p
-                              initial={{ opacity: 0, y: 20 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              transition={{ delay: 0.25, duration: 0.4 }}
-                              className="text-muted-foreground text-sm sm:text-base leading-relaxed mb-6 max-w-md"
-                            >
-                              {project.description}
-                            </motion.p>
-
-                            <motion.div
-                              initial={{ opacity: 0, y: 15 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              transition={{ delay: 0.3, duration: 0.4 }}
-                              className="flex gap-2 flex-wrap mb-6"
-                            >
-                              {project.tech.map((t) => (
-                                <span
-                                  key={t}
-                                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-primary/10 text-primary border border-primary/20"
-                                >
-                                  {techIcons[t]}
-                                  {t}
-                                </span>
-                              ))}
-                            </motion.div>
-
-                            <motion.div
-                              initial={{ opacity: 0, y: 15 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              transition={{ delay: 0.35, duration: 0.4 }}
-                              className="flex gap-3 flex-wrap"
-                            >
-                              <a
-                                href={project.github}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                onClick={(e) => e.stopPropagation()}
-                                className="flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-display font-semibold bg-foreground text-background hover:bg-foreground/90 transition-colors"
-                              >
-                                <Github size={14} />
-                                Source Code
-                              </a>
-                              {project.playStore && (
-                                <a
-                                  href={project.playStore}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  onClick={(e) => e.stopPropagation()}
-                                  className="flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-display font-semibold border border-border text-foreground hover:border-primary hover:text-primary transition-colors"
-                                >
-                                  <ExternalLink size={14} />
-                                  Play Store
-                                </a>
-                              )}
-                            </motion.div>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-
-                      {/* === Phone mockup === */}
-                      <motion.div
-                        layout
-                        className={`flex flex-col items-center text-center ${
-                          isExpanded
-                            ? "p-6 sm:p-8 lg:p-10 flex-shrink-0"
-                            : "p-4 sm:p-6 pt-6 sm:pt-8"
-                        }`}
-                        transition={{ layout: { duration: 0.5, ease: [0.4, 0, 0.2, 1] } }}
+                    {/* Actions */}
+                    <div className="flex gap-3 flex-wrap">
+                      <a
+                        href={project.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn-premium px-6 py-3 flex items-center gap-2 text-sm"
                       >
-                        <div className="relative mb-4">
-                          <motion.div
-                            layout
-                            className={`relative rounded-[24px] bg-gradient-to-b from-[hsl(220,20%,16%)] to-[hsl(220,20%,10%)] p-[6px] border border-border/15 ${
-                              isExpanded
-                                ? "w-[180px] h-[360px] sm:w-[200px] sm:h-[400px] lg:w-[220px] lg:h-[440px] shadow-[0_30px_60px_rgba(0,0,0,0.5)]"
-                                : "w-[130px] h-[260px] sm:w-[150px] sm:h-[300px] lg:w-[170px] lg:h-[340px] shadow-[0_20px_40px_rgba(0,0,0,0.35)] group-hover:-translate-y-2 transition-transform duration-500"
-                            }`}
-                            transition={{ layout: { duration: 0.5, ease: [0.4, 0, 0.2, 1] } }}
-                          >
-                            <div className="absolute top-[4px] left-1/2 -translate-x-1/2 w-[36px] h-[3px] bg-[hsl(220,15%,20%)] rounded-full z-10" />
-                            <div className="relative w-full h-full rounded-[19px] overflow-hidden bg-background">
-                              <img
-                                src={project.screenshot}
-                                alt={`${project.name} screenshot`}
-                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                                loading="lazy"
-                              />
-                            </div>
-                            <div className="absolute bottom-[4px] left-1/2 -translate-x-1/2 w-[24px] h-[2.5px] bg-[hsl(220,15%,22%)] rounded-full" />
-                          </motion.div>
-                        </div>
-
-                        {/* Collapsed: name + explore hint */}
-                        {!isExpanded && (
-                          <motion.div layout className="flex flex-col items-center">
-                            <h4 className="font-display text-sm sm:text-base font-bold group-hover:text-primary transition-colors duration-300">
-                              {project.name}
-                            </h4>
-                            <p className="text-muted-foreground text-[11px] sm:text-xs mt-1 max-w-[180px] leading-relaxed">
-                              {project.description.slice(0, 45)}…
-                            </p>
-                            <div className="flex gap-1.5 mt-2.5 flex-wrap justify-center">
-                              {project.tech.map((t) => (
-                                <span
-                                  key={t}
-                                  className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-gradient-to-r from-primary to-secondary text-primary-foreground tracking-wide"
-                                >
-                                  {t}
-                                </span>
-                              ))}
-                            </div>
-                            {/* Subtle explore hint */}
-                            <span className="mt-3 flex items-center gap-1 text-[10px] text-muted-foreground/50 group-hover:text-primary/70 transition-colors font-display tracking-wider uppercase opacity-0 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0 transition-all duration-300">
-                              Explore
-                              <ChevronRight size={10} className="group-hover:translate-x-0.5 transition-transform" />
-                            </span>
-                          </motion.div>
-                        )}
-                      </motion.div>
-                    </motion.div>
+                        <Github size={15} />
+                        View Code
+                      </a>
+                      {project.playStore && (
+                        <a
+                          href={project.playStore}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="btn-outline-premium px-6 py-3 flex items-center gap-2 text-sm"
+                        >
+                          <ExternalLink size={15} />
+                          Play Store
+                        </a>
+                      )}
+                    </div>
                   </motion.div>
-                </motion.div>
-              );
-            })}
-          </motion.div>
-        </LayoutGroup>
+                </AnimatePresence>
+              </div>
+
+              {/* Right: Phone mockup */}
+              <div className="relative flex-shrink-0">
+                {/* Phone glow */}
+                <div
+                  className="absolute inset-0 -m-8 rounded-full blur-[80px] opacity-30 transition-all duration-1000"
+                  style={{ background: `hsl(${project.color} / 0.3)` }}
+                />
+
+                <div className="relative">
+                  {/* Phone frame */}
+                  <div className="relative w-[220px] h-[440px] md:w-[250px] md:h-[500px] rounded-[2.5rem] bg-gradient-to-b from-[hsl(220,20%,16%)] to-[hsl(220,20%,10%)] p-[5px] border border-border/30 shadow-[0_40px_80px_rgba(0,0,0,0.5)]">
+                    {/* Notch */}
+                    <div className="absolute top-[6px] left-1/2 -translate-x-1/2 w-16 h-[20px] bg-[hsl(220,25%,6%)] rounded-full z-10 flex items-center px-2">
+                      <div className="w-[8px] h-[8px] rounded-full bg-[hsl(220,15%,18%)] border border-[hsl(220,10%,25%)]" />
+                    </div>
+
+                    {/* Screen */}
+                    <div className="relative w-full h-full rounded-[2.1rem] overflow-hidden bg-background">
+                      <AnimatePresence mode="wait" custom={direction}>
+                        <motion.img
+                          key={selected}
+                          src={project.screenshot}
+                          alt={`${project.name} screenshot`}
+                          className="w-full h-full object-cover"
+                          custom={direction}
+                          initial={{ opacity: 0, scale: 1.1 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          exit={{ opacity: 0, scale: 0.95 }}
+                          transition={{ duration: 0.5 }}
+                        />
+                      </AnimatePresence>
+                    </div>
+
+                    {/* Home bar */}
+                    <div className="absolute bottom-[5px] left-1/2 -translate-x-1/2 w-24 h-[3px] bg-muted-foreground/25 rounded-full" />
+                  </div>
+
+                  {/* Reflection */}
+                  <div
+                    className="absolute -bottom-6 left-1/2 -translate-x-1/2 w-[180px] h-[30px] rounded-full blur-xl opacity-20"
+                    style={{ background: `hsl(${project.color})` }}
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Navigation bar */}
+            <div className="relative border-t border-border/50 px-8 md:px-12 py-5 flex items-center justify-between bg-card/20 backdrop-blur-sm">
+              {/* Arrows */}
+              <div className="flex gap-2">
+                <button
+                  onClick={() => navigate(-1)}
+                  className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-all duration-300 hover:-translate-y-0.5"
+                >
+                  <ChevronLeft size={18} />
+                </button>
+                <button
+                  onClick={() => navigate(1)}
+                  className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-all duration-300 hover:-translate-y-0.5"
+                >
+                  <ChevronRight size={18} />
+                </button>
+              </div>
+
+              {/* Thumbnail strip */}
+              <div className="flex items-center gap-3 overflow-x-auto hide-scrollbar">
+                {projects.map((p, i) => (
+                  <button
+                    key={p.name}
+                    onClick={() => goTo(i)}
+                    className={`relative flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center text-lg transition-all duration-300 ${
+                      selected === i
+                        ? "bg-primary/15 border-2 border-primary scale-110"
+                        : "bg-muted/30 border border-border hover:border-muted-foreground/50 hover:scale-105"
+                    }`}
+                  >
+                    {p.icon}
+                  </button>
+                ))}
+              </div>
+
+              {/* Counter */}
+              <span className="text-xs font-mono text-muted-foreground hidden sm:block">
+                <span className="text-primary font-bold">{String(selected + 1).padStart(2, "0")}</span>
+                <span className="mx-1">/</span>
+                {String(projects.length).padStart(2, "0")}
+              </span>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
