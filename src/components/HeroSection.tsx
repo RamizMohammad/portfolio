@@ -66,28 +66,31 @@ const HeroSection = () => {
   return (
     <section
       id="hero"
-      className="min-h-screen flex items-center section-padding pt-28 relative z-10"
+      className="min-h-[100svh] flex items-center section-padding pt-20 relative z-10"
     >
-      <div className="max-w-7xl mx-auto w-full flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+      <div className="max-w-7xl mx-auto w-full flex flex-col lg:flex-row items-center" style={{ gap: "clamp(2rem, 4vh, 5rem)" }}>
         {/* Left */}
         <motion.div
           variants={container}
           initial="hidden"
           animate="show"
-          className="flex-1 space-y-6"
+          className="flex-1"
+          style={{ display: "flex", flexDirection: "column", gap: "clamp(0.5rem, 1.2vh, 1.5rem)" }}
         >
-          <motion.p variants={item} className="text-primary font-display font-medium text-lg tracking-premium">
+          <motion.p variants={item} className="text-primary font-display font-medium tracking-premium vh-body">
             Hello, I'm
           </motion.p>
           <motion.h1
             variants={item}
-            className="font-display text-5xl md:text-7xl font-extrabold leading-tight"
+            className="font-display font-extrabold leading-tight"
+            style={{ fontSize: "clamp(2rem, 6vh, 4.5rem)" }}
           >
             Mohammad <span className="text-gradient">Ramiz</span>
           </motion.h1>
           <motion.p
             variants={item}
-            className="text-xl md:text-2xl text-muted-foreground font-display h-10"
+            className="text-muted-foreground font-display vh-subheading"
+            style={{ height: "clamp(1.5rem, 3vh, 2.5rem)" }}
           >
             <TypingEffect />
           </motion.p>

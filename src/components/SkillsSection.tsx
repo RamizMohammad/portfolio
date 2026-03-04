@@ -59,29 +59,27 @@ const SkillCard = ({
       transition={{ duration: 0.4, delay: delay * 0.06 }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className="group relative flex flex-col items-center gap-3 p-4 rounded-2xl border border-border bg-card/50 hover:border-primary/30 hover:bg-card transition-all duration-400 cursor-default"
+      className="group relative flex flex-col items-center rounded-2xl border border-border bg-card/50 hover:border-primary/30 hover:bg-card transition-all duration-400 cursor-default"
+      style={{ padding: "clamp(6px, 1.2vh, 16px)", gap: "clamp(4px, 0.8vh, 12px)" }}
     >
-      {/* Glow on hover */}
       <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
         style={{ boxShadow: "inset 0 0 30px hsl(152 100% 50% / 0.05), 0 0 20px hsl(152 100% 50% / 0.08)" }}
       />
 
-      {/* Icon */}
       <motion.div
-        animate={hovered ? { y: -4, scale: 1.1 } : { y: 0, scale: 1 }}
+        animate={hovered ? { y: -3, scale: 1.1 } : { y: 0, scale: 1 }}
         transition={{ type: "spring", stiffness: 300, damping: 20 }}
-        className="relative w-12 h-12 flex items-center justify-center"
+        className="relative flex items-center justify-center"
+        style={{ width: "clamp(2rem, 4vh, 3rem)", height: "clamp(2rem, 4vh, 3rem)" }}
       >
-        <img src={skill.icon} alt={skill.name} className="w-10 h-10 object-contain drop-shadow-lg" />
+        <img src={skill.icon} alt={skill.name} className="w-full h-full object-contain drop-shadow-lg" />
       </motion.div>
 
-      {/* Name */}
-      <span className="font-display font-semibold text-xs text-foreground text-center leading-tight">
+      <span className="font-display font-semibold text-foreground text-center leading-tight" style={{ fontSize: "clamp(9px, 1.1vh, 12px)" }}>
         {skill.name}
       </span>
 
-      {/* Level bar */}
-      <div className="w-full h-1.5 rounded-full bg-muted overflow-hidden">
+      <div className="w-full rounded-full bg-muted overflow-hidden" style={{ height: "clamp(3px, 0.5vh, 6px)" }}>
         <motion.div
           className="h-full rounded-full"
           style={{ background: "linear-gradient(90deg, hsl(152 100% 50%), hsl(216 100% 50%))" }}
@@ -91,11 +89,11 @@ const SkillCard = ({
         />
       </div>
 
-      {/* Level tooltip on hover */}
       <motion.span
         initial={{ opacity: 0, y: 4 }}
         animate={hovered ? { opacity: 1, y: 0 } : { opacity: 0, y: 4 }}
-        className="text-[10px] text-primary font-display font-bold"
+        className="text-primary font-display font-bold"
+        style={{ fontSize: "clamp(7px, 0.9vh, 10px)" }}
       >
         {skill.level}%
       </motion.span>
@@ -108,42 +106,42 @@ const SkillsSection = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="skills" className="section-padding relative z-10" ref={ref}>
-      <div className="max-w-6xl mx-auto">
+    <section id="skills" className="section-padding relative z-10 min-h-[100svh] flex flex-col justify-center" ref={ref}>
+      <div className="max-w-6xl mx-auto w-full">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="mb-14 text-center"
+          className="text-center vh-mb-header"
         >
-          <p className="text-primary font-display font-medium mb-2 tracking-premium text-sm">Skills</p>
-          <h2 className="font-display text-3xl md:text-5xl font-extrabold">
+          <p className="text-primary font-display font-medium tracking-premium vh-small" style={{ marginBottom: "clamp(2px, 0.4vh, 8px)" }}>Skills</p>
+          <h2 className="font-display font-extrabold vh-heading">
             My <span className="text-gradient">Toolkit</span>
           </h2>
-          <p className="text-muted-foreground text-sm mt-3 max-w-md mx-auto">
+          <p className="text-muted-foreground max-w-md mx-auto vh-body mt-1">
             Technologies and tools I use to bring ideas to life
           </p>
         </motion.div>
 
-        <div className="space-y-12">
+        <div style={{ display: "flex", flexDirection: "column", gap: "clamp(1rem, 2.5vh, 3rem)" }}>
           {categories.map((cat, catIdx) => (
             <motion.div
               key={cat.title}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: catIdx * 0.15 }}
             >
-              {/* Category header */}
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-8 h-8 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center">
-                  <cat.icon size={16} className="text-primary" />
+              <div className="flex items-center" style={{ gap: "clamp(0.5rem, 1vh, 0.75rem)", marginBottom: "clamp(0.5rem, 1vh, 1.5rem)" }}>
+                <div className="rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center"
+                  style={{ width: "clamp(1.5rem, 2.5vh, 2rem)", height: "clamp(1.5rem, 2.5vh, 2rem)" }}
+                >
+                  <cat.icon style={{ width: "clamp(10px, 1.5vh, 16px)", height: "clamp(10px, 1.5vh, 16px)" }} className="text-primary" />
                 </div>
-                <h3 className="font-display font-bold text-sm tracking-premium text-foreground">{cat.title}</h3>
+                <h3 className="font-display font-bold tracking-premium text-foreground vh-small">{cat.title}</h3>
                 <div className="flex-1 h-px bg-border" />
               </div>
 
-              {/* Skills grid */}
-              <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3">
+              <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6" style={{ gap: "clamp(0.4rem, 0.8vh, 0.75rem)" }}>
                 {cat.skills.map((skill, i) => (
                   <SkillCard
                     key={skill.name}

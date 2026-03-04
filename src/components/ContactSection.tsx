@@ -26,66 +26,69 @@ const ContactSection = () => {
   };
 
   return (
-    <section id="contact" className="section-padding relative z-10" ref={ref}>
-      <div className="max-w-5xl mx-auto">
+    <section id="contact" className="section-padding relative z-10 min-h-[100svh] flex items-center" ref={ref}>
+      <div className="max-w-5xl mx-auto w-full">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="mb-12"
+          className="vh-mb-header"
         >
-          <p className="text-primary font-display font-medium mb-2 tracking-premium text-sm">Contact</p>
-          <h2 className="font-display text-3xl md:text-5xl font-extrabold">
+          <p className="text-primary font-display font-medium tracking-premium vh-small" style={{ marginBottom: "clamp(2px, 0.4vh, 8px)" }}>Contact</p>
+          <h2 className="font-display font-extrabold vh-heading">
             Let's <span className="text-gradient">connect</span>
           </h2>
-          <p className="text-muted-foreground mt-3 text-base">Ready to bring your ideas to life</p>
+          <p className="text-muted-foreground vh-body mt-1">Ready to bring your ideas to life</p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-12">
+        <div className="grid md:grid-cols-2" style={{ gap: "clamp(1.5rem, 4vh, 3rem)" }}>
           <motion.form
             onSubmit={handleSubmit}
             initial={{ opacity: 0, x: -30 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="space-y-5"
+            style={{ display: "flex", flexDirection: "column", gap: "clamp(0.5rem, 1.2vh, 1.25rem)" }}
           >
             <div>
-              <label className="text-sm text-muted-foreground mb-1.5 block font-display tracking-premium text-xs">Full Name</label>
+              <label className="text-muted-foreground block font-display tracking-premium" style={{ fontSize: "clamp(8px, 1vh, 11px)", marginBottom: "clamp(2px, 0.4vh, 6px)" }}>Full Name</label>
               <input
                 type="text"
                 required
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full px-5 py-3.5 rounded-2xl bg-card border border-border focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors text-sm"
+                className="w-full rounded-2xl bg-card border border-border focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors vh-body"
+                style={{ padding: "clamp(8px, 1.2vh, 14px) clamp(12px, 2vh, 20px)" }}
                 placeholder="Enter your full name"
               />
             </div>
             <div>
-              <label className="text-sm text-muted-foreground mb-1.5 block font-display tracking-premium text-xs">Email Address</label>
+              <label className="text-muted-foreground block font-display tracking-premium" style={{ fontSize: "clamp(8px, 1vh, 11px)", marginBottom: "clamp(2px, 0.4vh, 6px)" }}>Email Address</label>
               <input
                 type="email"
                 required
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full px-5 py-3.5 rounded-2xl bg-card border border-border focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors text-sm"
+                className="w-full rounded-2xl bg-card border border-border focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors vh-body"
+                style={{ padding: "clamp(8px, 1.2vh, 14px) clamp(12px, 2vh, 20px)" }}
                 placeholder="Enter your email"
               />
             </div>
             <div>
-              <label className="text-sm text-muted-foreground mb-1.5 block font-display tracking-premium text-xs">Message</label>
+              <label className="text-muted-foreground block font-display tracking-premium" style={{ fontSize: "clamp(8px, 1vh, 11px)", marginBottom: "clamp(2px, 0.4vh, 6px)" }}>Message</label>
               <textarea
                 required
-                rows={5}
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                className="w-full px-5 py-3.5 rounded-2xl bg-card border border-border focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors text-sm resize-none"
-                placeholder="Tell me about your project or just say hello..."
+                className="w-full rounded-2xl bg-card border border-border focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors resize-none vh-body"
+                style={{ padding: "clamp(8px, 1.2vh, 14px) clamp(12px, 2vh, 20px)", height: "clamp(80px, 14vh, 140px)" }}
+                placeholder="Tell me about your project..."
               />
             </div>
             <button
               type="submit"
               disabled={status === "sending"}
-              className="px-8 py-3.5 btn-premium flex items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+              className="btn-premium flex items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+              style={{ padding: "clamp(8px, 1.2vh, 14px) clamp(16px, 3vh, 32px)", fontSize: "clamp(11px, 1.3vh, 14px)" }}
             >
               {status === "sending" ? (
                 <><Loader2 size={16} className="animate-spin" /> Sending...</>
@@ -103,24 +106,26 @@ const ContactSection = () => {
             initial={{ opacity: 0, x: 30 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="space-y-8"
+            style={{ display: "flex", flexDirection: "column", gap: "clamp(1rem, 2.5vh, 2rem)" }}
           >
-            <div className="space-y-4">
+            <div style={{ display: "flex", flexDirection: "column", gap: "clamp(0.5rem, 1vh, 1rem)" }}>
               {[
                 { icon: MapPin, label: "Location", value: "Greater Noida, Uttar Pradesh" },
                 { icon: Phone, label: "Phone", value: "+91 9517028373", href: "tel:+919517028373" },
                 { icon: Mail, label: "Email", value: "ramizanas6@gmail.com", href: "mailto:ramizanas6@gmail.com" },
               ].map((item) => (
-                <div key={item.label} className="flex items-center gap-3 text-muted-foreground">
-                  <div className="w-12 h-12 rounded-2xl border border-border bg-card flex items-center justify-center">
-                    <item.icon size={16} className="text-primary" />
+                <div key={item.label} className="flex items-center text-muted-foreground" style={{ gap: "clamp(0.5rem, 1vh, 0.75rem)" }}>
+                  <div className="rounded-2xl border border-border bg-card flex items-center justify-center"
+                    style={{ width: "clamp(2rem, 4vh, 3rem)", height: "clamp(2rem, 4vh, 3rem)" }}
+                  >
+                    <item.icon style={{ width: "clamp(12px, 1.5vh, 16px)", height: "clamp(12px, 1.5vh, 16px)" }} className="text-primary" />
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-foreground font-display">{item.label}</p>
+                    <p className="font-medium text-foreground font-display vh-small">{item.label}</p>
                     {item.href ? (
-                      <a href={item.href} className="text-sm hover:text-primary transition-colors">{item.value}</a>
+                      <a href={item.href} className="hover:text-primary transition-colors vh-small">{item.value}</a>
                     ) : (
-                      <p className="text-sm">{item.value}</p>
+                      <p className="vh-small">{item.value}</p>
                     )}
                   </div>
                 </div>
@@ -128,15 +133,18 @@ const ContactSection = () => {
             </div>
 
             <div>
-              <p className="text-sm font-display font-bold mb-3 tracking-premium">Follow me</p>
-              <div className="flex gap-3">
+              <p className="font-display font-bold tracking-premium vh-small" style={{ marginBottom: "clamp(0.5rem, 1vh, 0.75rem)" }}>Follow me</p>
+              <div className="flex" style={{ gap: "clamp(0.5rem, 1vh, 0.75rem)" }}>
                 {[
                   { icon: Github, href: "https://github.com/RamizMohammad" },
                   { icon: Linkedin, href: "https://www.linkedin.com/in/mohammad-ramiz-886468217/" },
                   { icon: Twitter, href: "https://x.com/Mohammad__Ramiz" },
                 ].map((s, i) => (
-                  <a key={i} href={s.href} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-primary-foreground hover:bg-primary hover:border-primary transition-all hover:-translate-y-1">
-                    <s.icon size={18} />
+                  <a key={i} href={s.href} target="_blank" rel="noopener noreferrer"
+                    className="rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-primary-foreground hover:bg-primary hover:border-primary transition-all hover:-translate-y-1"
+                    style={{ width: "clamp(2rem, 4vh, 3rem)", height: "clamp(2rem, 4vh, 3rem)" }}
+                  >
+                    <s.icon style={{ width: "clamp(12px, 1.5vh, 18px)", height: "clamp(12px, 1.5vh, 18px)" }} />
                   </a>
                 ))}
               </div>

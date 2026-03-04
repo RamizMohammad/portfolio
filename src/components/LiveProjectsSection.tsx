@@ -44,36 +44,34 @@ const LiveProjectsSection = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
-    <section className="section-padding relative z-10" ref={sectionRef}>
-      <div className="max-w-6xl mx-auto">
+    <section className="section-padding relative z-10 min-h-[100svh] flex flex-col justify-center" ref={sectionRef}>
+      <div className="max-w-6xl mx-auto w-full flex flex-col" style={{ gap: "clamp(1rem, 2.5vh, 2.5rem)" }}>
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7 }}
-          className="mb-8"
         >
-          <div className="flex items-center gap-3 mb-2">
+          <div className="flex items-center gap-3 mb-1">
             <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-            <p className="text-primary font-display font-medium tracking-premium text-sm">
+            <p className="text-primary font-display font-medium tracking-premium vh-small">
               Live & Deployed
             </p>
           </div>
-          <h2 className="font-display text-3xl md:text-4xl font-extrabold leading-tight">
+          <h2 className="font-display font-extrabold leading-tight vh-heading">
             Projects in the <span className="text-gradient">Wild</span>
           </h2>
-          <p className="text-muted-foreground mt-2 text-sm max-w-lg">
+          <p className="text-muted-foreground mt-1 vh-body max-w-lg">
             Real products, real users, real impact.
           </p>
         </motion.div>
 
         {/* Bento Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-12 flex-1" style={{ gap: "clamp(0.75rem, 1.2vh, 1.25rem)" }}>
           {liveProjects.map((project, i) => {
             const isHovered = hoveredIndex === i;
             const colSpan =
               i === 0 ? "md:col-span-7" : i === 1 ? "md:col-span-5" : "md:col-span-12";
-            const height = i === 2 ? "md:h-[160px]" : "md:h-[240px]";
 
             return (
               <motion.a
@@ -81,12 +79,13 @@ const LiveProjectsSection = () => {
                 href={project.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                initial={{ opacity: 0, y: 40 }}
+                initial={{ opacity: 0, y: 30 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6, delay: 0.15 * i }}
                 onMouseEnter={() => setHoveredIndex(i)}
                 onMouseLeave={() => setHoveredIndex(null)}
-                className={`${colSpan} group relative rounded-2xl overflow-hidden cursor-pointer h-[220px] ${height}`}
+                className={`${colSpan} group relative rounded-2xl overflow-hidden cursor-pointer`}
+                style={{ height: i === 2 ? "clamp(120px, 18vh, 200px)" : "clamp(160px, 28vh, 300px)" }}
               >
                 {/* Base bg */}
                 <div className="absolute inset-0 bg-card" />
@@ -108,21 +107,22 @@ const LiveProjectsSection = () => {
                 <div className="absolute inset-0 rounded-2xl border border-border group-hover:border-transparent transition-colors duration-500" />
 
                 {/* Content */}
-                <div className={`relative z-10 h-full p-5 flex ${i === 2 ? "flex-row items-center gap-6" : "flex-col justify-between"}`}>
-                  <div className={`${i === 2 ? "flex items-center gap-6 flex-1" : ""}`}>
-                    {/* Emoji + Live badge */}
+                <div className={`relative z-10 h-full flex ${i === 2 ? "flex-row items-center" : "flex-col justify-between"}`}
+                  style={{ padding: "clamp(0.75rem, 1.8vh, 1.5rem)" }}
+                >
+                  <div className={`${i === 2 ? "flex items-center gap-4 flex-1" : ""}`}>
                     <div className="flex items-start justify-between mb-auto">
                       <motion.div
-                        className="text-5xl"
+                        style={{ fontSize: "clamp(1.5rem, 4vh, 3rem)" }}
                         animate={isHovered ? { scale: 1.15, rotate: [0, -5, 5, 0] } : { scale: 1 }}
                         transition={{ duration: 0.5 }}
                       >
                         {project.emoji}
                       </motion.div>
                       {i !== 2 && (
-                        <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 border border-primary/20">
+                        <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-primary/10 border border-primary/20">
                           <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                          <span className="text-[10px] font-display font-semibold text-primary tracking-wider uppercase">
+                          <span className="font-display font-semibold text-primary tracking-wider uppercase" style={{ fontSize: "clamp(8px, 1vh, 10px)" }}>
                             Live
                           </span>
                         </div>
@@ -130,14 +130,14 @@ const LiveProjectsSection = () => {
                     </div>
 
                     <div className={i === 2 ? "ml-0" : "mt-auto"}>
-                      <h3 className="font-display text-xl md:text-2xl font-extrabold mb-1 group-hover:text-primary transition-colors duration-300">
+                      <h3 className="font-display font-extrabold mb-0.5 group-hover:text-primary transition-colors duration-300 vh-subheading">
                         {project.name}
                       </h3>
-                      <p className="text-muted-foreground/70 text-xs font-display italic mb-2">
+                      <p className="text-muted-foreground/70 font-display italic vh-small">
                         {project.tagline}
                       </p>
                       {i !== 2 && (
-                        <p className="text-muted-foreground text-sm leading-relaxed max-w-md">
+                        <p className="text-muted-foreground leading-relaxed max-w-md mt-1 vh-body">
                           {project.description}
                         </p>
                       )}
@@ -145,19 +145,20 @@ const LiveProjectsSection = () => {
                   </div>
 
                   {/* Bottom bar */}
-                  <div className={`flex items-center justify-between ${i === 2 ? "flex-1" : "mt-4"}`}>
+                  <div className={`flex items-center justify-between ${i === 2 ? "flex-1" : "mt-2"}`}>
                     <div className="flex gap-1.5 flex-wrap">
                       {project.tech.map((t) => (
                         <span
                           key={t}
-                          className="px-2.5 py-1 rounded-md text-[10px] font-semibold bg-muted/60 text-muted-foreground border border-border/50"
+                          className="rounded-md font-semibold bg-muted/60 text-muted-foreground border border-border/50"
+                          style={{ padding: "clamp(2px, 0.4vh, 4px) clamp(6px, 1vh, 10px)", fontSize: "clamp(8px, 1.1vh, 11px)" }}
                         >
                           {t}
                         </span>
                       ))}
                     </div>
                     <motion.div
-                      className="flex items-center gap-1.5 text-xs text-muted-foreground group-hover:text-primary transition-colors font-display font-semibold"
+                      className="flex items-center gap-1.5 text-muted-foreground group-hover:text-primary transition-colors font-display font-semibold vh-small"
                       animate={isHovered ? { x: 4 } : { x: 0 }}
                     >
                       <Zap size={12} />
