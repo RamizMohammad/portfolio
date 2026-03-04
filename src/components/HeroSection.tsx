@@ -75,7 +75,7 @@ const HeroSection = () => {
   return (
     <section
       id="hero"
-      className="min-h-[100svh] flex items-center section-padding pt-24 md:pt-20 relative z-10"
+      className="min-h-[100svh] flex items-center section-padding pt-28 md:pt-20 relative z-10"
     >
       <div className="max-w-7xl mx-auto w-full flex flex-col lg:flex-row items-center" style={{ gap: "clamp(2rem, 4vh, 5rem)" }}>
         {/* Left */}
