@@ -107,7 +107,7 @@ const LiveProjectsSection = () => {
                 <div className="absolute inset-0 rounded-2xl border border-border group-hover:border-transparent transition-colors duration-500" />
 
                 {/* Content */}
-                <div className={`relative z-10 h-full flex ${i === 2 ? "flex-row items-center" : "flex-col justify-between"}`}
+                <div className={`relative z-10 h-full flex overflow-hidden ${i === 2 ? "flex-row items-center" : "flex-col justify-between"}`}
                   style={{ padding: "clamp(0.75rem, 1.8vh, 1.5rem)" }}
                 >
                   <div className={`${i === 2 ? "flex items-center gap-4 flex-1" : ""}`}>
@@ -137,7 +137,7 @@ const LiveProjectsSection = () => {
                         {project.tagline}
                       </p>
                       {i !== 2 && (
-                        <p className="text-muted-foreground leading-relaxed max-w-md mt-1 vh-body">
+                        <p className="text-muted-foreground leading-relaxed max-w-md mt-1 vh-body line-clamp-2 overflow-hidden">
                           {project.description}
                         </p>
                       )}

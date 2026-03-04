@@ -43,7 +43,7 @@ const Index = () => {
         {!terminalMode && (
           <motion.button
             onClick={() => setTerminalMode(true)}
-            className="fixed left-4 top-1/2 -translate-y-1/2 z-[100] group"
+            className="fixed left-4 top-1/2 -translate-y-1/2 z-[100] group hidden md:block"
             initial={{ x: -60, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: -60, opacity: 0 }}
