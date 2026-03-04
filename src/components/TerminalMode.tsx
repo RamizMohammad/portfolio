@@ -257,9 +257,14 @@ const TerminalMode = ({ onExit }: TerminalModeProps) => {
     ];
 
     let i = 0;
+    let cancelled = false;
     const interval = setInterval(() => {
+      if (cancelled) return;
       if (i < bootLines.length) {
-        setLines((prev) => [...prev, bootLines[i]]);
+        const line = bootLines[i];
+        if (line) {
+          setLines((prev) => [...prev, line]);
+        }
         i++;
         scrollToBottom();
       } else {
@@ -269,7 +274,7 @@ const TerminalMode = ({ onExit }: TerminalModeProps) => {
       }
     }, 200);
 
-    return () => clearInterval(interval);
+    return () => { cancelled = true; clearInterval(interval); };
   }, [scrollToBottom]);
 
   const executeCommand = useCallback((cmd: string) => {
@@ -378,7 +383,7 @@ const TerminalMode = ({ onExit }: TerminalModeProps) => {
         className="flex-1 overflow-y-auto p-4 md:p-6 font-mono text-sm md:text-base"
         style={{ scrollbarWidth: "thin", scrollbarColor: "hsl(220,15%,20%) transparent" }}
       >
-        {lines.map((line, i) => (
+        {lines.filter(Boolean).map((line, i) => (
           <div key={i} className={`${getLineColor(line.type)} leading-relaxed`}>
             {line.type === "input" ? (
               <div className="flex gap-2">
