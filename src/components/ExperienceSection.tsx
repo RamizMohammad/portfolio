@@ -2,6 +2,9 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import { Briefcase, Calendar, ChevronRight, X, Code2, Zap, Layers } from "lucide-react";
 
+const THEME_COLOR = "152 100% 50%";
+const THEME_GRADIENT = "linear-gradient(135deg, hsl(152 100% 50%), hsl(216 100% 50%))";
+
 const companies = [
   {
     name: "Freelance Projects",
@@ -18,7 +21,6 @@ const companies = [
     ],
     projects: ["Confess App", "Share Wheels", "BuddyCode"],
     tech: ["Java", "Kotlin", "Firebase", "Android Studio"],
-    color: "152 100% 50%",
     status: "Active",
   },
   {
@@ -36,7 +38,6 @@ const companies = [
     ],
     projects: ["BuddyCode Web", "Confess Server", "Local Share"],
     tech: ["Python", "Flask", "FastAPI", "AWS"],
-    color: "216 100% 50%",
     status: "Active",
   },
   {
@@ -54,7 +55,6 @@ const companies = [
     ],
     projects: ["Admin Panel"],
     tech: ["Flask", "Web Design"],
-    color: "270 100% 60%",
     status: "Completed",
   },
 ];
@@ -70,9 +70,7 @@ const ExperienceSection = () => {
 
   useEffect(() => {
     if (expanded !== null && expandedRef.current) {
-      setTimeout(() => {
-        expandedRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
-      }, 150);
+      setTimeout(() => { expandedRef.current?.scrollIntoView({ behavior: "smooth", block: "center" }); }, 150);
     }
   }, [expanded]);
 
@@ -82,28 +80,16 @@ const ExperienceSection = () => {
     if (expanded !== null) {
       setIsTransitioning(true);
       setExpanded(null);
-      setTimeout(() => {
-        setTapped(i);
-        setExpanded(i);
-        setIsTransitioning(false);
-      }, 400);
-    } else {
-      setTapped(i);
-      setExpanded(i);
-    }
+      setTimeout(() => { setTapped(i); setExpanded(i); setIsTransitioning(false); }, 400);
+    } else { setTapped(i); setExpanded(i); }
   }, [expanded, isTransitioning]);
 
-  const expandedCompany = expanded !== null ? companies[expanded] : null;
+  const ec = expanded !== null ? companies[expanded] : null;
 
   return (
     <section id="experience" className="section-padding relative z-10 min-h-[100svh] flex flex-col justify-center" ref={sectionRef}>
       <div className="max-w-7xl mx-auto w-full flex flex-col gap-6">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7 }}
-        >
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={isInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7 }}>
           <div className="flex items-center gap-3 mb-2">
             <Briefcase size={16} className="text-primary" />
             <p className="text-primary font-display font-medium tracking-premium text-sm">Experience</p>
@@ -113,107 +99,61 @@ const ExperienceSection = () => {
           </h2>
         </motion.div>
 
-        {/* Expanded Detail Panel */}
         <AnimatePresence mode="wait">
-          {expandedCompany && expanded !== null && (
-            <motion.div
-              key={expanded}
-              ref={expandedRef}
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
-              className="overflow-hidden"
-            >
-              <div
-                className="relative rounded-2xl overflow-hidden border bg-card/90 backdrop-blur-md"
-                style={{ borderColor: `hsl(${expandedCompany.color} / 0.4)` }}
-              >
-                <div
-                  className="absolute inset-0 pointer-events-none"
-                  style={{
-                    background: `radial-gradient(ellipse at 0% 50%, hsl(${expandedCompany.color} / 0.12) 0%, transparent 50%), radial-gradient(ellipse at 100% 0%, hsl(${expandedCompany.color} / 0.06) 0%, transparent 40%)`,
-                  }}
-                />
+          {ec && expanded !== null && (
+            <motion.div key={expanded} ref={expandedRef} initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }} className="overflow-hidden">
+              <div className="relative rounded-2xl overflow-hidden border border-primary/20 bg-card/90 backdrop-blur-md">
+                <div className="h-1 w-full" style={{ background: THEME_GRADIENT }} />
+                <div className="absolute inset-0 pointer-events-none" style={{ background: `radial-gradient(ellipse at 0% 50%, hsl(${THEME_COLOR} / 0.1) 0%, transparent 50%)` }} />
 
-                <button
-                  onClick={() => setExpanded(null)}
-                  className="absolute top-4 right-4 z-30 w-9 h-9 rounded-full bg-muted/60 backdrop-blur-sm border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
-                >
+                <button onClick={() => setExpanded(null)} className="absolute top-4 right-4 z-30 w-9 h-9 rounded-full bg-muted/60 backdrop-blur-sm border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted transition-colors">
                   <X size={16} />
                 </button>
 
                 <div className="relative z-10 p-6 md:p-8 flex flex-col gap-5">
-                  {/* Title row */}
                   <div className="flex items-start justify-between flex-wrap gap-4">
                     <div className="flex items-start gap-4">
-                      <div
-                        className="rounded-xl flex items-center justify-center border border-border w-14 h-14"
-                        style={{ background: `hsl(${expandedCompany.color} / 0.1)` }}
-                      >
-                        <span className="text-3xl">{expandedCompany.icon}</span>
+                      <div className="rounded-xl flex items-center justify-center border border-primary/20 w-14 h-14 bg-primary/10">
+                        <span className="text-3xl">{ec.icon}</span>
                       </div>
                       <div>
-                        <h3 className="font-display font-bold text-xl md:text-2xl lg:text-3xl">{expandedCompany.name}</h3>
-                        <p className="font-display font-medium text-sm md:text-base" style={{ color: `hsl(${expandedCompany.color})` }}>
-                          {expandedCompany.role}
-                        </p>
+                        <h3 className="font-display font-bold text-xl md:text-2xl lg:text-3xl">{ec.name}</h3>
+                        <p className="font-display font-medium text-sm md:text-base text-primary">{ec.role}</p>
                       </div>
                     </div>
-                    <motion.div
-                      className="flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-display font-semibold backdrop-blur-md border"
-                      style={{ background: `hsl(${expandedCompany.color} / 0.15)`, borderColor: `hsl(${expandedCompany.color} / 0.3)`, color: `hsl(${expandedCompany.color})` }}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.3 }}
-                    >
+                    <motion.div className="flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-display font-semibold backdrop-blur-md border border-primary/30 bg-primary/15 text-primary" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
                       <Calendar size={13} />
-                      {expandedCompany.duration}
+                      {ec.duration}
                     </motion.div>
                   </div>
 
-                  {/* Description */}
-                  <p className="text-muted-foreground text-sm md:text-base leading-relaxed">{expandedCompany.longDescription}</p>
+                  <p className="text-muted-foreground text-sm md:text-base leading-relaxed">{ec.longDescription}</p>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {/* Highlights */}
                     <div>
                       <div className="flex items-center gap-2 mb-3">
-                        <Zap size={14} style={{ color: `hsl(${expandedCompany.color})` }} />
-                        <span className="text-xs font-display font-semibold tracking-premium" style={{ color: `hsl(${expandedCompany.color})` }}>Key Highlights</span>
+                        <Zap size={14} className="text-primary" />
+                        <span className="text-xs font-display font-semibold tracking-premium text-primary">Key Highlights</span>
                       </div>
                       <div className="grid grid-cols-2 gap-2">
-                        {expandedCompany.highlights.map((h, idx) => (
-                          <motion.div
-                            key={h}
-                            className="flex items-center gap-2 rounded-lg px-3 py-2 bg-muted/30 border border-border/50 text-sm text-foreground"
-                            initial={{ opacity: 0, y: 8 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.3 + idx * 0.08 }}
-                          >
-                            <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: `hsl(${expandedCompany.color})` }} />
+                        {ec.highlights.map((h, idx) => (
+                          <motion.div key={h} className="flex items-center gap-2 rounded-lg px-3 py-2 bg-muted/30 border border-border/50 text-sm text-foreground" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 + idx * 0.08 }}>
+                            <div className="w-1.5 h-1.5 rounded-full flex-shrink-0 bg-primary" />
                             {h}
                           </motion.div>
                         ))}
                       </div>
                     </div>
 
-                    {/* Responsibilities */}
                     <div>
                       <div className="flex items-center gap-2 mb-3">
-                        <Briefcase size={14} style={{ color: `hsl(${expandedCompany.color})` }} />
-                        <span className="text-xs font-display font-semibold tracking-premium" style={{ color: `hsl(${expandedCompany.color})` }}>Responsibilities</span>
+                        <Briefcase size={14} className="text-primary" />
+                        <span className="text-xs font-display font-semibold tracking-premium text-primary">Responsibilities</span>
                       </div>
                       <ul className="flex flex-col gap-2">
-                        {expandedCompany.responsibilities.map((r, idx) => (
-                          <motion.li
-                            key={r}
-                            className="flex items-start gap-2 text-muted-foreground text-sm"
-                            initial={{ opacity: 0, x: -10 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: 0.3 + idx * 0.1 }}
-                          >
-                            <span style={{ color: `hsl(${expandedCompany.color})` }} className="mt-0.5 flex-shrink-0">▸</span>
+                        {ec.responsibilities.map((r, idx) => (
+                          <motion.li key={r} className="flex items-start gap-2 text-muted-foreground text-sm" initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3 + idx * 0.1 }}>
+                            <span className="text-primary mt-0.5 flex-shrink-0">▸</span>
                             {r}
                           </motion.li>
                         ))}
@@ -221,20 +161,12 @@ const ExperienceSection = () => {
                     </div>
                   </div>
 
-                  {/* Projects & Tech */}
                   <div className="flex flex-col sm:flex-row gap-6">
                     <div>
-                      <span className="text-xs font-display font-semibold tracking-premium" style={{ color: `hsl(${expandedCompany.color})` }}>Projects</span>
+                      <span className="text-xs font-display font-semibold tracking-premium text-primary">Projects</span>
                       <div className="flex flex-wrap gap-2 mt-2">
-                        {expandedCompany.projects.map((p, idx) => (
-                          <motion.span
-                            key={p}
-                            className="rounded-full font-medium border px-3 py-1 text-xs"
-                            style={{ borderColor: `hsl(${expandedCompany.color} / 0.3)`, color: `hsl(${expandedCompany.color})`, background: `hsl(${expandedCompany.color} / 0.08)` }}
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: 0.4 + idx * 0.06 }}
-                          >
+                        {ec.projects.map((p, idx) => (
+                          <motion.span key={p} className="rounded-full font-medium border border-primary/25 text-primary bg-primary/[0.06] px-3 py-1 text-xs" initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.4 + idx * 0.06 }}>
                             {p}
                           </motion.span>
                         ))}
@@ -242,18 +174,12 @@ const ExperienceSection = () => {
                     </div>
                     <div>
                       <div className="flex items-center gap-2">
-                        <Layers size={14} style={{ color: `hsl(${expandedCompany.color})` }} />
-                        <span className="text-xs font-display font-semibold tracking-premium" style={{ color: `hsl(${expandedCompany.color})` }}>Tech Stack</span>
+                        <Layers size={14} className="text-primary" />
+                        <span className="text-xs font-display font-semibold tracking-premium text-primary">Tech Stack</span>
                       </div>
                       <div className="flex flex-wrap gap-2 mt-2">
-                        {expandedCompany.tech.map((t, idx) => (
-                          <motion.span
-                            key={t}
-                            className="rounded-md border border-border text-muted-foreground px-2.5 py-1 text-xs"
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: 0.45 + idx * 0.06 }}
-                          >
+                        {ec.tech.map((t, idx) => (
+                          <motion.span key={t} className="rounded-md border border-border text-muted-foreground px-2.5 py-1 text-xs" initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.45 + idx * 0.06 }}>
                             {t}
                           </motion.span>
                         ))}
@@ -262,80 +188,38 @@ const ExperienceSection = () => {
                   </div>
                 </div>
 
-                <motion.div
-                  className="h-[2px] w-full"
-                  style={{ background: `linear-gradient(90deg, transparent, hsl(${expandedCompany.color}), transparent)` }}
-                  initial={{ scaleX: 0 }}
-                  animate={{ scaleX: 1 }}
-                  transition={{ delay: 0.2, duration: 0.6, ease: "easeOut" }}
-                />
+                <motion.div className="h-[2px] w-full" style={{ background: THEME_GRADIENT }} initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ delay: 0.2, duration: 0.6, ease: "easeOut" }} />
               </div>
             </motion.div>
           )}
         </AnimatePresence>
 
-        {/* Grid of cards */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="grid grid-cols-1 sm:grid-cols-3 gap-3 lg:gap-4"
-        >
+        <motion.div initial={{ opacity: 0, y: 30 }} animate={isInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8, delay: 0.2 }} className="grid grid-cols-1 sm:grid-cols-3 gap-3 lg:gap-4">
           {companies.map((company, i) => {
             const isHovered = hovered === i;
             const isExpanded = expanded === i;
             const isTapped = tapped === i;
 
             return (
-              <motion.div
-                key={company.name}
-                className="relative cursor-pointer group"
-                onClick={() => handleClick(i)}
-                onHoverStart={() => setHovered(i)}
-                onHoverEnd={() => setHovered(null)}
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: isExpanded ? 0.5 : 1, y: 0, scale: isExpanded ? 0.95 : 1 } : {}}
-                transition={{ duration: 0.4, delay: isInView ? 0.1 * i : 0 }}
-              >
-                <motion.div
-                  className="relative rounded-2xl overflow-hidden border bg-card/50 backdrop-blur-sm h-[200px] md:h-[240px]"
-                  animate={{
-                    borderColor: isExpanded ? `hsl(${company.color} / 0.8)` : isHovered ? `hsl(${company.color} / 0.6)` : undefined,
-                    boxShadow: isExpanded ? `0 0 20px hsl(${company.color} / 0.3)` : isHovered ? `0 0 30px hsl(${company.color} / 0.2), inset 0 0 30px hsl(${company.color} / 0.05)` : "none",
-                  }}
-                  transition={{ duration: 0.3 }}
-                >
-                  {/* Gradient background */}
-                  <div
-                    className="absolute inset-0 transition-opacity duration-500"
-                    style={{
-                      background: `radial-gradient(ellipse at 30% 30%, hsl(${company.color} / ${isHovered ? 0.2 : 0.08}) 0%, transparent 70%)`,
-                    }}
-                  />
+              <motion.div key={company.name} className="relative cursor-pointer group" onClick={() => handleClick(i)} onHoverStart={() => setHovered(i)} onHoverEnd={() => setHovered(null)} initial={{ opacity: 0, y: 20 }} animate={isInView ? { opacity: isExpanded ? 0.5 : 1, y: 0, scale: isExpanded ? 0.95 : 1 } : {}} transition={{ duration: 0.4, delay: isInView ? 0.1 * i : 0 }}>
+                <motion.div className="relative rounded-2xl overflow-hidden border bg-card/50 backdrop-blur-sm h-[200px] md:h-[240px]" animate={{ borderColor: isExpanded ? `hsl(${THEME_COLOR} / 0.8)` : isHovered ? `hsl(${THEME_COLOR} / 0.6)` : undefined, boxShadow: isExpanded ? `0 0 20px hsl(${THEME_COLOR} / 0.3)` : isHovered ? `0 0 30px hsl(${THEME_COLOR} / 0.2), inset 0 0 30px hsl(${THEME_COLOR} / 0.05)` : "none" }} transition={{ duration: 0.3 }}>
+                  <div className="absolute inset-0 transition-opacity duration-500" style={{ background: `radial-gradient(ellipse at 30% 30%, hsl(${THEME_COLOR} / ${isHovered ? 0.2 : 0.08}) 0%, transparent 70%)` }} />
 
                   <AnimatePresence>
                     {isTapped && expanded === i && (
-                      <motion.div
-                        className="absolute left-0 right-0 h-[2px] z-20"
-                        style={{ background: `linear-gradient(90deg, transparent, hsl(${company.color}), transparent)` }}
-                        initial={{ top: 0, opacity: 0 }}
-                        animate={{ top: "100%", opacity: [0, 1, 1, 0] }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 1.2, ease: "easeInOut" }}
-                        onAnimationComplete={() => setTapped(null)}
-                      />
+                      <motion.div className="absolute left-0 right-0 h-[2px] z-20" style={{ background: THEME_GRADIENT }} initial={{ top: 0, opacity: 0 }} animate={{ top: "100%", opacity: [0, 1, 1, 0] }} exit={{ opacity: 0 }} transition={{ duration: 1.2, ease: "easeInOut" }} onAnimationComplete={() => setTapped(null)} />
                     )}
                   </AnimatePresence>
 
                   {isHovered && (
                     <>
-                      <motion.div className="absolute top-0 left-0 w-8 h-8 z-10" style={{ borderTop: `2px solid hsl(${company.color})`, borderLeft: `2px solid hsl(${company.color})`, borderRadius: "16px 0 0 0" }} initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: [0.4, 1, 0.4], scale: 1 }} transition={{ duration: 2, repeat: Infinity }} />
-                      <motion.div className="absolute bottom-0 right-0 w-8 h-8 z-10" style={{ borderBottom: `2px solid hsl(${company.color})`, borderRight: `2px solid hsl(${company.color})`, borderRadius: "0 0 16px 0" }} initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: [0.4, 1, 0.4], scale: 1 }} transition={{ duration: 2, repeat: Infinity, delay: 1 }} />
+                      <motion.div className="absolute top-0 left-0 w-8 h-8 z-10" style={{ borderTop: `2px solid hsl(${THEME_COLOR})`, borderLeft: `2px solid hsl(${THEME_COLOR})`, borderRadius: "16px 0 0 0" }} initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: [0.4, 1, 0.4], scale: 1 }} transition={{ duration: 2, repeat: Infinity }} />
+                      <motion.div className="absolute bottom-0 right-0 w-8 h-8 z-10" style={{ borderBottom: `2px solid hsl(${THEME_COLOR})`, borderRight: `2px solid hsl(${THEME_COLOR})`, borderRadius: "0 0 16px 0" }} initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: [0.4, 1, 0.4], scale: 1 }} transition={{ duration: 2, repeat: Infinity, delay: 1 }} />
                     </>
                   )}
 
                   {isExpanded && (
-                    <motion.div className="absolute top-3 right-3 z-20 w-6 h-6 rounded-full flex items-center justify-center" style={{ background: `hsl(${company.color})` }} initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: "spring", stiffness: 500 }}>
+                    <motion.div className="absolute top-3 right-3 z-20 w-6 h-6 rounded-full flex items-center justify-center" style={{ background: THEME_GRADIENT }} initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: "spring", stiffness: 500 }}>
                       <Code2 size={12} className="text-background" />
                     </motion.div>
                   )}
@@ -344,13 +228,13 @@ const ExperienceSection = () => {
                     <motion.div animate={{ y: isHovered ? -8 : 0 }} transition={{ duration: 0.3, ease: "easeOut" }}>
                       <span className="text-3xl md:text-4xl">{company.icon}</span>
                       <h3 className="font-display font-bold mt-2 text-base md:text-lg">{company.name}</h3>
-                      <p className="font-display font-medium text-xs md:text-sm" style={{ color: `hsl(${company.color})` }}>{company.role}</p>
+                      <p className="font-display font-medium text-xs md:text-sm text-primary">{company.role}</p>
                       <p className="text-muted-foreground mt-1 line-clamp-2 text-xs md:text-sm leading-relaxed">{company.overview}</p>
                     </motion.div>
 
                     <AnimatePresence>
                       {isHovered && !isExpanded && (
-                        <motion.div className="flex items-center gap-1 mt-3 text-xs font-display" style={{ color: `hsl(${company.color})` }} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }} transition={{ duration: 0.25 }}>
+                        <motion.div className="flex items-center gap-1 mt-3 text-xs font-display text-primary" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }} transition={{ duration: 0.25 }}>
                           <span>Click to expand</span>
                           <ChevronRight size={12} />
                         </motion.div>
