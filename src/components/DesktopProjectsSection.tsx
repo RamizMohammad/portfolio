@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
-import { Github, ExternalLink, Monitor, X, ArrowUpRight, Zap, Layers, ChevronDown } from "lucide-react";
+import { Github, ExternalLink, Monitor, X, Zap, Layers, ChevronDown } from "lucide-react";
 
 const projects = [
   {
@@ -12,7 +12,7 @@ const projects = [
     tech: ["Python", "Flask", "WebSocket"],
     website: "https://www.buddycode.online",
     github: "https://github.com/RamizMohammad/BuddyCoderWeb.git",
-    screenshot: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600&h=400&fit=crop",
+    screenshot: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600&h=380&fit=crop",
     color: "152 100% 50%",
     year: "2023",
     status: "Live",
@@ -26,7 +26,7 @@ const projects = [
     tech: ["Python", "Tkinter", "WebSocket"],
     website: "https://www.linkium.space",
     github: "https://github.com/RamizMohammad/SteamDeck.git",
-    screenshot: "https://images.unsplash.com/photo-1563986768609-322da13575f2?w=600&h=400&fit=crop",
+    screenshot: "https://images.unsplash.com/photo-1563986768609-322da13575f2?w=600&h=380&fit=crop",
     color: "216 100% 50%",
     year: "2023",
     status: "Live",
@@ -39,7 +39,7 @@ const projects = [
     highlights: ["File hashing", "Real-time tracking", "Auto-backup", "Change detection"],
     tech: ["Python", "Tkinter", "OS"],
     github: "https://github.com/RamizMohammad/Backup_Engine.git",
-    screenshot: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&h=400&fit=crop",
+    screenshot: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&h=380&fit=crop",
     color: "270 100% 60%",
     year: "2022",
     status: "Open Source",
@@ -52,7 +52,7 @@ const projects = [
     highlights: ["RESTful API", "AWS deployment", "Authentication", "Real-time updates"],
     tech: ["Python", "FastAPI", "AWS"],
     github: "https://github.com/RamizMohammad",
-    screenshot: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&h=400&fit=crop",
+    screenshot: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&h=380&fit=crop",
     color: "45 90% 55%",
     year: "2023",
     status: "Production",
@@ -65,12 +65,93 @@ const projects = [
     highlights: ["Cross-platform", "Local network", "Fast transfer", "No internet needed"],
     tech: ["Python", "Ngrok", "MongoDB"],
     github: "https://github.com/RamizMohammad/LocalDataShare.git",
-    screenshot: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=600&h=400&fit=crop",
+    screenshot: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=600&h=380&fit=crop",
     color: "216 100% 50%",
     year: "2022",
     status: "Completed",
   },
 ];
+
+/* Mini monitor card */
+const MonitorCard = ({ project, isActive, onClick }: { project: typeof projects[0]; isActive: boolean; onClick: () => void }) => {
+  return (
+    <motion.div
+      className="group relative cursor-pointer flex flex-col items-center"
+      onClick={onClick}
+      whileHover={{ y: -6 }}
+      transition={{ duration: 0.3 }}
+    >
+      {/* Monitor body */}
+      <div
+        className={`relative w-full rounded-xl bg-[hsl(220,20%,12%)] border-[2px] transition-all duration-500 p-[3px] ${
+          isActive ? "shadow-[0_0_25px_hsl(var(--primary)/0.2)]" : "hover:shadow-[0_8px_30px_rgba(0,0,0,0.4)]"
+        }`}
+        style={{ borderColor: isActive ? `hsl(${project.color} / 0.6)` : "hsl(220,15%,22%)" }}
+      >
+        {/* Webcam dot */}
+        <div className="absolute top-[5px] left-1/2 -translate-x-1/2 z-20">
+          <div className="w-1.5 h-1.5 rounded-full bg-[hsl(220,15%,18%)] border border-[hsl(220,10%,25%)]" />
+        </div>
+
+        {/* Screen */}
+        <div className="relative w-full aspect-[16/10] rounded-lg overflow-hidden bg-background">
+          <img
+            src={project.screenshot}
+            alt={project.name}
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[hsl(220,25%,5%)] via-[hsl(220,25%,5%)/0.3] to-transparent" />
+
+          {/* Active indicator */}
+          {isActive && (
+            <motion.div
+              className="absolute top-2 right-2 w-5 h-5 rounded-full flex items-center justify-center z-20"
+              style={{ background: `hsl(${project.color})` }}
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ type: "spring", stiffness: 400 }}
+            >
+              <ChevronDown size={10} className="text-background" />
+            </motion.div>
+          )}
+
+          {/* Hover accent line */}
+          <motion.div
+            className="absolute bottom-0 left-0 right-0 h-[2px] z-10"
+            style={{ background: `linear-gradient(90deg, hsl(${project.color}), hsl(${project.color} / 0.2))` }}
+            initial={{ scaleX: 0, originX: 0 }}
+            whileHover={{ scaleX: 1 }}
+            transition={{ duration: 0.4 }}
+          />
+
+          {/* Content overlay */}
+          <div className="absolute bottom-0 left-0 right-0 p-3 z-10">
+            <div className="flex items-start gap-2">
+              <span className="text-lg">{project.icon}</span>
+              <div className="min-w-0">
+                <h3 className="font-display font-bold text-xs md:text-sm truncate">{project.name}</h3>
+                <p className="text-muted-foreground text-[10px] md:text-xs leading-tight mt-0.5 line-clamp-2">{project.description}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Stand neck */}
+      <div className="w-8 h-3 bg-[hsl(220,15%,14%)] border-x border-[hsl(220,15%,22%)]" />
+      {/* Stand base */}
+      <div className="w-16 h-2 rounded-b-lg bg-[hsl(220,15%,14%)] border-2 border-t-0 border-[hsl(220,15%,22%)] shadow-[0_2px_8px_rgba(0,0,0,0.3)]" />
+
+      {/* Tech pills below */}
+      <div className="flex flex-wrap justify-center gap-1 mt-2 w-full">
+        {project.tech.slice(0, 2).map((t) => (
+          <span key={t} className="rounded-md font-medium bg-muted/40 text-muted-foreground/80 border border-border/30 px-1.5 py-0.5 text-[9px]">{t}</span>
+        ))}
+        <span className="text-muted-foreground/30 text-[9px] ml-auto">{project.year}</span>
+      </div>
+    </motion.div>
+  );
+};
 
 const DesktopProjectsSection = () => {
   const [expanded, setExpanded] = useState<number | null>(null);
@@ -115,7 +196,7 @@ const DesktopProjectsSection = () => {
           <h2 className="font-display font-extrabold leading-tight text-2xl md:text-3xl lg:text-4xl">
             Desktop Apps I've <span className="text-gradient">Engineered</span>
           </h2>
-          <p className="text-muted-foreground mt-2 max-w-lg text-sm">Click any card to dive into the details.</p>
+          <p className="text-muted-foreground mt-2 max-w-lg text-sm">Click any screen to dive into the details.</p>
         </motion.div>
 
         {/* Expanded Detail */}
@@ -132,9 +213,7 @@ const DesktopProjectsSection = () => {
             >
               <div className="relative rounded-3xl overflow-hidden border border-border/60 bg-card/80 backdrop-blur-xl">
                 <div className="h-1 w-full" style={{ background: `linear-gradient(90deg, hsl(${ep.color}), hsl(${ep.color} / 0.3), transparent)` }} />
-                <div className="absolute inset-0 pointer-events-none" style={{
-                  background: `radial-gradient(circle at 10% 50%, hsl(${ep.color} / 0.08) 0%, transparent 50%)`
-                }} />
+                <div className="absolute inset-0 pointer-events-none" style={{ background: `radial-gradient(circle at 10% 50%, hsl(${ep.color} / 0.08) 0%, transparent 50%)` }} />
 
                 <button onClick={() => setExpanded(null)} className="absolute top-5 right-5 z-30 w-8 h-8 rounded-full bg-muted/80 backdrop-blur border border-border flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors">
                   <X size={14} />
@@ -146,9 +225,7 @@ const DesktopProjectsSection = () => {
                       <div className="relative rounded-2xl overflow-hidden aspect-[3/2]">
                         <img src={ep.screenshot} alt={ep.name} className="w-full h-full object-cover" />
                         <div className="absolute inset-0" style={{ background: `linear-gradient(135deg, hsl(${ep.color} / 0.2) 0%, hsl(230 25% 5% / 0.5) 100%)` }} />
-                        <div className="absolute top-4 left-4 flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-display font-semibold backdrop-blur-md border" style={{
-                          background: `hsl(${ep.color} / 0.15)`, borderColor: `hsl(${ep.color} / 0.3)`, color: `hsl(${ep.color})`
-                        }}>
+                        <div className="absolute top-4 left-4 flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-display font-semibold backdrop-blur-md border" style={{ background: `hsl(${ep.color} / 0.15)`, borderColor: `hsl(${ep.color} / 0.3)`, color: `hsl(${ep.color})` }}>
                           <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: `hsl(${ep.color})` }} />
                           {ep.status}
                         </div>
@@ -160,9 +237,7 @@ const DesktopProjectsSection = () => {
                         </div>
                         <div className="flex flex-wrap gap-2">
                           {ep.tech.map((t, idx) => (
-                            <motion.span key={t} className="rounded-full font-medium border px-3 py-1 text-xs" style={{
-                              borderColor: `hsl(${ep.color} / 0.25)`, color: `hsl(${ep.color})`, background: `hsl(${ep.color} / 0.06)`
-                            }} initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 + idx * 0.05 }}>
+                            <motion.span key={t} className="rounded-full font-medium border px-3 py-1 text-xs" style={{ borderColor: `hsl(${ep.color} / 0.25)`, color: `hsl(${ep.color})`, background: `hsl(${ep.color} / 0.06)` }} initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 + idx * 0.05 }}>
                               {t}
                             </motion.span>
                           ))}
@@ -171,37 +246,21 @@ const DesktopProjectsSection = () => {
                     </motion.div>
 
                     <motion.div className="flex-1 flex flex-col gap-5" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.15 }}>
-                      <div className="flex items-center gap-3 mb-1">
-                        <span className="text-3xl">{ep.icon}</span>
-                        <div>
-                          <h3 className="font-display font-bold text-xl md:text-2xl">{ep.name}</h3>
-                          <span className="text-muted-foreground text-xs">{ep.year}</span>
-                        </div>
-                      </div>
+                      <div className="flex items-center gap-3"><span className="text-3xl">{ep.icon}</span><div><h3 className="font-display font-bold text-xl md:text-2xl">{ep.name}</h3><span className="text-muted-foreground text-xs">{ep.year}</span></div></div>
                       <p className="text-muted-foreground text-sm leading-relaxed">{ep.longDescription}</p>
                       <div>
-                        <div className="flex items-center gap-2 mb-3">
-                          <Zap size={12} style={{ color: `hsl(${ep.color})` }} />
-                          <span className="text-[11px] font-display font-semibold tracking-widest uppercase" style={{ color: `hsl(${ep.color})` }}>Features</span>
-                        </div>
+                        <div className="flex items-center gap-2 mb-3"><Zap size={12} style={{ color: `hsl(${ep.color})` }} /><span className="text-[11px] font-display font-semibold tracking-widest uppercase" style={{ color: `hsl(${ep.color})` }}>Features</span></div>
                         <div className="grid grid-cols-2 gap-2">
                           {ep.highlights.map((h, idx) => (
                             <motion.div key={h} className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 bg-muted/20 border border-border/30 text-sm" initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.25 + idx * 0.06 }}>
-                              <div className="w-1 h-4 rounded-full flex-shrink-0" style={{ background: `hsl(${ep.color})` }} />
-                              <span className="text-foreground/90">{h}</span>
+                              <div className="w-1 h-4 rounded-full flex-shrink-0" style={{ background: `hsl(${ep.color})` }} /><span className="text-foreground/90">{h}</span>
                             </motion.div>
                           ))}
                         </div>
                       </div>
                       <motion.div className="flex gap-3 pt-2" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}>
-                        <a href={ep.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 rounded-xl btn-outline-premium px-5 py-2.5 text-sm" onClick={(e) => e.stopPropagation()}>
-                          <Github size={14} /> Source
-                        </a>
-                        {ep.website && (
-                          <a href={ep.website} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 rounded-xl btn-premium px-5 py-2.5 text-sm" onClick={(e) => e.stopPropagation()}>
-                            <ExternalLink size={14} /> Live Demo
-                          </a>
-                        )}
+                        <a href={ep.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 rounded-xl btn-outline-premium px-5 py-2.5 text-sm" onClick={(e) => e.stopPropagation()}><Github size={14} /> Source</a>
+                        {ep.website && <a href={ep.website} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 rounded-xl btn-premium px-5 py-2.5 text-sm" onClick={(e) => e.stopPropagation()}><ExternalLink size={14} /> Live Demo</a>}
                       </motion.div>
                     </motion.div>
                   </div>
@@ -211,66 +270,23 @@ const DesktopProjectsSection = () => {
           )}
         </AnimatePresence>
 
-        {/* Bento Grid */}
+        {/* Monitor Grid — 2 per row on desktop */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8 lg:gap-10"
         >
-          {projects.map((project, i) => {
-            const isActive = expanded === i;
-            return (
-              <motion.div
-                key={project.name}
-                className="group relative cursor-pointer"
-                onClick={() => handleClick(i)}
-                initial={{ opacity: 0, y: 25 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.08 * i }}
-                whileHover={{ y: -4 }}
-              >
-                <div
-                  className={`relative rounded-2xl overflow-hidden border transition-all duration-500 ${
-                    isActive ? "border-primary/50" : "border-border/40 hover:border-border/80"
-                  }`}
-                  style={isActive ? { borderColor: `hsl(${project.color} / 0.5)`, boxShadow: `0 0 30px hsl(${project.color} / 0.12)` } : {}}
-                >
-                  <div className="relative h-[180px] md:h-[200px] overflow-hidden">
-                    <img src={project.screenshot} alt={project.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-card via-card/60 to-transparent" />
-                    <div className="absolute top-3 right-3 rounded-full px-2.5 py-1 text-[10px] font-display font-semibold bg-background/60 backdrop-blur-md border border-border/40 text-muted-foreground">
-                      {project.year}
-                    </div>
-                    {isActive && (
-                      <motion.div className="absolute top-3 left-3 w-6 h-6 rounded-full flex items-center justify-center" style={{ background: `hsl(${project.color})` }} initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: "spring", stiffness: 400 }}>
-                        <ChevronDown size={12} className="text-background" />
-                      </motion.div>
-                    )}
-                    <motion.div className="absolute bottom-0 left-0 right-0 h-[2px]" style={{ background: `linear-gradient(90deg, hsl(${project.color}), hsl(${project.color} / 0.3))` }} initial={{ scaleX: 0, originX: 0 }} whileHover={{ scaleX: 1 }} transition={{ duration: 0.4 }} />
-                  </div>
-
-                  <div className="p-4 bg-card/95 backdrop-blur-sm">
-                    <div className="flex items-start gap-3">
-                      <span className="text-2xl mt-0.5">{project.icon}</span>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center justify-between gap-2">
-                          <h3 className="font-display font-bold text-sm md:text-base truncate">{project.name}</h3>
-                          <ArrowUpRight size={14} className="text-muted-foreground/50 group-hover:text-primary transition-colors flex-shrink-0" />
-                        </div>
-                        <p className="text-muted-foreground text-xs md:text-sm leading-relaxed mt-1 line-clamp-2">{project.description}</p>
-                      </div>
-                    </div>
-                    <div className="flex flex-wrap gap-1.5 mt-3">
-                      {project.tech.slice(0, 3).map((t) => (
-                        <span key={t} className="rounded-md font-medium bg-muted/40 text-muted-foreground/80 border border-border/30 px-2 py-0.5 text-[10px]">{t}</span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            );
-          })}
+          {projects.map((project, i) => (
+            <motion.div
+              key={project.name}
+              initial={{ opacity: 0, y: 25 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: 0.1 * i }}
+            >
+              <MonitorCard project={project} isActive={expanded === i} onClick={() => handleClick(i)} />
+            </motion.div>
+          ))}
         </motion.div>
       </div>
     </section>
