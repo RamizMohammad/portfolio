@@ -90,7 +90,7 @@ const HeroSection = () => {
           <motion.p
             variants={item}
             className="text-muted-foreground font-display vh-subheading"
-            style={{ height: "clamp(1.5rem, 3vh, 2.5rem)" }}
+            style={{ minHeight: "2.5rem", height: "auto" }}
           >
             <TypingEffect />
           </motion.p>
