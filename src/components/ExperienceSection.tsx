@@ -73,18 +73,18 @@ const ExperienceSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          style={{ marginBottom: "clamp(1.25rem, 2.5vh, 2.5rem)" }}
+          className="mb-6 md:mb-8"
         >
-          <div className="flex items-center gap-3 mb-1">
+          <div className="flex items-center gap-3 mb-2">
             <Briefcase size={16} className="text-primary" />
-            <p className="text-primary font-display font-medium tracking-premium vh-small">Experience</p>
+            <p className="text-primary font-display font-medium tracking-premium text-sm">Experience</p>
           </div>
-          <h2 className="font-display font-extrabold vh-heading">
+          <h2 className="font-display font-extrabold text-2xl md:text-3xl lg:text-4xl">
             Where I've <span className="text-gradient">Worked</span>
           </h2>
         </motion.div>
 
-        <div className="flex flex-col lg:flex-row" style={{ gap: "clamp(1.25rem, 2.5vh, 2.5rem)" }}>
+        <div className="flex flex-col lg:flex-row gap-5 lg:gap-8">
           {/* Left: Timeline tabs */}
           <motion.div
             className="flex flex-row lg:flex-col gap-3 lg:w-[300px] flex-shrink-0"
@@ -98,12 +98,10 @@ const ExperienceSection = () => {
                 <button
                   key={c.name}
                   onClick={() => { setAutoPlay(false); setSelected(i); }}
-                  className={`relative text-left rounded-xl transition-all duration-400 group flex-1 lg:flex-none overflow-hidden ${
+                  className={`relative text-left rounded-xl transition-all duration-400 group flex-1 lg:flex-none overflow-hidden p-3 md:p-4 ${
                     isActive ? "bg-card border-border" : "bg-transparent border-transparent hover:bg-card/50"
                   } border`}
-                  style={{ padding: "clamp(12px, 1.8vh, 20px) clamp(14px, 2vh, 20px)" }}
                 >
-                  {/* Active indicator line */}
                   {isActive && (
                     <motion.div
                       className="absolute left-0 top-0 bottom-0 w-[3px] rounded-full"
@@ -113,7 +111,6 @@ const ExperienceSection = () => {
                     />
                   )}
 
-                  {/* Progress bar for auto-play */}
                   {isActive && autoPlay && (
                     <motion.div
                       className="absolute bottom-0 left-0 h-[2px]"
@@ -126,22 +123,21 @@ const ExperienceSection = () => {
                   )}
 
                   <div className="flex items-center gap-3">
-                    <span style={{ fontSize: "clamp(1.25rem, 2.5vh, 1.75rem)" }}>{c.logo}</span>
+                    <span className="text-xl md:text-2xl">{c.logo}</span>
                     <div className="min-w-0">
                       <h4
-                        className={`font-display font-bold truncate transition-colors ${
+                        className={`font-display font-bold truncate transition-colors text-sm md:text-base ${
                           isActive ? "text-foreground" : "text-muted-foreground group-hover:text-foreground"
                         }`}
-                        style={{ fontSize: "clamp(0.8rem, 1.4vh, 1rem)" }}
                       >
                         {c.name}
                       </h4>
-                      <p className="text-muted-foreground/60 truncate" style={{ fontSize: "clamp(0.7rem, 1.1vh, 0.85rem)" }}>
+                      <p className="text-muted-foreground/60 truncate text-xs md:text-sm">
                         {c.role}
                       </p>
                     </div>
                     {isActive && (
-                      <ChevronRight size={14} className="text-primary ml-auto flex-shrink-0 hidden lg:block" />
+                      <ChevronRight size={16} className="text-primary ml-auto flex-shrink-0 hidden lg:block" />
                     )}
                   </div>
                 </button>
@@ -163,8 +159,7 @@ const ExperienceSection = () => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -12 }}
                 transition={{ duration: 0.35 }}
-                className="relative rounded-2xl border border-border bg-card/40 backdrop-blur-sm overflow-hidden"
-                style={{ padding: "clamp(1.25rem, 3vh, 2.5rem)" }}
+                className="relative rounded-2xl border border-border bg-card/40 backdrop-blur-sm overflow-hidden p-5 md:p-7 lg:p-8"
               >
                 {/* Background glow */}
                 <div
@@ -176,56 +171,47 @@ const ExperienceSection = () => {
 
                 <div className="relative z-10">
                   {/* Top row */}
-                  <div className="flex items-start justify-between flex-wrap gap-3" style={{ marginBottom: "clamp(1rem, 2vh, 1.75rem)" }}>
-                    <div className="flex items-center gap-3">
+                  <div className="flex items-start justify-between flex-wrap gap-3 mb-5">
+                    <div className="flex items-center gap-4">
                       <div
-                        className="rounded-xl flex items-center justify-center border border-border"
-                        style={{
-                          width: "clamp(3rem, 6vh, 4.5rem)",
-                          height: "clamp(3rem, 6vh, 4.5rem)",
-                          background: `hsl(${company.color} / 0.1)`,
-                        }}
+                        className="rounded-xl flex items-center justify-center border border-border w-12 h-12 md:w-14 md:h-14"
+                        style={{ background: `hsl(${company.color} / 0.1)` }}
                       >
-                        <span style={{ fontSize: "clamp(1.5rem, 3vh, 2.5rem)" }}>{company.logo}</span>
+                        <span className="text-2xl md:text-3xl">{company.logo}</span>
                       </div>
                       <div>
-                        <h3 className="font-display font-extrabold vh-subheading">{company.name}</h3>
-                        <p className="text-primary font-display font-medium" style={{ fontSize: "clamp(0.75rem, 1.3vh, 0.95rem)" }}>
+                        <h3 className="font-display font-extrabold text-lg md:text-xl lg:text-2xl">{company.name}</h3>
+                        <p className="text-primary font-display font-medium text-sm md:text-base">
                           {company.role}
                         </p>
                       </div>
                     </div>
-                    <div className="flex items-center gap-2 text-muted-foreground/60 rounded-full border border-border bg-muted/30"
-                      style={{ padding: "clamp(4px, 0.6vh, 8px) clamp(10px, 1.2vh, 16px)", fontSize: "clamp(0.7rem, 1.1vh, 0.85rem)" }}
-                    >
-                      <Calendar size={12} />
+                    <div className="flex items-center gap-2 text-muted-foreground/60 rounded-full border border-border bg-muted/30 px-3 py-1.5 text-xs md:text-sm">
+                      <Calendar size={14} />
                       {company.duration}
                     </div>
                   </div>
 
                   {/* Overview */}
-                  <p className="text-muted-foreground leading-relaxed vh-body" style={{ marginBottom: "clamp(1rem, 2vh, 1.75rem)" }}>
+                  <p className="text-muted-foreground leading-relaxed text-sm md:text-base mb-5">
                     {company.overview}
                   </p>
 
-                  {/* Two-column layout for responsibilities and meta */}
-                  <div className="grid grid-cols-1 md:grid-cols-2" style={{ gap: "clamp(1rem, 2vh, 1.75rem)" }}>
+                  {/* Two-column layout */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
                     {/* Responsibilities */}
                     <div>
-                      <h4 className="font-display font-semibold text-primary tracking-premium flex items-center gap-1.5"
-                        style={{ fontSize: "clamp(0.65rem, 1.1vh, 0.8rem)", marginBottom: "clamp(0.5rem, 1vh, 0.75rem)" }}
-                      >
-                        <Zap size={12} /> Key Responsibilities
+                      <h4 className="font-display font-semibold text-primary tracking-premium flex items-center gap-2 text-xs md:text-sm mb-3">
+                        <Zap size={14} /> Key Responsibilities
                       </h4>
-                      <ul style={{ gap: "clamp(0.4rem, 0.7vh, 0.6rem)" }} className="flex flex-col">
+                      <ul className="flex flex-col gap-2">
                         {company.responsibilities.map((r, idx) => (
                           <motion.li
                             key={r}
                             initial={{ opacity: 0, x: -10 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ delay: 0.1 * idx + 0.2 }}
-                            className="flex items-start gap-2 text-muted-foreground"
-                            style={{ fontSize: "clamp(0.75rem, 1.2vh, 0.9rem)" }}
+                            className="flex items-start gap-2 text-muted-foreground text-sm md:text-base"
                           >
                             <span className="text-primary mt-0.5 flex-shrink-0">▸</span>
                             {r}
@@ -235,21 +221,17 @@ const ExperienceSection = () => {
                     </div>
 
                     {/* Projects & Tech */}
-                    <div className="flex flex-col" style={{ gap: "clamp(0.75rem, 1.2vh, 1.25rem)" }}>
+                    <div className="flex flex-col gap-4">
                       <div>
-                        <h4 className="font-display font-semibold text-primary tracking-premium"
-                          style={{ fontSize: "clamp(0.65rem, 1.1vh, 0.8rem)", marginBottom: "clamp(0.4rem, 0.7vh, 0.6rem)" }}
-                        >
+                        <h4 className="font-display font-semibold text-primary tracking-premium text-xs md:text-sm mb-2">
                           Projects
                         </h4>
                         <div className="flex flex-wrap gap-2">
                           {company.projects.map((p) => (
                             <span
                               key={p}
-                              className="rounded-full font-medium border"
+                              className="rounded-full font-medium border px-3 py-1 text-xs md:text-sm"
                               style={{
-                                padding: "clamp(3px, 0.4vh, 6px) clamp(8px, 1.2vh, 14px)",
-                                fontSize: "clamp(0.65rem, 1vh, 0.8rem)",
                                 background: `hsl(${company.color} / 0.1)`,
                                 borderColor: `hsl(${company.color} / 0.2)`,
                                 color: `hsl(${company.color})`,
@@ -262,17 +244,14 @@ const ExperienceSection = () => {
                       </div>
 
                       <div>
-                        <h4 className="font-display font-semibold text-primary tracking-premium"
-                          style={{ fontSize: "clamp(0.65rem, 1.1vh, 0.8rem)", marginBottom: "clamp(0.4rem, 0.7vh, 0.6rem)" }}
-                        >
+                        <h4 className="font-display font-semibold text-primary tracking-premium text-xs md:text-sm mb-2">
                           Tech Stack
                         </h4>
                         <div className="flex flex-wrap gap-2">
                           {company.tech.map((t) => (
                             <span
                               key={t}
-                              className="rounded-md border border-border text-muted-foreground"
-                              style={{ padding: "clamp(3px, 0.4vh, 6px) clamp(8px, 1.2vh, 12px)", fontSize: "clamp(0.65rem, 1vh, 0.8rem)" }}
+                              className="rounded-md border border-border text-muted-foreground px-2.5 py-1 text-xs md:text-sm"
                             >
                               {t}
                             </span>
