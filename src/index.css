@@ -123,19 +123,19 @@
 
   /* Viewport-aware typography */
   .vh-heading {
-    font-size: clamp(1.5rem, 3.5vh, 3.5rem);
+    font-size: clamp(1.75rem, 3.5vh, 3.5rem);
   }
 
   .vh-subheading {
-    font-size: clamp(1.25rem, 2.5vh, 2rem);
+    font-size: clamp(1.35rem, 2.5vh, 2rem);
   }
 
   .vh-body {
-    font-size: clamp(0.75rem, 1.6vh, 1rem);
+    font-size: clamp(0.875rem, 1.6vh, 1.05rem);
   }
 
   .vh-small {
-    font-size: clamp(0.625rem, 1.3vh, 0.875rem);
+    font-size: clamp(0.75rem, 1.3vh, 0.875rem);
   }
 
   .vh-gap-sm {
