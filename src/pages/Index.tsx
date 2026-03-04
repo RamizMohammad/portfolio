@@ -15,6 +15,7 @@ import MiniGame from "@/components/MiniGame";
 import Footer from "@/components/Footer";
 import ParticleBackground from "@/components/ParticleBackground";
 import TerminalMode from "@/components/TerminalMode";
+import EasterEggs from "@/components/EasterEggs";
 
 const ParallaxSection = ({ children, speed = 0.15, className = "" }: { children: React.ReactNode; speed?: number; className?: string }) => {
   const ref = useRef(null);
@@ -73,6 +74,7 @@ const Index = () => {
             <motion.div className="absolute top-1/3 -right-40 w-[500px] h-[500px] rounded-full bg-secondary/[0.04] blur-[100px]" style={{ y: bgY2 }} />
             <motion.div className="absolute -bottom-40 left-1/3 w-[400px] h-[400px] rounded-full bg-accent/[0.02] blur-[80px]" style={{ y: bgY3 }} />
           </div>
+          <EasterEggs />
           <Navbar />
           <HeroSection />
           <ParallaxSection speed={0.08}><AboutSection /></ParallaxSection>

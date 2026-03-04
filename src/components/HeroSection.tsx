@@ -63,6 +63,15 @@ const TypingEffect = () => {
 };
 
 const HeroSection = () => {
+  const [glitch, setGlitch] = useState(false);
+  const [clickCount, setClickCount] = useState(0);
+
+  const handleNameClick = () => {
+    setClickCount(prev => prev + 1);
+    setGlitch(true);
+    setTimeout(() => setGlitch(false), 600);
+  };
+
   return (
     <section
       id="hero"
@@ -82,10 +91,23 @@ const HeroSection = () => {
           </motion.p>
           <motion.h1
             variants={item}
-            className="font-display font-extrabold leading-tight"
-            style={{ fontSize: "clamp(2rem, 6vh, 4.5rem)" }}
+            className={`font-display font-extrabold leading-tight cursor-pointer select-none ${glitch ? "animate-pulse" : ""}`}
+            style={{ 
+              fontSize: "clamp(2rem, 6vh, 4.5rem)",
+              ...(glitch ? { textShadow: "3px 0 hsl(0 100% 50%), -3px 0 hsl(200 100% 50%)", filter: "hue-rotate(90deg)" } : {}),
+            }}
+            onClick={handleNameClick}
           >
             Mohammad <span className="text-gradient">Ramiz</span>
+            {clickCount >= 5 && (
+              <motion.span
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="inline-block ml-2 text-lg"
+              >
+                {clickCount >= 10 ? "🚀 You're persistent!" : "👀"}
+              </motion.span>
+            )}
           </motion.h1>
           <motion.p
             variants={item}
