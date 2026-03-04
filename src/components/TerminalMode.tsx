@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback, forwardRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface TerminalLine {
@@ -296,7 +296,7 @@ interface TerminalModeProps {
 }
 
 // Typewriter line component — renders text character by character
-const TypewriterLine = ({ content, speed = 8, onComplete }: { content: string; speed?: number; onComplete?: () => void }) => {
+const TypewriterLine = forwardRef<HTMLSpanElement, { content: string; speed?: number; onComplete?: () => void }>(({ content, speed = 8, onComplete }, _ref) => {
   const [displayed, setDisplayed] = useState("");
   const idxRef = useRef(0);
 
@@ -319,9 +319,10 @@ const TypewriterLine = ({ content, speed = 8, onComplete }: { content: string; s
   }, [content, speed, onComplete]);
 
   return <>{displayed}<span className="animate-pulse text-primary opacity-50">▊</span></>;
-};
+});
+TypewriterLine.displayName = "TypewriterLine";
 
-const TerminalMode = ({ onExit }: TerminalModeProps) => {
+const TerminalMode = forwardRef<HTMLDivElement, TerminalModeProps>(({ onExit }, _ref) => {
   const [lines, setLines] = useState<TerminalLine[]>([]);
   const [input, setInput] = useState("");
   const [history, setHistory] = useState<string[]>([]);
@@ -548,6 +549,8 @@ const TerminalMode = ({ onExit }: TerminalModeProps) => {
       </div>
     </motion.div>
   );
-};
+});
+
+TerminalMode.displayName = "TerminalMode";
 
 export default TerminalMode;
