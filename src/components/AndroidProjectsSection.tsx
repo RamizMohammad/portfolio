@@ -88,20 +88,20 @@ const AndroidProjectsSection = () => {
       className="section-padding relative z-10 min-h-[100svh] flex flex-col justify-center"
       ref={sectionRef}
     >
-      <div className="max-w-7xl mx-auto w-full flex flex-col" style={{ gap: "clamp(1.25rem, 2.5vh, 2.5rem)" }}>
+      <div className="max-w-7xl mx-auto w-full flex flex-col gap-6">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7 }}
         >
-          <div className="flex items-center gap-3 mb-1">
+          <div className="flex items-center gap-3 mb-2">
             <Smartphone size={16} className="text-primary" />
-            <p className="text-primary font-display font-medium tracking-premium vh-small">
+            <p className="text-primary font-display font-medium tracking-premium text-sm">
               Android Projects
             </p>
           </div>
-          <h2 className="font-display font-extrabold leading-tight vh-heading">
+          <h2 className="font-display font-extrabold leading-tight text-2xl md:text-3xl lg:text-4xl">
             Mobile Apps I've <span className="text-gradient">Crafted</span>
           </h2>
         </motion.div>
@@ -131,8 +131,7 @@ const AndroidProjectsSection = () => {
               >
                 {/* Card */}
                 <motion.div
-                  className="relative rounded-2xl overflow-hidden border border-border bg-card/50 backdrop-blur-sm"
-                  style={{ height: "clamp(220px, 32vh, 320px)" }}
+                  className="relative rounded-2xl overflow-hidden border border-border bg-card/50 backdrop-blur-sm h-[240px] md:h-[280px] lg:h-[300px]"
                   animate={{
                     borderColor: isActive ? `hsl(${project.color} / 0.6)` : undefined,
                     boxShadow: isActive
@@ -152,7 +151,7 @@ const AndroidProjectsSection = () => {
                     }}
                   />
 
-                  {/* Gradient overlay on tap/hover */}
+                  {/* Gradient overlay */}
                   <motion.div
                     className="absolute inset-0"
                     animate={{
@@ -163,7 +162,7 @@ const AndroidProjectsSection = () => {
                     transition={{ duration: 0.4 }}
                   />
 
-                  {/* Scanning line effect on mobile tap */}
+                  {/* Scanning line effect on tap */}
                   {isTapped && (
                     <motion.div
                       className="absolute left-0 right-0 h-[2px] z-20"
@@ -174,7 +173,7 @@ const AndroidProjectsSection = () => {
                     />
                   )}
 
-                  {/* Corner glow pulse on active */}
+                  {/* Corner glow pulse */}
                   {isActive && (
                     <>
                       <motion.div
@@ -208,16 +207,16 @@ const AndroidProjectsSection = () => {
                       animate={{ y: isActive ? -8 : 0 }}
                       transition={{ duration: 0.3, ease: "easeOut" }}
                     >
-                      <span style={{ fontSize: "clamp(1.5rem, 3vh, 2.5rem)" }}>{project.icon}</span>
-                      <h3 className="font-display font-bold mt-1" style={{ fontSize: "clamp(0.85rem, 1.6vh, 1.1rem)" }}>
+                      <span className="text-2xl md:text-3xl">{project.icon}</span>
+                      <h3 className="font-display font-bold mt-1 text-sm md:text-base">
                         {project.name}
                       </h3>
-                      <p className="text-muted-foreground mt-0.5 line-clamp-2" style={{ fontSize: "clamp(0.7rem, 1.2vh, 0.85rem)" }}>
+                      <p className="text-muted-foreground mt-1 line-clamp-2 text-xs md:text-sm leading-relaxed">
                         {project.description}
                       </p>
                     </motion.div>
 
-                    {/* Action buttons - slide up on active */}
+                    {/* Action buttons */}
                     <AnimatePresence>
                       {isActive && (
                         <motion.div
@@ -231,8 +230,7 @@ const AndroidProjectsSection = () => {
                             href={project.github}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center gap-1.5 rounded-full bg-foreground/10 backdrop-blur-sm border border-border/50 text-foreground hover:bg-primary hover:text-primary-foreground transition-all"
-                            style={{ padding: "clamp(4px, 0.6vh, 8px) clamp(10px, 1.2vh, 16px)", fontSize: "clamp(0.65rem, 1.1vh, 0.8rem)" }}
+                            className="flex items-center gap-1.5 rounded-full bg-foreground/10 backdrop-blur-sm border border-border/50 text-foreground hover:bg-primary hover:text-primary-foreground transition-all px-3 py-1.5 text-xs"
                             onClick={(e) => e.stopPropagation()}
                           >
                             <Github size={12} />
@@ -243,8 +241,7 @@ const AndroidProjectsSection = () => {
                               href={project.playStore}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="flex items-center gap-1.5 rounded-full bg-primary/20 backdrop-blur-sm border border-primary/30 text-primary hover:bg-primary hover:text-primary-foreground transition-all"
-                              style={{ padding: "clamp(4px, 0.6vh, 8px) clamp(10px, 1.2vh, 16px)", fontSize: "clamp(0.65rem, 1.1vh, 0.8rem)" }}
+                              className="flex items-center gap-1.5 rounded-full bg-primary/20 backdrop-blur-sm border border-primary/30 text-primary hover:bg-primary hover:text-primary-foreground transition-all px-3 py-1.5 text-xs"
                               onClick={(e) => e.stopPropagation()}
                             >
                               <ExternalLink size={12} />
@@ -262,13 +259,12 @@ const AndroidProjectsSection = () => {
                   {project.tech.map((t) => (
                     <span
                       key={t}
-                      className="rounded-md font-medium bg-muted/50 text-muted-foreground border border-border/40"
-                      style={{ padding: "2px 8px", fontSize: "clamp(0.65rem, 1vh, 0.75rem)" }}
+                      className="rounded-md font-medium bg-muted/50 text-muted-foreground border border-border/40 px-2 py-0.5 text-xs"
                     >
                       {t}
                     </span>
                   ))}
-                  <span className="text-muted-foreground/40 ml-auto" style={{ fontSize: "clamp(0.65rem, 1vh, 0.75rem)" }}>
+                  <span className="text-muted-foreground/40 ml-auto text-xs">
                     {project.year}
                   </span>
                 </div>

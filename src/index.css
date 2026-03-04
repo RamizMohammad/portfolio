@@ -121,37 +121,37 @@
     padding-bottom: clamp(2rem, 4vh, 7rem);
   }
 
-  /* Viewport-aware typography */
+  /* Viewport-aware typography - rem-based with vmin fluid scaling */
   .vh-heading {
-    font-size: clamp(1.75rem, 3.5vh, 3.5rem);
+    font-size: clamp(1.75rem, 2rem + 1.5vmin, 3.5rem);
   }
 
   .vh-subheading {
-    font-size: clamp(1.35rem, 2.5vh, 2rem);
+    font-size: clamp(1.35rem, 1.5rem + 1vmin, 2rem);
   }
 
   .vh-body {
-    font-size: clamp(0.875rem, 1.6vh, 1.05rem);
+    font-size: clamp(0.875rem, 0.9rem + 0.3vmin, 1.05rem);
   }
 
   .vh-small {
-    font-size: clamp(0.75rem, 1.3vh, 0.875rem);
+    font-size: clamp(0.8rem, 0.8rem + 0.2vmin, 0.9rem);
   }
 
   .vh-gap-sm {
-    gap: clamp(0.5rem, 1vh, 1rem);
+    gap: clamp(0.5rem, 0.6rem + 0.3vmin, 1rem);
   }
 
   .vh-gap-md {
-    gap: clamp(0.75rem, 1.5vh, 1.5rem);
+    gap: clamp(0.75rem, 1rem + 0.5vmin, 1.5rem);
   }
 
   .vh-gap-lg {
-    gap: clamp(1rem, 2.5vh, 2.5rem);
+    gap: clamp(1rem, 1.5rem + 0.8vmin, 2.5rem);
   }
 
   .vh-mb-header {
-    margin-bottom: clamp(1rem, 2.5vh, 3rem);
+    margin-bottom: clamp(1rem, 1.5rem + 1vmin, 3rem);
   }
 
   .gradient-border {
