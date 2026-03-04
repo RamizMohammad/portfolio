@@ -31,53 +31,53 @@ const AboutSection = () => {
   }, []);
 
   return (
-    <section id="about" className="section-padding relative z-10" ref={ref}>
-      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+    <section id="about" className="section-padding relative z-10 min-h-[100svh] flex items-center" ref={ref}>
+      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center w-full" style={{ gap: "clamp(2rem, 4vh, 5rem)" }}>
         <motion.div
-          className="flex-1 space-y-8"
+          className="flex-1"
           initial={{ opacity: 0, x: -40 }}
           animate={isInView ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.7 }}
         >
-          <div>
-            <p className="text-primary font-display font-medium mb-2 tracking-premium text-sm">Who Am I?</p>
-            <h2 className="font-display text-3xl md:text-5xl font-extrabold">
+          <div style={{ marginBottom: "clamp(0.5rem, 1.5vh, 1.5rem)" }}>
+            <p className="text-primary font-display font-medium tracking-premium vh-small" style={{ marginBottom: "clamp(2px, 0.5vh, 8px)" }}>Who Am I?</p>
+            <h2 className="font-display font-extrabold vh-heading">
               Passionate about building{" "}
               <span className="text-gradient">impactful</span> software
             </h2>
           </div>
 
-          <p className="text-muted-foreground leading-relaxed max-w-lg text-base">
+          <p className="text-muted-foreground leading-relaxed max-w-lg vh-body" style={{ marginBottom: "clamp(0.5rem, 1vh, 1rem)" }}>
             I am a passionate developer specializing in Android development and backend engineering. 
             With expertise in Java, Python, and modern frameworks, I create robust mobile applications 
             and scalable server solutions.
           </p>
 
-          <p className="text-muted-foreground leading-relaxed max-w-lg text-base">
+          <p className="text-muted-foreground leading-relaxed max-w-lg vh-body" style={{ marginBottom: "clamp(0.75rem, 1.5vh, 1.5rem)" }}>
             My journey in programming started with a curiosity for problem-solving, which has evolved 
-            into a career focused on building innovative solutions. I thrive in hackathon environments 
-            and enjoy collaborating on challenging projects.
+            into a career focused on building innovative solutions.
           </p>
 
-          <div className="flex items-center gap-4">
-            <div className="px-5 py-3 rounded-2xl card-premium">
-              <p className="font-display text-3xl font-extrabold text-primary">15+</p>
-              <p className="text-xs text-muted-foreground">Projects Built</p>
+          <div className="flex items-center" style={{ gap: "clamp(0.5rem, 1vh, 1rem)", marginBottom: "clamp(0.75rem, 1.5vh, 1.5rem)" }}>
+            <div className="rounded-2xl card-premium" style={{ padding: "clamp(8px, 1.5vh, 12px) clamp(12px, 2vh, 20px)" }}>
+              <p className="font-display font-extrabold text-primary" style={{ fontSize: "clamp(1.25rem, 2.5vh, 1.75rem)" }}>15+</p>
+              <p className="text-muted-foreground vh-small">Projects Built</p>
             </div>
-            <a href="#android-projects" className="px-8 py-3.5 btn-premium">
+            <a href="#android-projects" className="btn-premium" style={{ padding: "clamp(8px, 1.5vh, 14px) clamp(16px, 3vh, 32px)", fontSize: "clamp(11px, 1.3vh, 14px)" }}>
               View My Projects
             </a>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2" style={{ gap: "clamp(0.5rem, 1vh, 1rem)" }}>
             {skills.map((s) => (
               <div
                 key={s.label}
-                className="p-4 rounded-2xl card-premium group"
+                className="rounded-2xl card-premium group"
+                style={{ padding: "clamp(8px, 1.5vh, 16px)" }}
               >
-                <s.icon className="text-primary mb-2 group-hover:scale-110 transition-transform" size={22} />
-                <h3 className="font-display font-bold text-sm mb-1">{s.label}</h3>
-                <p className="text-xs text-muted-foreground">{s.items.join(", ")}</p>
+                <s.icon className="text-primary group-hover:scale-110 transition-transform" size={18} style={{ marginBottom: "clamp(2px, 0.5vh, 8px)" }} />
+                <h3 className="font-display font-bold vh-small" style={{ marginBottom: "clamp(1px, 0.3vh, 4px)" }}>{s.label}</h3>
+                <p className="text-muted-foreground" style={{ fontSize: "clamp(9px, 1.1vh, 12px)" }}>{s.items.join(", ")}</p>
               </div>
             ))}
           </div>

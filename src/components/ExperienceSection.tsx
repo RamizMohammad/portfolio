@@ -73,28 +73,28 @@ const ExperienceSection = () => {
   const company = companies[selected];
 
   return (
-    <section id="experience" className="section-padding relative z-10" ref={ref}>
-      <div className="max-w-7xl mx-auto">
+    <section id="experience" className="section-padding relative z-10 min-h-[100svh] flex items-center" ref={ref}>
+      <div className="max-w-7xl mx-auto w-full">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="mb-12"
+          className="vh-mb-header"
         >
-          <p className="text-primary font-display font-medium mb-2 tracking-premium text-sm">Experience</p>
-          <h2 className="font-display text-3xl md:text-5xl font-extrabold">
+          <p className="text-primary font-display font-medium tracking-premium vh-small" style={{ marginBottom: "clamp(2px, 0.5vh, 8px)" }}>Experience</p>
+          <h2 className="font-display font-extrabold vh-heading">
             Where I've <span className="text-gradient">worked</span>
           </h2>
         </motion.div>
 
-        <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+        <div className="flex flex-col lg:flex-row items-center" style={{ gap: "clamp(2rem, 4vh, 5rem)" }}>
           <motion.div
             className="flex-1 w-full"
             initial={{ opacity: 0, x: -40 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.2 }}
           >
-            <div className="relative h-[300px] flex items-center justify-center overflow-hidden">
+            <div className="relative flex items-center justify-center overflow-hidden" style={{ height: "clamp(180px, 30vh, 300px)" }}>
               <AnimatePresence mode="wait" custom={direction}>
                 <motion.div
                   key={selected}
@@ -108,33 +108,40 @@ const ExperienceSection = () => {
                   animate="center"
                   exit="exit"
                   transition={{ duration: 0.5, ease: "easeInOut" }}
-                  className="absolute flex flex-col items-center gap-4"
+                  className="absolute flex flex-col items-center" style={{ gap: "clamp(0.5rem, 1.2vh, 1rem)" }}
                 >
-                  <div className="w-32 h-32 rounded-full bg-card border-2 border-border flex items-center justify-center glow-md">
-                    <span className="text-6xl">{company.logo}</span>
+                  <div className="rounded-full bg-card border-2 border-border flex items-center justify-center glow-md"
+                    style={{ width: "clamp(4rem, 10vh, 8rem)", height: "clamp(4rem, 10vh, 8rem)" }}
+                  >
+                    <span style={{ fontSize: "clamp(1.5rem, 5vh, 3.5rem)" }}>{company.logo}</span>
                   </div>
-                  <h3 className="font-display text-2xl font-extrabold text-center">{company.name}</h3>
-                  <p className="text-muted-foreground font-display text-sm">{company.role}</p>
-                  <p className="text-muted-foreground/60 text-xs tracking-premium">{company.duration}</p>
+                  <h3 className="font-display font-extrabold text-center vh-subheading">{company.name}</h3>
+                  <p className="text-muted-foreground font-display vh-small">{company.role}</p>
+                  <p className="text-muted-foreground/60 tracking-premium" style={{ fontSize: "clamp(8px, 1vh, 12px)" }}>{company.duration}</p>
                 </motion.div>
               </AnimatePresence>
             </div>
 
-            <div className="flex items-center justify-center gap-4 mt-6">
-              <button onClick={() => goTo(-1)} className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-all hover:-translate-y-0.5">
-                <ChevronLeft size={20} />
+            <div className="flex items-center justify-center" style={{ gap: "clamp(0.5rem, 1vh, 1rem)", marginTop: "clamp(0.5rem, 1vh, 1.5rem)" }}>
+              <button onClick={() => goTo(-1)} className="rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-all"
+                style={{ width: "clamp(28px, 3.5vh, 40px)", height: "clamp(28px, 3.5vh, 40px)" }}
+              >
+                <ChevronLeft size={18} />
               </button>
               <div className="flex gap-2">
                 {companies.map((_, i) => (
                   <button
                     key={i}
                     onClick={() => { setAutoPlay(false); setDirection(i > selected ? 1 : -1); setSelected(i); }}
-                    className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${selected === i ? "bg-primary w-6 glow-sm" : "bg-muted-foreground/30 hover:bg-muted-foreground/50"}`}
+                    className={`rounded-full transition-all duration-300 ${selected === i ? "bg-primary glow-sm" : "bg-muted-foreground/30 hover:bg-muted-foreground/50"}`}
+                    style={{ width: selected === i ? "clamp(16px, 2vh, 24px)" : "clamp(8px, 1vh, 10px)", height: "clamp(8px, 1vh, 10px)" }}
                   />
                 ))}
               </div>
-              <button onClick={() => goTo(1)} className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-all hover:-translate-y-0.5">
-                <ChevronRight size={20} />
+              <button onClick={() => goTo(1)} className="rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-all"
+                style={{ width: "clamp(28px, 3.5vh, 40px)", height: "clamp(28px, 3.5vh, 40px)" }}
+              >
+                <ChevronRight size={18} />
               </button>
             </div>
           </motion.div>
@@ -151,33 +158,34 @@ const ExperienceSection = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4 }}
-                className="w-full h-full p-5 pt-12 overflow-y-auto phone-screen-content space-y-4"
+                className="w-full h-full overflow-y-auto phone-screen-content"
+                style={{ padding: "clamp(12px, 2vh, 20px)", paddingTop: "clamp(2rem, 5vh, 3rem)" }}
               >
-                <div className="text-center">
-                  <span className="text-4xl">{company.logo}</span>
-                  <h3 className="font-display font-bold text-sm mt-2">{company.name}</h3>
+                <div className="text-center" style={{ marginBottom: "clamp(8px, 1.5vh, 16px)" }}>
+                  <span style={{ fontSize: "clamp(1.5rem, 3vh, 2.5rem)" }}>{company.logo}</span>
+                  <h3 className="font-display font-bold vh-small mt-1">{company.name}</h3>
                 </div>
 
-                <div className="space-y-3">
-                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                <div style={{ marginBottom: "clamp(8px, 1vh, 12px)" }} className="space-y-1.5">
+                  <div className="flex items-center gap-2 text-muted-foreground vh-small">
                     <Briefcase size={12} className="text-primary" />
                     {company.role}
                   </div>
-                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                  <div className="flex items-center gap-2 text-muted-foreground vh-small">
                     <Calendar size={12} className="text-primary" />
                     {company.duration}
                   </div>
-                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                  <div className="flex items-center gap-2 text-muted-foreground vh-small">
                     <Building2 size={12} className="text-primary" />
                     {company.overview}
                   </div>
                 </div>
 
-                <div>
-                  <h4 className="font-display text-xs font-semibold text-primary mb-2 tracking-premium">Key Responsibilities</h4>
-                  <ul className="space-y-1.5">
+                <div style={{ marginBottom: "clamp(6px, 1vh, 12px)" }}>
+                  <h4 className="font-display font-semibold text-primary tracking-premium" style={{ fontSize: "clamp(8px, 1vh, 11px)", marginBottom: "clamp(4px, 0.5vh, 8px)" }}>Key Responsibilities</h4>
+                  <ul className="space-y-1">
                     {company.responsibilities.map((r) => (
-                      <li key={r} className="text-[11px] text-muted-foreground flex gap-2">
+                      <li key={r} className="text-muted-foreground flex gap-2" style={{ fontSize: "clamp(8px, 1vh, 11px)" }}>
                         <span className="text-primary mt-0.5">▸</span>
                         {r}
                       </li>
@@ -185,11 +193,11 @@ const ExperienceSection = () => {
                   </ul>
                 </div>
 
-                <div>
-                  <h4 className="font-display text-xs font-semibold text-primary mb-2 tracking-premium">Projects</h4>
+                <div style={{ marginBottom: "clamp(6px, 1vh, 12px)" }}>
+                  <h4 className="font-display font-semibold text-primary tracking-premium" style={{ fontSize: "clamp(8px, 1vh, 11px)", marginBottom: "clamp(4px, 0.5vh, 8px)" }}>Projects</h4>
                   <div className="flex flex-wrap gap-1.5">
                     {company.projects.map((p) => (
-                      <span key={p} className="px-2 py-1 rounded-full bg-primary/10 text-[10px] text-primary font-medium">
+                      <span key={p} className="px-2 py-0.5 rounded-full bg-primary/10 text-primary font-medium" style={{ fontSize: "clamp(7px, 0.9vh, 10px)" }}>
                         {p}
                       </span>
                     ))}
@@ -197,10 +205,10 @@ const ExperienceSection = () => {
                 </div>
 
                 <div>
-                  <h4 className="font-display text-xs font-semibold text-primary mb-2 tracking-premium">Tech Stack</h4>
+                  <h4 className="font-display font-semibold text-primary tracking-premium" style={{ fontSize: "clamp(8px, 1vh, 11px)", marginBottom: "clamp(4px, 0.5vh, 8px)" }}>Tech Stack</h4>
                   <div className="flex flex-wrap gap-1.5">
                     {company.tech.map((t) => (
-                      <span key={t} className="px-2 py-1 rounded-full border border-border text-[10px] text-muted-foreground">
+                      <span key={t} className="px-2 py-0.5 rounded-full border border-border text-muted-foreground" style={{ fontSize: "clamp(7px, 0.9vh, 10px)" }}>
                         {t}
                       </span>
                     ))}
