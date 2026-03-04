@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 interface TerminalLine {
   type: "input" | "output" | "ascii" | "error" | "system";
   content: string;
+  isTyping?: boolean;
 }
 
 const ASCII_BANNER = `
@@ -31,6 +32,8 @@ const COMMANDS: Record<string, () => string[]> = {
     "│  clear        → Clear terminal                  │",
     "│  exit         → Return to website               │",
     "│  neofetch     → System info (for fun)           │",
+    "│  matrix       → 🟢 You know what this is...     │",
+    "│  sudo hire    → Try it ;)                       │",
     "└──────────────────────────────────────────────────┘",
   ],
   about: () => [
@@ -100,19 +103,16 @@ const COMMANDS: Record<string, () => string[]> = {
     "│     Firebase backend and push notifications.",
     "│     Tech: Java, Firebase, Cloud Functions, FCM",
     "│     Status: Live on Play Store",
-    "│     GitHub: github.com/RamizMohammad/ConfessApp",
     "│",
     "│  🚗 Share Wheels",
     "│     Smart ride sharing with real-time GPS tracking",
     "│     and route optimization via Google Maps API.",
     "│     Tech: Android, Maps API, Firebase, Kotlin",
-    "│     GitHub: github.com/RamizMohammad/RideShield",
     "│",
     "│  💻 BuddyCode Mobile",
     "│     Mobile code editor with Python execution,",
     "│     syntax highlighting, and cloud save.",
     "│     Tech: Java, REST APIs, CodeMirror, Python",
-    "│     GitHub: github.com/RamizMohammad/BuddyCodeAndroid",
     "│",
     "│  🏨 Hotel Manager",
     "│     Complete hotel management: bookings, staff,",
@@ -189,9 +189,9 @@ const COMMANDS: Record<string, () => string[]> = {
   contact: () => [
     "╭─ Contact ────────────────────────────────────────╮",
     "│",
-    "│  📧 Email    : ramiz@example.com",
+    "│  📧 Email    : ramizanas6@gmail.com",
     "│  🐙 GitHub   : github.com/RamizMohammad",
-    "│  💼 LinkedIn : linkedin.com/in/ramizmohammad",
+    "│  💼 LinkedIn : linkedin.com/in/mohammad-ramiz",
     "│",
     "│  Feel free to reach out for collaborations",
     "│  or just to say hello!",
@@ -225,11 +225,101 @@ const COMMANDS: Record<string, () => string[]> = {
     "",
     "   ███ ███ ███ ███ ███ ███ ███ ███",
   ],
+  matrix: () => [
+    "╭──────────────────────────────────────────────────╮",
+    "│                                                  │",
+    "│  ░▒▓█ ENTERING THE MATRIX █▓▒░                   │",
+    "│                                                  │",
+    "│  Wake up, Neo...                                 │",
+    "│  The Matrix has you...                           │",
+    "│  Follow the white rabbit. 🐇                     │",
+    "│                                                  │",
+    "│  01001000 01100101 01101100 01101100 01101111     │",
+    "│  (That's 'Hello' in binary)                      │",
+    "│                                                  │",
+    "│  Fun fact: Ramiz once debugged a production       │",
+    "│  server at 3 AM. The bug? A missing semicolon.   │",
+    "│                                                  │",
+    "╰──────────────────────────────────────────────────╯",
+  ],
+  "sudo hire": () => [
+    "",
+    "  🔐 Verifying credentials...",
+    "  ✅ Access granted!",
+    "",
+    "  ┌──────────────────────────────────────────────┐",
+    "  │                                              │",
+    "  │   🎉 CONGRATULATIONS!                        │",
+    "  │                                              │",
+    "  │   You've unlocked the secret hiring portal!  │",
+    "  │                                              │",
+    "  │   📧 ramizanas6@gmail.com                    │",
+    "  │   💼 Available for freelance & full-time      │",
+    "  │   🚀 Ready to build something amazing        │",
+    "  │                                              │",
+    "  │   Response time: < 24 hours                  │",
+    "  │   Coffee preference: Black ☕                 │",
+    "  │   Superpower: Turning caffeine into code      │",
+    "  │                                              │",
+    "  └──────────────────────────────────────────────┘",
+    "",
+  ],
+  whoami: () => ["ramiz — Android Developer & Backend Engineer"],
+  pwd: () => ["/home/ramiz/portfolio"],
+  ls: () => [
+    "about.md    skills.json    projects/    experience.log",
+    "contact.txt links.yml      README.md    .secret",
+  ],
+  "cat .secret": () => [
+    "🤫 You found a secret file!",
+    "",
+    "Here's a fun fact: This entire portfolio was built",
+    "with love, lots of chai ☕, and zero Stack Overflow",
+    "copy-paste. Okay maybe a little. 😄",
+  ],
+  date: () => [new Date().toString()],
+  echo: () => ["Usage: echo <message> (but I'm not that smart yet 😅)"],
+  cowsay: () => [
+    " ___________________",
+    "< Hire Ramiz today! >",
+    " -------------------",
+    "        \\   ^__^",
+    "         \\  (oo)\\_______",
+    "            (__)\\       )\\/\\",
+    "                ||----w |",
+    "                ||     ||",
+  ],
 };
 
 interface TerminalModeProps {
   onExit: () => void;
 }
+
+// Typewriter line component — renders text character by character
+const TypewriterLine = ({ content, speed = 8, onComplete }: { content: string; speed?: number; onComplete?: () => void }) => {
+  const [displayed, setDisplayed] = useState("");
+  const idxRef = useRef(0);
+
+  useEffect(() => {
+    if (content.length === 0) {
+      onComplete?.();
+      return;
+    }
+    const interval = setInterval(() => {
+      idxRef.current++;
+      if (idxRef.current >= content.length) {
+        setDisplayed(content);
+        clearInterval(interval);
+        onComplete?.();
+      } else {
+        setDisplayed(content.slice(0, idxRef.current + 1));
+      }
+    }, speed);
+    return () => clearInterval(interval);
+  }, [content, speed, onComplete]);
+
+  return <>{displayed}<span className="animate-pulse text-primary opacity-50">▊</span></>;
+};
 
 const TerminalMode = ({ onExit }: TerminalModeProps) => {
   const [lines, setLines] = useState<TerminalLine[]>([]);
@@ -237,6 +327,7 @@ const TerminalMode = ({ onExit }: TerminalModeProps) => {
   const [history, setHistory] = useState<string[]>([]);
   const [historyIdx, setHistoryIdx] = useState(-1);
   const [isBooting, setIsBooting] = useState(true);
+  const [typingLineIdx, setTypingLineIdx] = useState<number | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -291,6 +382,7 @@ const TerminalMode = ({ onExit }: TerminalModeProps) => {
 
     if (trimmed === "clear") {
       setLines([]);
+      setTypingLineIdx(null);
       return;
     }
 
@@ -303,12 +395,18 @@ const TerminalMode = ({ onExit }: TerminalModeProps) => {
     const handler = COMMANDS[trimmed];
     if (handler) {
       const output = handler();
-      setLines((prev) => [...prev, ...output.map((line) => ({ type: "output" as const, content: line }))]);
+      const newLines = output.map((line) => ({ type: "output" as const, content: line, isTyping: true }));
+      setLines((prev) => {
+        const startIdx = prev.length;
+        setTypingLineIdx(startIdx); // start typewriter from first new line
+        return [...prev, ...newLines];
+      });
     } else {
       setLines((prev) => [
         ...prev,
-        { type: "error", content: `Command not found: '${trimmed}'. Type 'help' for available commands.` },
+        { type: "error", content: `Command not found: '${trimmed}'. Type 'help' for available commands.`, isTyping: true },
       ]);
+      setTypingLineIdx(null);
     }
 
     scrollToBottom();
@@ -338,6 +436,16 @@ const TerminalMode = ({ onExit }: TerminalModeProps) => {
     } else if (e.key === "l" && e.ctrlKey) {
       e.preventDefault();
       setLines([]);
+    } else if (e.key === "Tab") {
+      e.preventDefault();
+      // Tab completion
+      const partial = input.trim().toLowerCase();
+      if (partial) {
+        const matches = Object.keys(COMMANDS).filter(c => c.startsWith(partial));
+        if (matches.length === 1) {
+          setInput(matches[0]);
+        }
+      }
     }
   };
 
@@ -380,20 +488,32 @@ const TerminalMode = ({ onExit }: TerminalModeProps) => {
       {/* Terminal body */}
       <div
         ref={scrollRef}
-        className="flex-1 overflow-y-auto p-4 md:p-6 font-mono text-sm md:text-base"
+        className="flex-1 overflow-y-auto p-4 md:p-6 font-mono text-sm md:text-base text-left"
         style={{ scrollbarWidth: "thin", scrollbarColor: "hsl(220,15%,20%) transparent" }}
       >
         {lines.filter(Boolean).map((line, i) => (
-          <div key={i} className={`${getLineColor(line.type)} leading-relaxed`}>
+          <div key={i} className={`${getLineColor(line.type)} leading-relaxed text-left`}>
             {line.type === "input" ? (
               <div className="flex gap-2">
                 <span className="text-[hsl(152,100%,50%)] select-none">❯</span>
                 <span className="text-[hsl(0,0%,90%)]">{line.content}</span>
               </div>
             ) : line.type === "ascii" ? (
-              <pre className="text-[hsl(152,100%,50%)] text-[10px] sm:text-xs md:text-sm leading-none font-mono">{line.content}</pre>
+              <pre className="text-[hsl(152,100%,50%)] text-[10px] sm:text-xs md:text-sm leading-none font-mono text-left">{line.content}</pre>
+            ) : line.isTyping && typingLineIdx !== null && i >= typingLineIdx ? (
+              <div className="whitespace-pre text-left">
+                <TypewriterLine
+                  content={line.content}
+                  speed={Math.max(2, 12 - Math.floor((i - typingLineIdx) / 3))}
+                  onComplete={() => {
+                    scrollToBottom();
+                    // Mark as done typing
+                    setLines(prev => prev.map((l, idx) => idx === i ? { ...l, isTyping: false } : l));
+                  }}
+                />
+              </div>
             ) : (
-              <div className="whitespace-pre">{line.content}</div>
+              <div className="whitespace-pre text-left">{line.content}</div>
             )}
           </div>
         ))}
@@ -409,7 +529,7 @@ const TerminalMode = ({ onExit }: TerminalModeProps) => {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
-                className="w-full bg-transparent text-[hsl(0,0%,90%)] outline-none caret-[hsl(152,100%,50%)] font-mono text-sm md:text-base"
+                className="w-full bg-transparent text-[hsl(0,0%,90%)] outline-none caret-[hsl(152,100%,50%)] font-mono text-sm md:text-base text-left"
                 autoFocus
                 spellCheck={false}
                 autoComplete="off"
