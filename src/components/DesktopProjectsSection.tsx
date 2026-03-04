@@ -96,21 +96,21 @@ const DesktopProjectsSection = () => {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7 }}
-          className="mb-16"
+          className="mb-8"
         >
-          <div className="flex items-center gap-3 mb-3">
+          <div className="flex items-center gap-3 mb-2">
             <Monitor size={14} className="text-primary" />
             <p className="text-primary font-display font-medium tracking-premium text-sm">
               Python & Web Projects
             </p>
           </div>
-          <h2 className="font-display text-4xl md:text-6xl font-extrabold leading-tight">
+          <h2 className="font-display text-3xl md:text-4xl font-extrabold leading-tight">
             Desktop Apps I've <span className="text-gradient">Engineered</span>
           </h2>
-          <p className="text-muted-foreground mt-4 text-lg max-w-lg">
+          <p className="text-muted-foreground mt-2 text-sm max-w-lg">
             From backends to desktop tools — powered by Python.
           </p>
         </motion.div>
@@ -135,7 +135,7 @@ const DesktopProjectsSection = () => {
 
             <div className="relative flex flex-col-reverse lg:flex-row items-stretch">
               {/* Left: Info panel */}
-              <div className="flex-1 p-8 md:p-12 lg:p-14 flex flex-col justify-center relative z-10">
+              <div className="flex-1 p-6 md:p-8 lg:p-10 flex flex-col justify-center relative z-10">
                 <AnimatePresence mode="wait" custom={direction}>
                   <motion.div
                     key={selected}
@@ -145,24 +145,23 @@ const DesktopProjectsSection = () => {
                     exit={{ opacity: 0, y: direction * -30 }}
                     transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
                   >
-                    <div className="flex items-center gap-4 mb-5">
-                      <span className="text-4xl">{project.emoji}</span>
+                    <div className="flex items-center gap-3 mb-3">
+                      <span className="text-3xl">{project.emoji}</span>
                       <div>
-                        <h3 className="font-display text-2xl md:text-3xl font-extrabold">
+                        <h3 className="font-display text-xl md:text-2xl font-extrabold">
                           {project.name}
                         </h3>
-                        <p className="text-muted-foreground/60 text-xs font-display italic">
+                        <p className="text-muted-foreground/60 text-[11px] font-display italic">
                           {project.tagline}
                         </p>
                       </div>
                     </div>
 
-                    <p className="text-muted-foreground text-sm md:text-base leading-relaxed mb-6 max-w-md">
+                    <p className="text-muted-foreground text-sm leading-relaxed mb-4 max-w-md">
                       {project.description}
                     </p>
 
-                    {/* Features grid */}
-                    <div className="grid grid-cols-2 gap-2 mb-6">
+                    <div className="grid grid-cols-2 gap-1.5 mb-4">
                       {project.features.map((f, fi) => (
                         <motion.div
                           key={f}
@@ -177,8 +176,7 @@ const DesktopProjectsSection = () => {
                       ))}
                     </div>
 
-                    {/* Tech */}
-                    <div className="flex gap-2 flex-wrap mb-8">
+                    <div className="flex gap-2 flex-wrap mb-5">
                       {project.tech.map((t) => (
                         <span
                           key={t}
@@ -189,15 +187,14 @@ const DesktopProjectsSection = () => {
                       ))}
                     </div>
 
-                    {/* Actions */}
                     <div className="flex gap-3 flex-wrap">
                       <a
                         href={project.github}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="btn-premium px-6 py-3 flex items-center gap-2 text-sm"
+                        className="btn-premium px-5 py-2.5 flex items-center gap-2 text-xs"
                       >
-                        <Github size={15} />
+                        <Github size={14} />
                         Source Code
                       </a>
                       {project.website && (
@@ -217,14 +214,13 @@ const DesktopProjectsSection = () => {
               </div>
 
               {/* Right: Monitor */}
-              <div className="flex-shrink-0 lg:w-[55%] relative flex items-center justify-center p-8 md:p-12">
-                {/* Monitor glow */}
+              <div className="flex-shrink-0 lg:w-[50%] relative flex items-center justify-center p-6 md:p-8">
                 <div
                   className="absolute inset-0 blur-[100px] opacity-10 transition-all duration-1000"
                   style={{ background: `hsl(${project.color})` }}
                 />
 
-                <div className="relative w-full max-w-[520px]">
+                <div className="relative w-full max-w-[460px]">
                   {/* Monitor frame */}
                   <div className="rounded-2xl bg-gradient-to-b from-[hsl(220,20%,14%)] to-[hsl(220,20%,10%)] p-[5px] border border-border/30 shadow-[0_30px_60px_rgba(0,0,0,0.5)]">
                     {/* Webcam */}
