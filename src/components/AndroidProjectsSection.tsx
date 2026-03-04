@@ -88,7 +88,7 @@ const AndroidProjectsSection = () => {
       className="section-padding relative z-10 min-h-[100svh] flex flex-col justify-center"
       ref={sectionRef}
     >
-      <div className="max-w-7xl mx-auto w-full flex flex-col" style={{ gap: "clamp(1rem, 2vh, 2rem)" }}>
+      <div className="max-w-7xl mx-auto w-full flex flex-col" style={{ gap: "clamp(1.25rem, 2.5vh, 2.5rem)" }}>
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -96,7 +96,7 @@ const AndroidProjectsSection = () => {
           transition={{ duration: 0.7 }}
         >
           <div className="flex items-center gap-3 mb-1">
-            <Smartphone size={14} className="text-primary" />
+            <Smartphone size={16} className="text-primary" />
             <p className="text-primary font-display font-medium tracking-premium vh-small">
               Android Projects
             </p>
@@ -111,7 +111,7 @@ const AndroidProjectsSection = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3"
+          className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 lg:gap-4"
         >
           {projects.map((project, i) => {
             const isActive = selected === i;
@@ -132,7 +132,7 @@ const AndroidProjectsSection = () => {
                 {/* Card */}
                 <motion.div
                   className="relative rounded-2xl overflow-hidden border border-border bg-card/50 backdrop-blur-sm"
-                  style={{ height: "clamp(180px, 28vh, 280px)" }}
+                  style={{ height: "clamp(220px, 32vh, 320px)" }}
                   animate={{
                     borderColor: isActive ? `hsl(${project.color} / 0.6)` : undefined,
                     boxShadow: isActive
@@ -203,16 +203,16 @@ const AndroidProjectsSection = () => {
                   )}
 
                   {/* Content */}
-                  <div className="relative z-10 flex flex-col justify-end h-full p-3">
+                  <div className="relative z-10 flex flex-col justify-end h-full p-4">
                     <motion.div
                       animate={{ y: isActive ? -8 : 0 }}
                       transition={{ duration: 0.3, ease: "easeOut" }}
                     >
-                      <span style={{ fontSize: "clamp(1.2rem, 2.5vh, 2rem)" }}>{project.icon}</span>
-                      <h3 className="font-display font-bold mt-1" style={{ fontSize: "clamp(0.7rem, 1.4vh, 0.95rem)" }}>
+                      <span style={{ fontSize: "clamp(1.5rem, 3vh, 2.5rem)" }}>{project.icon}</span>
+                      <h3 className="font-display font-bold mt-1" style={{ fontSize: "clamp(0.85rem, 1.6vh, 1.1rem)" }}>
                         {project.name}
                       </h3>
-                      <p className="text-muted-foreground mt-0.5 line-clamp-2" style={{ fontSize: "clamp(0.55rem, 1vh, 0.75rem)" }}>
+                      <p className="text-muted-foreground mt-0.5 line-clamp-2" style={{ fontSize: "clamp(0.7rem, 1.2vh, 0.85rem)" }}>
                         {project.description}
                       </p>
                     </motion.div>
@@ -221,7 +221,7 @@ const AndroidProjectsSection = () => {
                     <AnimatePresence>
                       {isActive && (
                         <motion.div
-                          className="flex gap-2 mt-2"
+                          className="flex gap-2 mt-3"
                           initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: 10 }}
@@ -231,11 +231,11 @@ const AndroidProjectsSection = () => {
                             href={project.github}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center gap-1 rounded-full bg-foreground/10 backdrop-blur-sm border border-border/50 text-foreground hover:bg-primary hover:text-primary-foreground transition-all"
-                            style={{ padding: "clamp(3px, 0.5vh, 6px) clamp(8px, 1vh, 12px)", fontSize: "clamp(8px, 1vh, 11px)" }}
+                            className="flex items-center gap-1.5 rounded-full bg-foreground/10 backdrop-blur-sm border border-border/50 text-foreground hover:bg-primary hover:text-primary-foreground transition-all"
+                            style={{ padding: "clamp(4px, 0.6vh, 8px) clamp(10px, 1.2vh, 16px)", fontSize: "clamp(0.65rem, 1.1vh, 0.8rem)" }}
                             onClick={(e) => e.stopPropagation()}
                           >
-                            <Github size={10} />
+                            <Github size={12} />
                             Code
                           </a>
                           {project.playStore && (
@@ -243,11 +243,11 @@ const AndroidProjectsSection = () => {
                               href={project.playStore}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="flex items-center gap-1 rounded-full bg-primary/20 backdrop-blur-sm border border-primary/30 text-primary hover:bg-primary hover:text-primary-foreground transition-all"
-                              style={{ padding: "clamp(3px, 0.5vh, 6px) clamp(8px, 1vh, 12px)", fontSize: "clamp(8px, 1vh, 11px)" }}
+                              className="flex items-center gap-1.5 rounded-full bg-primary/20 backdrop-blur-sm border border-primary/30 text-primary hover:bg-primary hover:text-primary-foreground transition-all"
+                              style={{ padding: "clamp(4px, 0.6vh, 8px) clamp(10px, 1.2vh, 16px)", fontSize: "clamp(0.65rem, 1.1vh, 0.8rem)" }}
                               onClick={(e) => e.stopPropagation()}
                             >
-                              <ExternalLink size={10} />
+                              <ExternalLink size={12} />
                               Store
                             </a>
                           )}
@@ -258,17 +258,17 @@ const AndroidProjectsSection = () => {
                 </motion.div>
 
                 {/* Tech badges below card */}
-                <div className="flex flex-wrap gap-1 mt-1.5">
+                <div className="flex flex-wrap gap-1.5 mt-2">
                   {project.tech.map((t) => (
                     <span
                       key={t}
                       className="rounded-md font-medium bg-muted/50 text-muted-foreground border border-border/40"
-                      style={{ padding: "1px 6px", fontSize: "clamp(7px, 0.9vh, 10px)" }}
+                      style={{ padding: "2px 8px", fontSize: "clamp(0.65rem, 1vh, 0.75rem)" }}
                     >
                       {t}
                     </span>
                   ))}
-                  <span className="text-muted-foreground/40 ml-auto" style={{ fontSize: "clamp(7px, 0.9vh, 10px)" }}>
+                  <span className="text-muted-foreground/40 ml-auto" style={{ fontSize: "clamp(0.65rem, 1vh, 0.75rem)" }}>
                     {project.year}
                   </span>
                 </div>
