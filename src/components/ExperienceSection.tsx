@@ -1,7 +1,6 @@
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
-import PhoneFrame from "./PhoneFrame";
-import { ChevronLeft, ChevronRight, Building2, Calendar, Briefcase } from "lucide-react";
+import { Briefcase, Calendar, ChevronRight, Zap } from "lucide-react";
 
 const companies = [
   {
@@ -17,6 +16,7 @@ const companies = [
     ],
     projects: ["Confess App", "Share Wheels", "BuddyCode"],
     tech: ["Java", "Kotlin", "Firebase", "Android Studio"],
+    color: "152 100% 50%",
   },
   {
     name: "Personal Projects",
@@ -31,11 +31,12 @@ const companies = [
     ],
     projects: ["BuddyCode Web", "Confess Server", "Local Share"],
     tech: ["Python", "Flask", "FastAPI", "AWS"],
+    color: "216 100% 50%",
   },
   {
     name: "Bluestock Fintech",
     logo: "🏢",
-    role: "Software Development Engineer (SDE)",
+    role: "Software Development Engineer",
     duration: "May 2025 – June 2025",
     overview: "Interned at Bluestock Fintech, led a team to build the admin panel design.",
     responsibilities: [
@@ -45,6 +46,7 @@ const companies = [
     ],
     projects: ["Admin Panel"],
     tech: ["Flask", "Web Design"],
+    color: "270 100% 60%",
   },
 ];
 
@@ -53,22 +55,14 @@ const ExperienceSection = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [selected, setSelected] = useState(0);
   const [autoPlay, setAutoPlay] = useState(true);
-  const [direction, setDirection] = useState(1);
 
   useEffect(() => {
     if (!autoPlay) return;
     const timer = setInterval(() => {
-      setDirection(1);
       setSelected((prev) => (prev + 1) % companies.length);
-    }, 4000);
+    }, 5000);
     return () => clearInterval(timer);
   }, [autoPlay]);
-
-  const goTo = (dir: -1 | 1) => {
-    setAutoPlay(false);
-    setDirection(dir);
-    setSelected((prev) => (prev + dir + companies.length) % companies.length);
-  };
 
   const company = companies[selected];
 
@@ -79,143 +73,217 @@ const ExperienceSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="vh-mb-header"
+          style={{ marginBottom: "clamp(1rem, 2vh, 2rem)" }}
         >
-          <p className="text-primary font-display font-medium tracking-premium vh-small" style={{ marginBottom: "clamp(2px, 0.5vh, 8px)" }}>Experience</p>
+          <div className="flex items-center gap-3 mb-1">
+            <Briefcase size={14} className="text-primary" />
+            <p className="text-primary font-display font-medium tracking-premium vh-small">Experience</p>
+          </div>
           <h2 className="font-display font-extrabold vh-heading">
-            Where I've <span className="text-gradient">worked</span>
+            Where I've <span className="text-gradient">Worked</span>
           </h2>
         </motion.div>
 
-        <div className="flex flex-col lg:flex-row items-center" style={{ gap: "clamp(2rem, 4vh, 5rem)" }}>
+        <div className="flex flex-col lg:flex-row" style={{ gap: "clamp(1rem, 2vh, 2rem)" }}>
+          {/* Left: Timeline tabs */}
           <motion.div
-            className="flex-1 w-full"
-            initial={{ opacity: 0, x: -40 }}
+            className="flex flex-row lg:flex-col gap-2 lg:w-[280px] flex-shrink-0"
+            initial={{ opacity: 0, x: -30 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.2 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <div className="relative flex items-center justify-center overflow-hidden" style={{ height: "clamp(180px, 30vh, 300px)" }}>
-              <AnimatePresence mode="wait" custom={direction}>
-                <motion.div
-                  key={selected}
-                  custom={direction}
-                  variants={{
-                    enter: (d: number) => ({ x: d * 200, opacity: 0, scale: 0.8 }),
-                    center: { x: 0, opacity: 1, scale: 1 },
-                    exit: (d: number) => ({ x: d * -200, opacity: 0, scale: 0.8 }),
-                  }}
-                  initial="enter"
-                  animate="center"
-                  exit="exit"
-                  transition={{ duration: 0.5, ease: "easeInOut" }}
-                  className="absolute flex flex-col items-center" style={{ gap: "clamp(0.5rem, 1.2vh, 1rem)" }}
+            {companies.map((c, i) => {
+              const isActive = selected === i;
+              return (
+                <button
+                  key={c.name}
+                  onClick={() => { setAutoPlay(false); setSelected(i); }}
+                  className={`relative text-left rounded-xl transition-all duration-400 group flex-1 lg:flex-none overflow-hidden ${
+                    isActive ? "bg-card border-border" : "bg-transparent border-transparent hover:bg-card/50"
+                  } border`}
+                  style={{ padding: "clamp(8px, 1.5vh, 16px) clamp(10px, 1.5vh, 16px)" }}
                 >
-                  <div className="rounded-full bg-card border-2 border-border flex items-center justify-center glow-md"
-                    style={{ width: "clamp(4rem, 10vh, 8rem)", height: "clamp(4rem, 10vh, 8rem)" }}
-                  >
-                    <span style={{ fontSize: "clamp(1.5rem, 5vh, 3.5rem)" }}>{company.logo}</span>
-                  </div>
-                  <h3 className="font-display font-extrabold text-center vh-subheading">{company.name}</h3>
-                  <p className="text-muted-foreground font-display vh-small">{company.role}</p>
-                  <p className="text-muted-foreground/60 tracking-premium" style={{ fontSize: "clamp(8px, 1vh, 12px)" }}>{company.duration}</p>
-                </motion.div>
-              </AnimatePresence>
-            </div>
+                  {/* Active indicator line */}
+                  {isActive && (
+                    <motion.div
+                      className="absolute left-0 top-0 bottom-0 w-[3px] rounded-full"
+                      style={{ background: `hsl(${c.color})` }}
+                      layoutId="exp-indicator"
+                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                    />
+                  )}
 
-            <div className="flex items-center justify-center" style={{ gap: "clamp(0.5rem, 1vh, 1rem)", marginTop: "clamp(0.5rem, 1vh, 1.5rem)" }}>
-              <button onClick={() => goTo(-1)} className="rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-all"
-                style={{ width: "clamp(28px, 3.5vh, 40px)", height: "clamp(28px, 3.5vh, 40px)" }}
-              >
-                <ChevronLeft size={18} />
-              </button>
-              <div className="flex gap-2">
-                {companies.map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => { setAutoPlay(false); setDirection(i > selected ? 1 : -1); setSelected(i); }}
-                    className={`rounded-full transition-all duration-300 ${selected === i ? "bg-primary glow-sm" : "bg-muted-foreground/30 hover:bg-muted-foreground/50"}`}
-                    style={{ width: selected === i ? "clamp(16px, 2vh, 24px)" : "clamp(8px, 1vh, 10px)", height: "clamp(8px, 1vh, 10px)" }}
-                  />
-                ))}
-              </div>
-              <button onClick={() => goTo(1)} className="rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-all"
-                style={{ width: "clamp(28px, 3.5vh, 40px)", height: "clamp(28px, 3.5vh, 40px)" }}
-              >
-                <ChevronRight size={18} />
-              </button>
-            </div>
+                  {/* Progress bar for auto-play */}
+                  {isActive && autoPlay && (
+                    <motion.div
+                      className="absolute bottom-0 left-0 h-[2px]"
+                      style={{ background: `hsl(${c.color} / 0.4)` }}
+                      initial={{ width: "0%" }}
+                      animate={{ width: "100%" }}
+                      transition={{ duration: 5, ease: "linear" }}
+                      key={`progress-${selected}`}
+                    />
+                  )}
+
+                  <div className="flex items-center gap-2">
+                    <span style={{ fontSize: "clamp(1rem, 2vh, 1.5rem)" }}>{c.logo}</span>
+                    <div className="min-w-0">
+                      <h4
+                        className={`font-display font-bold truncate transition-colors ${
+                          isActive ? "text-foreground" : "text-muted-foreground group-hover:text-foreground"
+                        }`}
+                        style={{ fontSize: "clamp(0.65rem, 1.2vh, 0.85rem)" }}
+                      >
+                        {c.name}
+                      </h4>
+                      <p className="text-muted-foreground/60 truncate" style={{ fontSize: "clamp(0.55rem, 0.9vh, 0.7rem)" }}>
+                        {c.role}
+                      </p>
+                    </div>
+                    {isActive && (
+                      <ChevronRight size={12} className="text-primary ml-auto flex-shrink-0 hidden lg:block" />
+                    )}
+                  </div>
+                </button>
+              );
+            })}
           </motion.div>
 
+          {/* Right: Detail card */}
           <motion.div
-            className="flex-shrink-0"
-            initial={{ opacity: 0, x: 40 }}
+            className="flex-1 min-w-0"
+            initial={{ opacity: 0, x: 30 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.3 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
           >
-            <PhoneFrame>
+            <AnimatePresence mode="wait">
               <motion.div
                 key={selected}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4 }}
-                className="w-full h-full overflow-y-auto phone-screen-content"
-                style={{ padding: "clamp(12px, 2vh, 20px)", paddingTop: "clamp(2rem, 5vh, 3rem)" }}
+                exit={{ opacity: 0, y: -12 }}
+                transition={{ duration: 0.35 }}
+                className="relative rounded-2xl border border-border bg-card/40 backdrop-blur-sm overflow-hidden"
+                style={{ padding: "clamp(1rem, 2.5vh, 2rem)" }}
               >
-                <div className="text-center" style={{ marginBottom: "clamp(8px, 1.5vh, 16px)" }}>
-                  <span style={{ fontSize: "clamp(1.5rem, 3vh, 2.5rem)" }}>{company.logo}</span>
-                  <h3 className="font-display font-bold vh-small mt-1">{company.name}</h3>
-                </div>
+                {/* Background glow */}
+                <div
+                  className="absolute inset-0 opacity-10 pointer-events-none"
+                  style={{
+                    background: `radial-gradient(ellipse at 80% 20%, hsl(${company.color} / 0.3) 0%, transparent 60%)`,
+                  }}
+                />
 
-                <div style={{ marginBottom: "clamp(8px, 1vh, 12px)" }} className="space-y-1.5">
-                  <div className="flex items-center gap-2 text-muted-foreground vh-small">
-                    <Briefcase size={12} className="text-primary" />
-                    {company.role}
+                <div className="relative z-10">
+                  {/* Top row */}
+                  <div className="flex items-start justify-between flex-wrap gap-2" style={{ marginBottom: "clamp(0.75rem, 1.5vh, 1.5rem)" }}>
+                    <div className="flex items-center gap-3">
+                      <div
+                        className="rounded-xl flex items-center justify-center border border-border"
+                        style={{
+                          width: "clamp(2.5rem, 5vh, 4rem)",
+                          height: "clamp(2.5rem, 5vh, 4rem)",
+                          background: `hsl(${company.color} / 0.1)`,
+                        }}
+                      >
+                        <span style={{ fontSize: "clamp(1.2rem, 2.5vh, 2rem)" }}>{company.logo}</span>
+                      </div>
+                      <div>
+                        <h3 className="font-display font-extrabold vh-subheading">{company.name}</h3>
+                        <p className="text-primary font-display font-medium" style={{ fontSize: "clamp(0.6rem, 1.1vh, 0.8rem)" }}>
+                          {company.role}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-1.5 text-muted-foreground/60 rounded-full border border-border bg-muted/30"
+                      style={{ padding: "clamp(3px, 0.5vh, 6px) clamp(8px, 1vh, 14px)", fontSize: "clamp(0.55rem, 0.9vh, 0.7rem)" }}
+                    >
+                      <Calendar size={10} />
+                      {company.duration}
+                    </div>
                   </div>
-                  <div className="flex items-center gap-2 text-muted-foreground vh-small">
-                    <Calendar size={12} className="text-primary" />
-                    {company.duration}
-                  </div>
-                  <div className="flex items-center gap-2 text-muted-foreground vh-small">
-                    <Building2 size={12} className="text-primary" />
+
+                  {/* Overview */}
+                  <p className="text-muted-foreground leading-relaxed vh-body" style={{ marginBottom: "clamp(0.75rem, 1.5vh, 1.5rem)" }}>
                     {company.overview}
-                  </div>
-                </div>
+                  </p>
 
-                <div style={{ marginBottom: "clamp(6px, 1vh, 12px)" }}>
-                  <h4 className="font-display font-semibold text-primary tracking-premium" style={{ fontSize: "clamp(8px, 1vh, 11px)", marginBottom: "clamp(4px, 0.5vh, 8px)" }}>Key Responsibilities</h4>
-                  <ul className="space-y-1">
-                    {company.responsibilities.map((r) => (
-                      <li key={r} className="text-muted-foreground flex gap-2" style={{ fontSize: "clamp(8px, 1vh, 11px)" }}>
-                        <span className="text-primary mt-0.5">▸</span>
-                        {r}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                  {/* Two-column layout for responsibilities and meta */}
+                  <div className="grid grid-cols-1 md:grid-cols-2" style={{ gap: "clamp(0.75rem, 1.5vh, 1.5rem)" }}>
+                    {/* Responsibilities */}
+                    <div>
+                      <h4 className="font-display font-semibold text-primary tracking-premium flex items-center gap-1.5"
+                        style={{ fontSize: "clamp(0.5rem, 0.9vh, 0.7rem)", marginBottom: "clamp(0.4rem, 0.8vh, 0.75rem)" }}
+                      >
+                        <Zap size={10} /> Key Responsibilities
+                      </h4>
+                      <ul style={{ gap: "clamp(0.25rem, 0.5vh, 0.5rem)" }} className="flex flex-col">
+                        {company.responsibilities.map((r, idx) => (
+                          <motion.li
+                            key={r}
+                            initial={{ opacity: 0, x: -10 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: 0.1 * idx + 0.2 }}
+                            className="flex items-start gap-2 text-muted-foreground"
+                            style={{ fontSize: "clamp(0.6rem, 1vh, 0.8rem)" }}
+                          >
+                            <span className="text-primary mt-0.5 flex-shrink-0">▸</span>
+                            {r}
+                          </motion.li>
+                        ))}
+                      </ul>
+                    </div>
 
-                <div style={{ marginBottom: "clamp(6px, 1vh, 12px)" }}>
-                  <h4 className="font-display font-semibold text-primary tracking-premium" style={{ fontSize: "clamp(8px, 1vh, 11px)", marginBottom: "clamp(4px, 0.5vh, 8px)" }}>Projects</h4>
-                  <div className="flex flex-wrap gap-1.5">
-                    {company.projects.map((p) => (
-                      <span key={p} className="px-2 py-0.5 rounded-full bg-primary/10 text-primary font-medium" style={{ fontSize: "clamp(7px, 0.9vh, 10px)" }}>
-                        {p}
-                      </span>
-                    ))}
-                  </div>
-                </div>
+                    {/* Projects & Tech */}
+                    <div className="flex flex-col" style={{ gap: "clamp(0.5rem, 1vh, 1rem)" }}>
+                      <div>
+                        <h4 className="font-display font-semibold text-primary tracking-premium"
+                          style={{ fontSize: "clamp(0.5rem, 0.9vh, 0.7rem)", marginBottom: "clamp(0.3rem, 0.5vh, 0.5rem)" }}
+                        >
+                          Projects
+                        </h4>
+                        <div className="flex flex-wrap gap-1.5">
+                          {company.projects.map((p) => (
+                            <span
+                              key={p}
+                              className="rounded-full font-medium border"
+                              style={{
+                                padding: "clamp(2px, 0.3vh, 4px) clamp(6px, 1vh, 12px)",
+                                fontSize: "clamp(0.5rem, 0.85vh, 0.7rem)",
+                                background: `hsl(${company.color} / 0.1)`,
+                                borderColor: `hsl(${company.color} / 0.2)`,
+                                color: `hsl(${company.color})`,
+                              }}
+                            >
+                              {p}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
 
-                <div>
-                  <h4 className="font-display font-semibold text-primary tracking-premium" style={{ fontSize: "clamp(8px, 1vh, 11px)", marginBottom: "clamp(4px, 0.5vh, 8px)" }}>Tech Stack</h4>
-                  <div className="flex flex-wrap gap-1.5">
-                    {company.tech.map((t) => (
-                      <span key={t} className="px-2 py-0.5 rounded-full border border-border text-muted-foreground" style={{ fontSize: "clamp(7px, 0.9vh, 10px)" }}>
-                        {t}
-                      </span>
-                    ))}
+                      <div>
+                        <h4 className="font-display font-semibold text-primary tracking-premium"
+                          style={{ fontSize: "clamp(0.5rem, 0.9vh, 0.7rem)", marginBottom: "clamp(0.3rem, 0.5vh, 0.5rem)" }}
+                        >
+                          Tech Stack
+                        </h4>
+                        <div className="flex flex-wrap gap-1.5">
+                          {company.tech.map((t) => (
+                            <span
+                              key={t}
+                              className="rounded-md border border-border text-muted-foreground"
+                              style={{ padding: "clamp(2px, 0.3vh, 4px) clamp(6px, 1vh, 10px)", fontSize: "clamp(0.5rem, 0.85vh, 0.65rem)" }}
+                            >
+                              {t}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </motion.div>
-            </PhoneFrame>
+            </AnimatePresence>
           </motion.div>
         </div>
       </div>
