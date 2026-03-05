@@ -189,7 +189,14 @@ const HeroSection = () => {
   return (
     <section
       id="hero"
-      className="min-h-[100svh] flex items-center section-padding pt-28 md:pt-20 relative z-10"
+      className="min-h-[100svh] flex items-center section-padding relative z-10"
+      // FIX: Use inline style for reliable navbar clearance across all screen sizes.
+      // Navbar is ~72px tall (py-5 + logo line-height). We add extra breathing room.
+      // On md+ screens flex items-center handles vertical centering naturally so
+      // we only need a small top offset; on mobile we need enough to clear the navbar.
+      style={{
+        paddingTop: "clamp(5.5rem, 14vw, 8rem)",
+      }}
     >
       <div
         className="max-w-7xl mx-auto w-full flex flex-col lg:flex-row items-center"

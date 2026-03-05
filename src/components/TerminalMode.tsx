@@ -8,19 +8,29 @@ interface TerminalLine {
 }
 
 const ASCII_BANNER = `
- ███╗   ███╗ ██████╗ ██╗  ██╗ █████╗ ███╗   ███╗███╗   ███╗ █████╗ ██████╗ 
- ████╗ ████║██╔═══██╗██║  ██║██╔══██╗████╗ ████║████╗ ████║██╔══██╗██╔══██╗
- ██╔████╔██║██║   ██║███████║███████║██╔████╔██║██╔████╔██║███████║██║  ██║
- ██║╚██╔╝██║██║   ██║██╔══██║██╔══██║██║╚██╔╝██║██║╚██╔╝██║██╔══██║██║  ██║
- ██║ ╚═╝ ██║╚██████╔╝██║  ██║██║  ██║██║ ╚═╝ ██║██║ ╚═╝ ██║██║  ██║██████╔╝
- ╚═╝     ╚═╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝╚═════╝ 
+ ███╗   ███╗      ██████╗  █████╗ ███╗   ███╗██╗███████╗
+ ████╗ ████║      ██╔══██╗██╔══██╗████╗ ████║██║╚══███╔╝
+ ██╔████╔██║      ██████╔╝███████║██╔████╔██║██║  ███╔╝ 
+ ██║╚██╔╝██║      ██╔══██╗██╔══██║██║╚██╔╝██║██║ ███╔╝  
+ ██║ ╚═╝ ██║▄█╗   ██║  ██║██║  ██║██║ ╚═╝ ██║██║███████╗
+ ╚═╝     ╚═╝╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝╚═╝╚══════╝`;
 
- ██████╗  █████╗ ███╗   ███╗██╗███████╗
- ██╔══██╗██╔══██╗████╗ ████║██║╚══███╔╝
- ██████╔╝███████║██╔████╔██║██║  ███╔╝ 
- ██╔══██╗██╔══██║██║╚██╔╝██║██║ ███╔╝  
- ██║  ██║██║  ██║██║ ╚═╝ ██║██║███████╗
- ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝╚═╝╚══════╝`;
+// ─── Enjoy overlay rows: plane on left, rope middle, MOHAMMAD RAMIZ banner right ───
+const ENJOY_ROWS = [
+  "                                         ███╗   ███╗ ██████╗ ██╗  ██╗ █████╗ ███╗   ███╗███╗   ███╗ █████╗ ██████╗  ",
+  "                                         ████╗ ████║██╔═══██╗██║  ██║██╔══██╗████╗ ████║████╗ ████║██╔══██╗██╔══██╗ ",
+  "                                         ██╔████╔██║██║   ██║███████║███████║██╔████╔██║██╔████╔██║███████║██║  ██║ ",
+  "                                         ██║╚██╔╝██║██║   ██║██╔══██║██╔══██║██║╚██╔╝██║██║╚██╔╝██║██╔══██║██║  ██║ ",
+  "        __|__                            ██║ ╚═╝ ██║╚██████╔╝██║  ██║██║  ██║██║ ╚═╝ ██║██║ ╚═╝ ██║██║  ██║██████╔╝ ",
+  "       /  *  \\                           ╚═╝     ╚═╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝╚═════╝  ",
+  "  ====(_____)==>>    ~~~~~~~~~~~~~~~~~~~                                                                               ",
+  "       \\     /                           ██████╗  █████╗ ███╗   ███╗██╗███████╗                                       ",
+  "        ~~~~~                            ██╔══██╗██╔══██╗████╗ ████║██║╚══███╔╝                                       ",
+  "                                         ██████╔╝███████║██╔████╔██║██║  ███╔╝                                        ",
+  "                                         ██╔══██╗██╔══██║██║╚██╔╝██║██║ ███╔╝                                         ",
+  "                                         ██║  ██║██║  ██║██║ ╚═╝ ██║██║███████╗                                       ",
+  "                                         ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝╚═╝╚══════╝                                      ",
+];
 
 const COMMANDS: Record<string, () => string[]> = {
   help: () => [
@@ -37,6 +47,7 @@ const COMMANDS: Record<string, () => string[]> = {
     "  \x1b[32mlinks\x1b[0m        \x1b[90m→\x1b[0m  Social & website links",
     "  \x1b[32mneofetch\x1b[0m     \x1b[90m→\x1b[0m  System info",
     "  \x1b[32mmatrix\x1b[0m       \x1b[90m→\x1b[0m  You know what this is...",
+    "  \x1b[32menjoy\x1b[0m        \x1b[90m→\x1b[0m  ✈  Watch the skies",
     "  \x1b[32msudo hire\x1b[0m    \x1b[90m→\x1b[0m  Try it ;)",
     "  \x1b[32mclear\x1b[0m        \x1b[90m→\x1b[0m  Clear terminal",
     "  \x1b[32mexit\x1b[0m         \x1b[90m→\x1b[0m  Return to website",
@@ -220,18 +231,18 @@ const COMMANDS: Record<string, () => string[]> = {
   ],
   neofetch: () => [
     "",
-    "  \x1b[32m  ██████\x1b[0m   \x1b[1;32mramiz\x1b[0m\x1b[90m@\x1b[0m\x1b[1mportfolio\x1b[0m",
-    "  \x1b[32m ██\x1b[0m  \x1b[32m██\x1b[0m   \x1b[90m─────────────────────\x1b[0m",
-    "  \x1b[32m██\x1b[0m \x1b[32m██\x1b[0m \x1b[32m██\x1b[0m   \x1b[33mOS\x1b[0m          Portfolio v2.0",
-    "  \x1b[32m██\x1b[0m    \x1b[32m██\x1b[0m   \x1b[33mHost\x1b[0m        Lovable Cloud",
-    "  \x1b[32m ██\x1b[0m  \x1b[32m██\x1b[0m   \x1b[33mKernel\x1b[0m      React 18.3",
-    "  \x1b[32m  ██████\x1b[0m   \x1b[33mUptime\x1b[0m      Since 2021",
-    "             \x1b[33mPackages\x1b[0m    15+ projects",
-    "             \x1b[33mShell\x1b[0m       TypeScript",
-    "             \x1b[33mTerminal\x1b[0m    Custom v1.0",
-    "             \x1b[33mCPU\x1b[0m         Kotlin + Python",
-    "             \x1b[33mGPU\x1b[0m         Framer Motion",
-    "             \x1b[33mMemory\x1b[0m      15+ repos",
+    "  \x1b[32m  ██████╗ \x1b[0m  \x1b[1;32mramiz\x1b[0m\x1b[90m@\x1b[0m\x1b[1mportfolio\x1b[0m",
+    "  \x1b[32m  ██╔══██╗\x1b[0m  \x1b[90m─────────────────────\x1b[0m",
+    "  \x1b[32m  ██████╔╝\x1b[0m  \x1b[33mOS\x1b[0m          Portfolio v2.0",
+    "  \x1b[32m  ██╔══██╗\x1b[0m  \x1b[33mHost\x1b[0m        Lovable Cloud",
+    "  \x1b[32m  ██████╔╝\x1b[0m  \x1b[33mKernel\x1b[0m      React 18.3",
+    "  \x1b[32m  ╚══════╝\x1b[0m  \x1b[33mUptime\x1b[0m      Since 2021",
+    "  \x1b[32m  BADMOSH \x1b[0m  \x1b[33mPackages\x1b[0m    15+ projects",
+    "            \x1b[33mShell\x1b[0m       TypeScript",
+    "            \x1b[33mTerminal\x1b[0m    Custom v1.0",
+    "            \x1b[33mCPU\x1b[0m         Kotlin + Python",
+    "            \x1b[33mGPU\x1b[0m         Framer Motion",
+    "            \x1b[33mMemory\x1b[0m      15+ repos",
     "",
     "  \x1b[40m   \x1b[0m\x1b[41m   \x1b[0m\x1b[42m   \x1b[0m\x1b[43m   \x1b[0m\x1b[44m   \x1b[0m\x1b[45m   \x1b[0m\x1b[46m   \x1b[0m\x1b[47m   \x1b[0m",
     "",
@@ -251,6 +262,16 @@ const COMMANDS: Record<string, () => string[]> = {
     "  \x1b[90mThe bug? A missing semicolon. 💀\x1b[0m",
     "",
   ],
+  enjoy: () => {
+    // Fire custom event so TerminalMode mounts the overlay
+    setTimeout(() => window.dispatchEvent(new CustomEvent("enjoy-command")), 120);
+    return [
+      "",
+      "  \x1b[32m✈  Launching enjoy mode...\x1b[0m",
+      "  \x1b[90m  Watch the skies! 🛩️\x1b[0m",
+      "",
+    ];
+  },
   "sudo hire": () => [
     "",
     "  \x1b[33m[sudo] password for recruiter:\x1b[0m \x1b[90m••••••••\x1b[0m",
@@ -311,7 +332,7 @@ COMMANDS["hii"]   = COMMANDS["hi"];
 COMMANDS["hola"]  = COMMANDS["hi"];
 COMMANDS["sup"]   = COMMANDS["hi"];
 
-// ─── ANSI parser ────────────────────────────────────────────────────────────
+// ─── ANSI parser ─────────────────────────────────────────────────────────────
 type Segment = { text: string; classes: string };
 
 function parseAnsi(raw: string): Segment[] {
@@ -340,7 +361,6 @@ function parseAnsi(raw: string): Segment[] {
   while ((match = re.exec(raw)) !== null) {
     push(raw.slice(lastIdx, match.index));
     lastIdx = match.index + match[0].length;
-
     const codes = match[1].split(";");
     const newClasses: string[] = [];
     for (const code of codes) {
@@ -348,7 +368,12 @@ function parseAnsi(raw: string): Segment[] {
       else if (code === "1") { newClasses.push("ansi-bold"); }
       else if (ansiMap[code]) { newClasses.push(ansiMap[code]); }
     }
-    if (newClasses.length) activeClasses = [...activeClasses.filter(c => !c.startsWith("ansi-fg-") && !c.startsWith("ansi-bg-")), ...newClasses];
+    if (newClasses.length) {
+      activeClasses = [
+        ...activeClasses.filter(c => !c.startsWith("ansi-fg-") && !c.startsWith("ansi-bg-")),
+        ...newClasses,
+      ];
+    }
   }
   push(raw.slice(lastIdx));
   return segments;
@@ -366,62 +391,138 @@ const AnsiLine = ({ content }: { content: string }) => {
 };
 
 // ─── Typewriter ──────────────────────────────────────────────────────────────
-const TypewriterLine = forwardRef<HTMLSpanElement, { content: string; speed?: number; onComplete?: () => void }>(
-  ({ content, speed = 6, onComplete }, _ref) => {
-    const [charCount, setCharCount] = useState(0);
-    const idxRef = useRef(0);
-    // strip ansi for length counting
-    const plain = content.replace(/\x1b\[[0-9;]*m/g, "");
+const TypewriterLine = forwardRef<
+  HTMLSpanElement,
+  { content: string; speed?: number; onComplete?: () => void }
+>(({ content, speed = 6, onComplete }, _ref) => {
+  const [charCount, setCharCount] = useState(0);
+  const idxRef = useRef(0);
+  const plain = content.replace(/\x1b\[[0-9;]*m/g, "");
 
-    useEffect(() => {
-      if (plain.length === 0) { onComplete?.(); return; }
-      const interval = setInterval(() => {
-        idxRef.current++;
-        if (idxRef.current >= plain.length) {
-          setCharCount(plain.length);
-          clearInterval(interval);
-          onComplete?.();
-        } else {
-          setCharCount(idxRef.current + 1);
-        }
-      }, speed);
-      return () => clearInterval(interval);
-    }, [plain, speed, onComplete]);
+  useEffect(() => {
+    if (plain.length === 0) { onComplete?.(); return; }
+    const interval = setInterval(() => {
+      idxRef.current++;
+      if (idxRef.current >= plain.length) {
+        setCharCount(plain.length);
+        clearInterval(interval);
+        onComplete?.();
+      } else {
+        setCharCount(idxRef.current + 1);
+      }
+    }, speed);
+    return () => clearInterval(interval);
+  }, [plain, speed, onComplete]);
 
-    // Reveal raw content proportionally
-    const ratio = plain.length > 0 ? charCount / plain.length : 1;
-    const revealUpTo = Math.floor(content.length * ratio);
-    const partial = content.slice(0, revealUpTo);
+  const ratio = plain.length > 0 ? charCount / plain.length : 1;
+  const revealUpTo = Math.floor(content.length * ratio);
+  const partial = content.slice(0, revealUpTo);
 
-    return (
-      <>
-        <AnsiLine content={partial} />
-        {charCount < plain.length && (
-          <span className="ansi-fg-green animate-pulse">▊</span>
-        )}
-      </>
-    );
-  }
-);
+  return (
+    <>
+      <AnsiLine content={partial} />
+      {charCount < plain.length && (
+        <span className="ansi-fg-green animate-pulse">▊</span>
+      )}
+    </>
+  );
+});
 TypewriterLine.displayName = "TypewriterLine";
 
-// ─── Main terminal ───────────────────────────────────────────────────────────
+// ─── Enjoy Overlay ───────────────────────────────────────────────────────────
+const EnjoyOverlay = ({ onDone }: { onDone: () => void }) => {
+  const [offset, setOffset] = useState(-160);
+  const rafRef   = useRef<number | null>(null);
+  const startRef = useRef<number | null>(null);
+  const DURATION = 7000; // ms for full left-to-right pass
+
+  useEffect(() => {
+    const animate = (ts: number) => {
+      if (!startRef.current) startRef.current = ts;
+      const elapsed  = ts - startRef.current;
+      const progress = Math.min(elapsed / DURATION, 1);
+      // cubic ease-in-out so the plane accelerates then decelerates
+      const eased =
+        progress < 0.5
+          ? 4 * progress * progress * progress
+          : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+      setOffset(-160 + eased * 340); // travels from -160vw → +180vw
+      if (progress < 1) {
+        rafRef.current = requestAnimationFrame(animate);
+      } else {
+        setTimeout(onDone, 300);
+      }
+    };
+    rafRef.current = requestAnimationFrame(animate);
+    return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); };
+  }, [onDone]);
+
+  return (
+    // Positioned absolute so it's clipped inside the terminal window
+    <div className="absolute inset-0 z-[99999] flex items-center justify-center overflow-hidden pointer-events-none">
+      {/* subtle backdrop so ASCII text pops against the terminal content below */}
+      <div className="absolute inset-0 bg-black/50" />
+
+      <div
+        style={{
+          transform: `translateX(${offset}vw)`,
+          whiteSpace: "nowrap",
+          willChange: "transform",
+          position: "relative",
+          zIndex: 1,
+        }}
+      >
+        {ENJOY_ROWS.map((row, i) => {
+          // rows 4-8 are the plane body → golden yellow
+          // all other rows are banner text → neon green
+          const isPlane = i >= 4 && i <= 8;
+          return (
+            <div
+              key={i}
+              style={{
+                fontFamily: "'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace",
+                fontSize: "clamp(5px, 0.85vw, 10px)",
+                lineHeight: 1.3,
+                color: isPlane ? "hsl(45,100%,72%)" : "hsl(152,100%,58%)",
+                textShadow: isPlane
+                  ? "0 0 8px hsl(45,100%,55%), 0 0 16px hsl(45,100%,35%)"
+                  : "0 0 8px hsl(152,100%,45%), 0 0 16px hsl(152,100%,28%)",
+              }}
+            >
+              {row}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+// ─── Main terminal ────────────────────────────────────────────────────────────
 interface TerminalModeProps { onExit: () => void; }
 
 const TerminalMode = forwardRef<HTMLDivElement, TerminalModeProps>(({ onExit }, _ref) => {
-  const [lines, setLines] = useState<TerminalLine[]>([]);
-  const [input, setInput]   = useState("");
-  const [history, setHistory]     = useState<string[]>([]);
-  const [historyIdx, setHistoryIdx] = useState(-1);
-  const [isBooting, setIsBooting] = useState(true);
+  const [lines, setLines]                 = useState<TerminalLine[]>([]);
+  const [input, setInput]                 = useState("");
+  const [history, setHistory]             = useState<string[]>([]);
+  const [historyIdx, setHistoryIdx]       = useState(-1);
+  const [isBooting, setIsBooting]         = useState(true);
   const [typingLineIdx, setTypingLineIdx] = useState<number | null>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const [showEnjoy, setShowEnjoy]         = useState(false); // ← enjoy overlay
+  const inputRef  = useRef<HTMLInputElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = useCallback(() => {
     setTimeout(() => {
       scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
     }, 50);
+  }, []);
+
+  // Listen for the custom event fired by COMMANDS.enjoy
+  useEffect(() => {
+    const handler = () => setShowEnjoy(true);
+    window.addEventListener("enjoy-command", handler);
+    return () => window.removeEventListener("enjoy-command", handler);
   }, []);
 
   // Boot sequence
@@ -537,7 +638,7 @@ const TerminalMode = forwardRef<HTMLDivElement, TerminalModeProps>(({ onExit }, 
       {/* ── Body ── */}
       <div
         ref={scrollRef}
-        className="terminal-body flex-1 overflow-y-auto px-5 py-4 font-mono text-sm leading-relaxed"
+        className="terminal-body flex-1 overflow-y-auto overflow-x-hidden px-5 py-4 font-mono text-sm leading-relaxed"
         style={{ scrollbarWidth: "thin", scrollbarColor: "hsl(220,15%,22%) transparent" }}
       >
         {lines.filter(Boolean).map((line, i) => (
@@ -551,7 +652,11 @@ const TerminalMode = forwardRef<HTMLDivElement, TerminalModeProps>(({ onExit }, 
                 <span className="ansi-fg-white">{line.content}</span>
               </div>
             ) : line.type === "ascii" ? (
-              <pre className="ansi-fg-green text-[9px] sm:text-[11px] leading-tight font-mono my-1">{line.content}</pre>
+              <div className="overflow-x-auto my-1">
+                <pre className="ansi-fg-green text-[8px] sm:text-[11px] leading-tight font-mono inline-block">
+                  {line.content}
+                </pre>
+              </div>
             ) : line.isTyping && typingLineIdx !== null && i >= typingLineIdx ? (
               <div className="whitespace-pre my-px">
                 <TypewriterLine
@@ -596,8 +701,11 @@ const TerminalMode = forwardRef<HTMLDivElement, TerminalModeProps>(({ onExit }, 
           <span className="ansi-fg-gray">{lines.filter(l => l.type === "input").length} cmd</span>
         </span>
         <span className="ansi-fg-gray">bash · UTF-8</span>
-        <span className="ansi-fg-gray">Type '\x1b[0mexit\x1b[90m' to return</span>
+        <span className="ansi-fg-gray">Type 'exit' to return</span>
       </div>
+
+      {/* ── Enjoy overlay — mounted inside terminal so it's clipped to it ── */}
+      {showEnjoy && <EnjoyOverlay onDone={() => setShowEnjoy(false)} />}
 
       <style>{`
         .terminal-root {
@@ -615,23 +723,18 @@ const TerminalMode = forwardRef<HTMLDivElement, TerminalModeProps>(({ onExit }, 
           padding: 2px 14px;
           font-size: 11px;
         }
-        .terminal-body {
-          background: hsl(222, 28%, 5%);
-        }
+        .terminal-body { background: hsl(222, 28%, 5%); }
         .terminal-statusbar {
           background: hsl(152, 60%, 28%);
           border-top: 1px solid hsl(152, 60%, 22%);
           color: hsl(152, 100%, 90%);
         }
-        .statusbar-branch {
-          color: hsl(152, 100%, 85%);
-          font-weight: 600;
-        }
+        .statusbar-branch { color: hsl(152, 100%, 85%); font-weight: 600; }
         .terminal-line { min-height: 1.4em; }
 
         /* ANSI colour classes */
-        .ansi-reset    { color: inherit; font-weight: normal; }
-        .ansi-bold     { font-weight: 700; }
+        .ansi-reset      { color: inherit; font-weight: normal; }
+        .ansi-bold       { font-weight: 700; }
         .ansi-fg-black   { color: hsl(220,10%,20%); }
         .ansi-fg-red     { color: hsl(0,80%,65%); }
         .ansi-fg-green   { color: hsl(152,100%,55%); }
@@ -641,7 +744,6 @@ const TerminalMode = forwardRef<HTMLDivElement, TerminalModeProps>(({ onExit }, 
         .ansi-fg-cyan    { color: hsl(186,90%,60%); }
         .ansi-fg-white   { color: hsl(0,0%,92%); }
         .ansi-fg-gray    { color: hsl(0,0%,45%); }
-
         .ansi-bg-black   { background: hsl(220,10%,10%); padding: 0 3px; border-radius: 3px; }
         .ansi-bg-red     { background: hsl(0,70%,35%);   padding: 0 3px; border-radius: 3px; }
         .ansi-bg-green   { background: hsl(152,70%,25%); padding: 0 3px; border-radius: 3px; }
