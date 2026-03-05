@@ -1,0 +1,415 @@
+{
+  "confess": {
+    "appName": "Confess",
+    "favicon_path" : "static\\assets\\AppLogos\\confess.png",
+    "effectiveDate": "June 18, 2025",
+    "lastUpdated": "February 25, 2026",
+
+    "privacyPolicy": {
+      "introduction": "Confess is designed from the ground up to protect your identity and your words. We believe that true anonymity enables honest expression. This Privacy Policy explains in full detail what we collect, why we collect it, how it is protected, and what rights you hold over your information. By using Confess, you agree to the practices described here.",
+
+      "infoWeCollect": [
+        "Google Sign-In: We collect your email address and Firebase UID solely for account identification. We do not store your Google password or any other Google account data.",
+        "Alias & Password: You choose a nickname (alias) displayed in the app. Any optional alias password you set is hashed using bcrypt and stored only on your local device — never transmitted to our servers.",
+        "Posts & Stories: All text content you create is encrypted end-to-end (E2EE) on your device using AES-256 before being uploaded. We store only the encrypted ciphertext. We cannot read, access, or moderate your content.",
+        "Reactions: We record which user UID reacted to which post (as an encrypted reference) and the reaction type (👍 Like, 🤝 Support, 🫂 Us by Us). Only one reaction per user per post is permitted.",
+        "Analytics: We collect anonymized crash reports and aggregate usage statistics (e.g., number of sessions, feature tap counts) to improve app stability. No individual user is profiled or tracked."
+      ],
+
+      "dataProtection": {
+        "encryption": "All posts and stories are encrypted on your device using AES-256-GCM before transmission. Encryption keys are derived from your device credentials and are never uploaded to our servers.",
+        "storage": "Encrypted blobs are stored in Firebase Firestore. Firebase never receives or can reconstruct the plaintext of any post.",
+        "transit": "All data in transit between your device and our servers is protected by TLS 1.3.",
+        "keyLoss": "If you lose your local encryption key (e.g., by uninstalling the app or clearing data without backup), your content is permanently unrecoverable. We do not hold a key escrow.",
+        "serverAccess": "No Confess employee, contractor, or third party can read your posts or stories. Server-side access is limited to encrypted metadata (timestamps, UIDs) required for delivery."
+      },
+
+      "notCollected": [
+        "No real name, phone number, or home address",
+        "No photos, videos, audio, or any media uploads",
+        "No GPS coordinates or location data of any kind",
+        "No access to your contacts, call logs, or SMS messages",
+        "No device identifiers such as IMEI, MAC address, or advertising IDs",
+        "No browsing history or cross-app behavior"
+      ],
+
+      "cookiesAndTracking": {
+        "cookies": "The Confess mobile app does not use browser cookies. Our backend may use session tokens stored in secure device storage to maintain your authenticated session.",
+        "thirdPartySDKs": "We use Firebase (by Google) for authentication and encrypted storage, and a privacy-respecting crash analytics SDK. Neither is given access to your plaintext content.",
+        "advertisingNetworks": "We do not integrate any advertising SDKs. No ad network ever receives your data.",
+        "doNotTrack": "We honor system-level 'Limit Ad Tracking' or 'Do Not Track' signals. These signals have no practical additional impact since we do not track users."
+      },
+
+      "dataSharing": {
+        "summary": "We do not sell, rent, lease, or share your personal data with any third party for commercial purposes.",
+        "serviceProviders": "We use Firebase (Google) as our infrastructure provider. Firebase processes encrypted blobs under strict data processing agreements aligned with Google's data processing terms. Firebase cannot read your content.",
+        "legalRequirements": "We may disclose metadata (not content — which we cannot access) if required by a valid court order, subpoena, or legal obligation under Indian law. We will notify you of any such request unless prohibited by law.",
+        "businessTransfers": "In the event of a merger, acquisition, or sale of assets, user data will only be transferred to a successor that agrees to honor this Privacy Policy. You will be notified 30 days in advance."
+      },
+
+      "dataRetention": {
+        "posts": "Posts remain stored in encrypted form until you manually delete them or delete your account.",
+        "stories": "Stories automatically expire and are permanently deleted from our servers after 24 hours.",
+        "accountDeletion": "When you delete your account, all associated metadata (UID, email, reaction records) is purged within 30 days. Encrypted blobs with no associated account are deleted immediately.",
+        "analytics": "Anonymized crash logs and usage statistics are retained for up to 12 months before being purged."
+      },
+
+      "gdprAndCCPA": {
+        "applicability": "While Confess is governed by Indian law, we extend GDPR-aligned rights to all users globally as a matter of good practice. California residents are also granted rights under CCPA.",
+        "gdprRights": [
+          "Right to Access: Request a copy of the personal data we hold about you (email, UID, reaction metadata).",
+          "Right to Rectification: Correct inaccurate personal data.",
+          "Right to Erasure ('Right to be Forgotten'): Request deletion of all your personal data.",
+          "Right to Restrict Processing: Request that we limit how we use your data.",
+          "Right to Data Portability: Receive your encrypted data in a machine-readable format.",
+          "Right to Object: Object to processing of your data where we rely on legitimate interest.",
+          "Right to Withdraw Consent: Withdraw consent at any time without affecting prior lawful processing."
+        ],
+        "ccpaRights": [
+          "Right to Know: Know what personal information we collect, use, and disclose.",
+          "Right to Delete: Request deletion of personal information we have collected.",
+          "Right to Opt-Out: We do not sell personal information. No opt-out mechanism is needed.",
+          "Right to Non-Discrimination: Exercising your privacy rights will not result in denial of service."
+        ],
+        "howToExercise": "Submit requests to support@confessapp.com. We will respond within 30 days. Identity verification may be required."
+      },
+
+      "childrensPrivacy": {
+        "minimumAge": "Confess is not intended for children under the age of 13. Users between 13 and 17 must have verified parental or guardian consent.",
+        "unknownMinors": "If we become aware that a user under 13 has created an account, we will immediately delete the account and all associated data.",
+        "parentalContact": "Parents or guardians who believe their child has created an account without consent may contact support@confessapp.com to request deletion."
+      },
+
+      "internationalDataTransfers": "Your data may be stored on Firebase servers located outside India (including the United States). Such transfers are conducted under Google's standard contractual clauses and data processing agreements, providing safeguards equivalent to Indian data protection standards.",
+
+      "securityMeasures": [
+        "AES-256-GCM end-to-end encryption for all content",
+        "TLS 1.3 for all data in transit",
+        "bcrypt hashing for any locally stored passwords",
+        "Regular penetration testing and security audits",
+        "Principle of least privilege for server-side access controls",
+        "No plaintext content ever leaves your device"
+      ],
+
+      "yourRights": [
+        "Update your alias at any time within the app",
+        "Delete individual posts or all posts at once",
+        "Delete your account and all associated metadata",
+        "Export your encrypted data archive",
+        "Request deletion of all metadata from our servers",
+        "Withdraw consent by deleting your account"
+      ],
+
+      "updates": "We will notify you of significant changes to this Privacy Policy via in-app message and email at least 14 days before changes take effect. Continued use of Confess after the effective date constitutes acceptance of the updated policy.",
+
+      "contact": {
+        "email": "support@confessapp.com",
+        "responseTime": "We aim to respond to all privacy-related inquiries within 7 business days."
+      }
+    },
+
+    "terms": {
+      "introduction": "These Terms of Service ('Terms') govern your access to and use of the Confess application. By creating an account or using the app, you agree to be bound by these Terms. If you do not agree, do not use the app.",
+
+      "eligibility": {
+        "minimumAge": "You must be at least 13 years of age to use Confess.",
+        "minorConsent": "Users between the ages of 13 and 17 must have explicit parental or guardian consent before creating an account.",
+        "representationAndWarranty": "By using Confess, you represent and warrant that you meet the eligibility requirements above and that the information you provide during sign-in is accurate."
+      },
+
+      "accountResponsibility": {
+        "alias": "You are responsible for selecting an alias that complies with these Terms. Your alias must not impersonate any real person, brand, or organization.",
+        "security": "You are responsible for maintaining the security of your local device and alias password. Confess is not liable for unauthorized access resulting from your failure to secure your device.",
+        "oneAccount": "Each user may maintain only one active account. Creating duplicate accounts to evade a ban is a violation of these Terms."
+      },
+
+      "identityRules": "Your alias is mandatory. You must not impersonate another person, use a name that is offensive, hateful, or sexually explicit, or create an alias designed to mislead other users about your identity.",
+
+      "contentRules": {
+        "prohibited": [
+          "Content that threatens, promotes, or facilitates violence against any individual or group",
+          "Content that constitutes hate speech based on race, ethnicity, religion, gender, sexual orientation, disability, or national origin",
+          "Content that harasses, bullies, or intimidates any individual",
+          "Content that promotes, glorifies, or encourages self-harm, eating disorders, or suicide",
+          "Content that sexually exploits or depicts minors in any way",
+          "Content that reveals personally identifiable information of others (doxxing)",
+          "Content that promotes illegal activities, including drug trafficking, fraud, or terrorism",
+          "Content that threatens national security or promotes extremist ideologies",
+          "Spam, repetitive posts, or automated posting",
+          "Media uploads of any kind (Confess is text-only)"
+        ],
+        "userResponsibility": "Because content is end-to-end encrypted and we cannot read it, you bear full legal and moral responsibility for what you post. Confess provides the platform; you own your words and their consequences."
+      },
+
+      "reactionsOnly": {
+        "description": "Confess does not support comments. The only interaction between users is via reactions.",
+        "reactionTypes": "👍 Like — acknowledgment; 🤝 Support — empathy and solidarity; 🫂 Us by Us — shared experience.",
+        "limit": "Each user may leave exactly one reaction per post. Reactions cannot be changed once submitted.",
+        "prohibitedReactionUse": "Creating multiple accounts to react multiple times to the same post is a violation of these Terms."
+      },
+
+      "stories": {
+        "description": "Stories are ephemeral, encrypted posts visible for 24 hours after creation.",
+        "noInteraction": "Stories do not support reactions, comments, or any form of interaction.",
+        "expiry": "After 24 hours, stories are automatically and permanently deleted from our servers and are unrecoverable.",
+        "responsibility": "The same content rules that apply to posts apply to stories."
+      },
+
+      "intellectualProperty": {
+        "yourContent": "You retain full ownership of any content you post on Confess. By posting, you grant Confess a limited, non-exclusive, royalty-free license solely to store and transmit your encrypted content for the purpose of providing the service. We never see, use, or commercialize your content.",
+        "ourIP": "The Confess name, logo, interface design, and underlying technology are the intellectual property of the Confess development team and are protected under applicable copyright and trademark law.",
+        "noUnauthorizedUse": "You may not copy, reproduce, distribute, or create derivative works of Confess's interface, branding, or codebase without prior written permission."
+      },
+
+      "moderation": {
+        "limitations": "Due to end-to-end encryption, Confess is technically unable to read or proactively moderate post content.",
+        "localFiltering": "Basic keyword filtering may be applied locally on your device during text input to catch obvious violations before encryption.",
+        "metadataReview": "If abuse is reported (e.g., a user consistently receiving harassment reports), metadata (UIDs, timestamps, reaction patterns) may be reviewed by our team.",
+        "reporting": "Users may flag posts or stories using the in-app report feature. Reports trigger a metadata review; we cannot see the content itself.",
+        "enforcement": "Confirmed violations based on metadata patterns, credible reports, or other signals may result in account suspension or permanent ban."
+      },
+
+      "accountSuspensionAndBan": {
+        "grounds": [
+          "Repeated violations of content rules",
+          "Creating multiple accounts to evade restrictions",
+          "Abusive use of the reaction system",
+          "Coordinated harassment campaigns",
+          "Impersonation of other users or public figures",
+          "Any activity that violates applicable law"
+        ],
+        "process": "We will attempt to notify banned users via their registered email, except where doing so would compromise an ongoing investigation or is prohibited by law.",
+        "appeal": "Users may appeal a ban by contacting support@confessapp.com within 14 days of receiving the ban notice. Appeals are reviewed within 10 business days."
+      },
+
+      "disclaimerOfWarranties": "Confess is provided 'as-is' and 'as-available' without warranties of any kind, express or implied, including but not limited to warranties of merchantability, fitness for a particular purpose, or non-infringement. We do not guarantee that the app will be available at all times, error-free, or free of viruses.",
+
+      "limitationOfLiability": "To the maximum extent permitted by applicable law, Confess and its developers shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including loss of data, loss of privacy, emotional distress, or any outcomes arising from your use of or inability to use the app. Our aggregate liability to you for any claim shall not exceed INR 1,000.",
+
+      "indemnification": "You agree to indemnify, defend, and hold harmless Confess and its developers, officers, and agents from any claims, damages, liabilities, costs, and expenses (including legal fees) arising out of your use of the app, your content, or your violation of these Terms.",
+
+      "disputeResolution": {
+        "informalResolution": "Before initiating any formal dispute, you agree to contact us at support@confessapp.com and attempt to resolve the dispute informally within 30 days.",
+        "arbitration": "If informal resolution fails, disputes shall be resolved through binding arbitration in accordance with the Arbitration and Conciliation Act, 1996 (India). Arbitration shall take place in New Delhi, India.",
+        "classActionWaiver": "You waive any right to participate in a class action lawsuit or class-wide arbitration against Confess.",
+        "governingLaw": "These Terms are governed by the laws of India. For matters not subject to arbitration, you submit to the exclusive jurisdiction of the courts of New Delhi, India."
+      },
+
+      "mentalHealthNotice": "Confess may contain posts discussing difficult emotions, mental health struggles, trauma, or crisis situations. This app is not a substitute for professional mental health care. If you or someone you know is in crisis, please contact a licensed mental health professional or emergency services immediately. In India, you may reach iCall at 9152987821.",
+
+      "modifications": "We reserve the right to modify these Terms at any time. We will notify users of material changes via in-app notification and email at least 14 days before changes take effect. Continued use of the app constitutes acceptance of the revised Terms.",
+
+      "termination": "We may terminate or suspend your access to Confess at any time, with or without cause or notice, at our sole discretion. Upon termination, your right to use the app ceases immediately. Sections on intellectual property, disclaimer, limitation of liability, indemnification, and dispute resolution survive termination.",
+
+      "legalJurisdiction": "These Terms are governed by the laws of India. Legal disputes not subject to arbitration will be handled exclusively in the courts of New Delhi, India.",
+
+      "contact": {
+        "email": "support@confessapp.com",
+        "responseTime": "We aim to respond to all Terms-related inquiries within 7 business days."
+      }
+    }
+  },
+
+  "linkium": {
+    "appName": "Linkium",
+    "favicon_path" : "static\\assets\\AppLogos\\Linkium.png",
+    "effectiveDate": "October 7, 2025",
+    "lastUpdated": "February 25, 2026",
+
+    "privacyPolicy": {
+      "introduction": "Linkium is a privacy-first desktop utility for pairing and remote control of your personal devices. We are committed to collecting the absolute minimum data necessary to provide the service. This Privacy Policy explains exactly what data is collected, where it is stored, how it is protected, and your rights as a user.",
+
+      "infoWeCollect": [
+        "App Configuration: The names and file system paths of apps you register for remote launching are stored locally on your device in the AppData directory. This data never leaves your machine.",
+        "Receiver Code: A unique, randomly generated 10-digit pairing code is stored locally and shared with the remote WebSocket server solely to facilitate device pairing. This code contains no personal identifiers.",
+        "Connection Logs: Basic WebSocket session logs (connection time, session duration, pairing code used) are maintained temporarily on the relay server for debugging. No personal identifiers are included.",
+        "Settings: User preferences such as startup behavior, tray settings, and display toggles are stored locally in your AppData directory.",
+        "Crash Logs: Anonymous error stack traces may be collected to identify and fix software bugs. These contain no personal data."
+      ],
+
+      "dataProtection": {
+        "localStorage": "All configuration files, app paths, and preferences are stored in your OS-managed AppData directory, which is protected by your operating system's access controls.",
+        "transitEncryption": "All WebSocket communications between Linkium and the relay server use TLS (wss://) to prevent interception.",
+        "relayServer": "The relay server at wss://steamdeck.onrender.com receives only your pairing code and relayed commands. It does not receive app paths, file contents, or any local system data.",
+        "noCloud": "Linkium does not operate a user database or cloud account system. There is no server-side profile associated with you.",
+        "openSource": "Linkium's source code is publicly available under the MIT License, allowing independent security audits by the community."
+      },
+
+      "notCollected": [
+        "No name, email address, or personal profile of any kind",
+        "No passwords or authentication tokens",
+        "No GPS coordinates or location data",
+        "No usage analytics, behavioral tracking, or profiling",
+        "No access to your contacts, camera, microphone, or browser history",
+        "No file contents — only file paths you explicitly register",
+        "No system screenshots or screen recordings"
+      ],
+
+      "cookiesAndTracking": {
+        "cookies": "Linkium is a desktop application and does not use browser cookies.",
+        "thirdPartySDKs": "Linkium does not integrate any third-party analytics, advertising, or tracking SDKs.",
+        "telemetry": "The only telemetry collected is anonymous crash reports, which contain no personal identifiers. This can be disabled in settings.",
+        "networkRequests": "Linkium makes network requests exclusively to wss://steamdeck.onrender.com for pairing and command relay. No other external endpoints are contacted."
+      },
+
+      "dataSharing": {
+        "summary": "Linkium does not sell, rent, share, or transmit your personal data to any third party.",
+        "relayServer": "The WebSocket relay server receives your pairing code and the specific commands you initiate (e.g., 'launch app', 'adjust volume'). It does not receive your app paths, file system data, or any other local configuration.",
+        "legalRequirements": "We may be required to disclose connection logs if compelled by a valid legal order under Indian law. Such logs contain no personal identifiers beyond the pairing code.",
+        "openSourceCommunity": "As an open-source project, community contributors may review the codebase under the MIT License. No user data is shared with contributors."
+      },
+
+      "dataRetention": {
+        "localData": "All configuration, app paths, and pairing codes remain on your device until you manually delete them or uninstall Linkium.",
+        "serverLogs": "Connection logs on the relay server are automatically purged after 7 days.",
+        "crashLogs": "Anonymous crash reports are retained for up to 90 days to assist in debugging, after which they are permanently deleted.",
+        "uninstallation": "Uninstalling Linkium removes all local data. Residual AppData files can be deleted manually from %AppData%\\Linkium."
+      },
+
+      "gdprAndCCPA": {
+        "applicability": "Since Linkium collects minimal personal data and operates no user accounts, GDPR and CCPA obligations are limited. However, we extend the following rights to all users as good practice.",
+        "gdprRights": [
+          "Right to Access: Request a description of any data we hold related to your pairing code or connection logs.",
+          "Right to Erasure: Request deletion of any server-side connection logs associated with your pairing code.",
+          "Right to Data Portability: Export your local configuration data at any time from within the app.",
+          "Right to Object: Disable crash reporting telemetry in the app settings at any time."
+        ],
+        "ccpaRights": [
+          "Right to Know: We collect only a pairing code and anonymous crash logs — no personal information.",
+          "Right to Delete: Request deletion of server-side connection logs by contacting us with your pairing code.",
+          "Right to Non-Discrimination: No service difference for users who exercise privacy rights."
+        ],
+        "howToExercise": "Contact support@linkium.space. We will respond within 30 days."
+      },
+
+      "childrensPrivacy": {
+        "minimumAge": "Linkium is not directed at children under 13. Users between 13 and 17 should use the software under parental guidance.",
+        "noMinorData": "We do not knowingly collect any data from children under 13. Since Linkium requires no account creation, there is minimal risk of inadvertent collection."
+      },
+
+      "internationalDataTransfers": "The relay server may be hosted on infrastructure outside India (currently Render.com). Only your anonymous pairing code and relay commands pass through this server, protected by TLS. No personal data is stored server-side.",
+
+      "securityMeasures": [
+        "TLS (wss://) encryption for all WebSocket communications",
+        "Local data stored in OS-protected AppData directory",
+        "No server-side user database or profile storage",
+        "Pairing codes are randomly generated and can be regenerated at any time",
+        "Open-source codebase enabling community security review",
+        "No third-party analytics or tracking SDKs"
+      ],
+
+      "yourRights": [
+        "View and manage all locally stored configuration data within the app",
+        "Delete your local configuration and registered app list at any time",
+        "Regenerate your receiver code at any time for enhanced security",
+        "Disable background startup and tray operation in settings",
+        "Disable crash reporting telemetry in settings",
+        "Request deletion of server-side connection logs via email"
+      ],
+
+      "updates": "Significant changes to our privacy practices will be communicated through GitHub release notes and the official website at linkium.space. We encourage users to review release notes before updating.",
+
+      "contact": {
+        "email": "support@linkium.space",
+        "github": "https://github.com/linkium",
+        "website": "https://linkium.space",
+        "responseTime": "We aim to respond to all privacy-related inquiries within 7 business days."
+      }
+    },
+
+    "terms": {
+      "introduction": "These Terms of Service ('Terms') govern your use of the Linkium desktop application and associated relay service. By installing or using Linkium, you agree to these Terms. If you do not agree, please uninstall the application.",
+
+      "eligibility": {
+        "minimumAge": "You must be at least 13 years old to use Linkium.",
+        "minorGuidance": "Users between 13 and 17 are advised to use Linkium under parental supervision.",
+        "noAccountRequired": "Linkium does not require account registration. Your identity within the pairing system is represented solely by your receiver code."
+      },
+
+      "permittedUse": {
+        "description": "Linkium is a personal productivity tool for remote control of your own devices. It is intended for lawful, personal, and organizational use only.",
+        "permittedActivities": [
+          "Launching registered applications on your own device remotely",
+          "Adjusting system settings such as volume on your own device",
+          "Pairing your personal devices for convenience and workflow optimization"
+        ]
+      },
+
+      "prohibitedUse": {
+        "strictlyProhibited": [
+          "Using Linkium to access, control, or monitor a device without explicit authorization from the device owner",
+          "Distributing your receiver code publicly or sharing it with unauthorized parties",
+          "Using Linkium to facilitate unauthorized access to computer systems (a violation of the IT Act, 2000, India, and equivalent laws in other jurisdictions)",
+          "Reverse-engineering, decompiling, or disassembling Linkium beyond what is permitted by the MIT License",
+          "Using Linkium to transmit malware, spyware, or any malicious code",
+          "Attempting to disrupt, overload, or attack the relay server infrastructure",
+          "Reselling or commercially redistributing Linkium without proper attribution under the MIT License"
+        ]
+      },
+
+      "intellectualProperty": {
+        "license": "Linkium is open-source software released under the MIT License. You are free to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the software, provided the MIT License copyright notice and permission notice are included in all copies.",
+        "branding": "The Linkium name and logo are the intellectual property of the Linkium development team. The MIT License does not grant rights to use the Linkium name or logo for endorsement or branding without prior written permission.",
+        "contributions": "Contributions to the Linkium codebase are welcomed under the terms of the MIT License. By submitting a contribution, you agree that your contribution may be included in the project under the same license."
+      },
+
+      "systemBehavior": {
+        "trayOperation": "When the Linkium window is closed, the application minimizes to the system tray and continues running in the background to maintain pairing availability. You can fully exit Linkium from the tray menu.",
+        "startupBehavior": "If configured, Linkium may launch automatically at system startup. This behavior can be disabled in the app settings at any time.",
+        "resourceUsage": "Linkium is designed to be lightweight. It maintains a persistent WebSocket connection to the relay server only when active. You are responsible for any network data costs associated with usage."
+      },
+
+      "networkAndRelayService": {
+        "relayServer": "Linkium uses a WebSocket relay server at wss://steamdeck.onrender.com to facilitate pairing between the controller and receiver apps.",
+        "serviceAvailability": "The relay service is provided on a best-effort basis. We do not guarantee 100% uptime or uninterrupted service.",
+        "noOtherConnections": "Linkium does not connect to any external service other than the relay server. Any version of Linkium that contacts additional external endpoints should be considered compromised or unofficial.",
+        "firewallAndNetworks": "Network administrators may block WebSocket connections to the relay server. Linkium is not responsible for connectivity issues arising from firewall rules or network policies outside our control."
+      },
+
+      "securityResponsibilities": {
+        "receiverCode": "Your receiver code is the sole authentication mechanism for pairing. You are responsible for keeping it private. Do not share your receiver code with anyone you do not trust to control your device.",
+        "codeRegeneration": "If you believe your receiver code has been compromised, regenerate it immediately within the app settings.",
+        "deviceSecurity": "You are responsible for the physical and software security of the device on which Linkium is installed. Linkium is not responsible for unauthorized control resulting from unauthorized device access."
+      },
+
+      "disclaimerOfWarranties": "Linkium is provided 'as-is' under the MIT License, without warranties of any kind, express or implied. This includes but is not limited to implied warranties of merchantability, fitness for a particular purpose, security, or non-infringement. The relay service is provided without any uptime guarantee.",
+
+      "limitationOfLiability": "To the maximum extent permitted by applicable law, the Linkium developers shall not be liable for any direct, indirect, incidental, special, consequential, or punitive damages arising from your use of or inability to use Linkium or the relay service, including but not limited to data loss, system damage, or unauthorized device access. This limitation applies regardless of the theory of liability.",
+
+      "indemnification": "You agree to indemnify, defend, and hold harmless the Linkium developers and contributors from any claims, damages, liabilities, costs, and expenses (including reasonable legal fees) arising from your use of Linkium in violation of these Terms or applicable law.",
+
+      "disputeResolution": {
+        "informalResolution": "Before initiating formal proceedings, please contact support@linkium.space to attempt to resolve any dispute informally within 30 days.",
+        "arbitration": "Unresolved disputes shall be submitted to binding arbitration under the Arbitration and Conciliation Act, 1996 (India), conducted in New Delhi, India.",
+        "classActionWaiver": "You waive any right to bring or participate in a class action or collective proceeding against the Linkium developers.",
+        "governingLaw": "These Terms are governed by the laws of India. For non-arbitrable matters, disputes shall be resolved exclusively in the courts of New Delhi, India."
+      },
+
+      "moderation": "Linkium does not host user-generated content. The relay server transmits only commands between paired devices. There is no content moderation requirement. Security events (e.g., suspected relay abuse or brute-force pairing attempts) may result in connection blocking at the relay server level.",
+
+      "connectionBlocking": {
+        "grounds": [
+          "Suspected unauthorized access or control attempts",
+          "Abuse of the relay server infrastructure (e.g., excessive connection attempts, DoS behavior)",
+          "Use of Linkium in conjunction with malicious software"
+        ],
+        "process": "Connection blocking may occur without prior notice if immediate action is required to protect the relay server or other users. Where possible, we will notify affected parties via email."
+      },
+
+      "softwareLicense": "Linkium is open-source software distributed under the MIT License. The full license text is available in the repository. The MIT License permits free use, modification, and distribution with attribution, but comes with no warranty.",
+
+      "modifications": "We reserve the right to update these Terms at any time. Significant changes will be announced via GitHub release notes and linkium.space. Continued use of Linkium after the effective date of changes constitutes acceptance of the revised Terms.",
+
+      "termination": "You may stop using Linkium and uninstall it at any time. We may terminate relay server access for users who violate these Terms. The MIT License governing the open-source software itself cannot be revoked once granted. Sections on intellectual property, disclaimer, limitation of liability, indemnification, and dispute resolution survive termination.",
+
+      "legalJurisdiction": "These Terms are governed by the laws of India. Legal disputes shall be handled in the courts of New Delhi, India.",
+
+      "contact": {
+        "email": "support@linkium.space",
+        "github": "https://github.com/linkium",
+        "website": "https://linkium.space",
+        "responseTime": "We aim to respond to all Terms-related inquiries within 7 business days."
+      }
+    }
+  }
+}

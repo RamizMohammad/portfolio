@@ -1,42 +1,69 @@
-import { motion, useInView } from "framer-motion";
-import { useState, useRef } from "react";
-import { Link } from "react-router-dom";
-import { ArrowLeft, Download, Search, Monitor, Package, Sparkles, ArrowUpRight } from "lucide-react";
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import Navbar from "@/components/Navbar";
+import { motion, useInView } from "framer-motion";
+import { ArrowLeft, ArrowUpRight, Download, Monitor, Package, Search, Sparkles } from "lucide-react";
+import { useRef, useState } from "react";
+import { Link } from "react-router-dom";
 
+// ─── App data ─────────────────────────────────────────────────────────────────
+// logo: filename inside src/assets/AppLogos/
+// Served at runtime via GET /api/app-logo/<filename>
 const apps = [
   {
-    name: "Linkium",
-    version: "v1.0",
-    updated: "October 7, 2025",
+    name:        "Linkium",
+    version:     "v1.0",
+    updated:     "October 7, 2025",
     description: "A powerful all-in-one productivity tool for managing tasks, notes, and projects efficiently.",
     downloadUrl: "https://github.com/RamizMohammad/SteamDeck/releases/download/v1.0/Linkium.exe",
-    emoji: "🔗",
-    category: "Productivity",
-    highlights: ["Task Management", "Notes", "Project Tracking"],
+    logo:        "/api/app-logo/Linkium.png",   // ← put Linkium.png in src/assets/AppLogos/
+    category:    "Productivity",
+    highlights:  ["Task Management", "Notes", "Project Tracking"],
   },
   {
-    name: "Backup Engine",
-    version: "v1.0",
-    updated: "January 26, 2026",
+    name:        "Backup Engine",
+    version:     "v1.0",
+    updated:     "January 26, 2026",
     description: "A powerful automatic backup utility tool which tracks your changes like GitHub and merges but offline.",
     downloadUrl: "https://github.com/RamizMohammad/Backup_Engine/releases/download/v1.0/Backup.Engine.Installer.exe",
-    emoji: "💾",
-    category: "Utilities",
-    highlights: ["Auto Backup", "Change Tracking", "Offline Merge"],
+    logo:        "/api/app-logo/BackupEngine.png",   // ← put BackupEngine.png in src/assets/AppLogos/
+    category:    "Utilities",
+    highlights:  ["Auto Backup", "Change Tracking", "Offline Merge"],
   },
 ];
 
 const stats = [
   { label: "Applications", value: apps.length, icon: Package },
-  { label: "Downloads", value: "500+", icon: Download },
-  { label: "Platform", value: "Windows", icon: Monitor },
+  { label: "Downloads",    value: "500+",       icon: Download },
+  { label: "Platform",     value: "Windows",    icon: Monitor },
 ];
 
+// ─── App Logo component with fallback ────────────────────────────────────────
+const AppLogo = ({ src, name }: { src: string; name: string }) => {
+  const [error, setError] = useState(false);
+
+  if (error) {
+    // Fallback: first letter of app name in a gradient box
+    return (
+      <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-primary/20 to-secondary/20 border-2 border-border flex items-center justify-center">
+        <span className="text-3xl font-black text-primary">{name.charAt(0)}</span>
+      </div>
+    );
+  }
+
+  return (
+    <img
+      src={src}
+      alt={`${name} logo`}
+      className="w-20 h-20 rounded-2xl object-contain border-2 border-border bg-card"
+      onError={() => setError(true)}
+    />
+  );
+};
+
+// ─── Page ─────────────────────────────────────────────────────────────────────
 const WindowsApps = () => {
   const [search, setSearch] = useState("");
-  const ref = useRef(null);
+  const ref     = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   const filtered = apps.filter(
@@ -147,12 +174,14 @@ const WindowsApps = () => {
                   <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-primary via-secondary to-primary opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
                   <div className="flex flex-col md:flex-row">
-                    {/* Left: Icon + branding area */}
+                    {/* Left: Logo area */}
                     <div className="relative md:w-[200px] lg:w-[240px] flex-shrink-0 flex items-center justify-center p-8 md:p-10 bg-gradient-to-br from-primary/5 to-secondary/5 border-b md:border-b-0 md:border-r border-border">
                       <div className="relative">
-                        <div className="w-20 h-20 rounded-2xl bg-card border-2 border-border flex items-center justify-center glow-sm group-hover:glow-md transition-all duration-500">
-                          <span className="text-4xl">{app.emoji}</span>
+                        {/* Real logo image with fallback */}
+                        <div className="glow-sm group-hover:glow-md transition-all duration-500">
+                          <AppLogo src={app.logo} name={app.name} />
                         </div>
+                        {/* Version badge */}
                         <div className="absolute -bottom-2 -right-2 px-2 py-0.5 rounded-md bg-primary/15 border border-primary/20 text-[9px] font-display font-semibold text-primary">
                           {app.version}
                         </div>
@@ -171,7 +200,9 @@ const WindowsApps = () => {
                         <h3 className="font-display text-xl font-extrabold group-hover:text-primary transition-colors">
                           {app.name}
                         </h3>
-                        <p className="text-sm text-muted-foreground mt-1 leading-relaxed max-w-lg">{app.description}</p>
+                        <p className="text-sm text-muted-foreground mt-1 leading-relaxed max-w-lg">
+                          {app.description}
+                        </p>
                       </div>
 
                       {/* Highlights */}
