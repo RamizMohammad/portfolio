@@ -5,9 +5,13 @@ import { ArrowLeft, ArrowUpRight, Download, Monitor, Package, Search, Sparkles }
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
+// ─── Static logo imports ──────────────────────────────────────────────────────
+// Vite resolves these at build time → hashed + optimised in dist/assets/
+// No server needed. Images must live in src/assets/AppLogos/
+import logoLinkium      from "@/assets/AppLogos/Linkium.png";
+import logoBackupEngine from "@/assets/AppLogos/BackupEngine.png";
+
 // ─── App data ─────────────────────────────────────────────────────────────────
-// logo: filename inside src/assets/AppLogos/
-// Served at runtime via GET /api/app-logo/<filename>
 const apps = [
   {
     name:        "Linkium",
@@ -15,7 +19,7 @@ const apps = [
     updated:     "October 7, 2025",
     description: "A powerful all-in-one productivity tool for managing tasks, notes, and projects efficiently.",
     downloadUrl: "https://github.com/RamizMohammad/SteamDeck/releases/download/v1.0/Linkium.exe",
-    logo:        "/api/app-logo/Linkium.png",   // ← put Linkium.png in src/assets/AppLogos/
+    logo:        logoLinkium,
     category:    "Productivity",
     highlights:  ["Task Management", "Notes", "Project Tracking"],
   },
@@ -25,7 +29,7 @@ const apps = [
     updated:     "January 26, 2026",
     description: "A powerful automatic backup utility tool which tracks your changes like GitHub and merges but offline.",
     downloadUrl: "https://github.com/RamizMohammad/Backup_Engine/releases/download/v1.0/Backup.Engine.Installer.exe",
-    logo:        "/api/app-logo/BackupEngine.png",   // ← put BackupEngine.png in src/assets/AppLogos/
+    logo:        logoBackupEngine,
     category:    "Utilities",
     highlights:  ["Auto Backup", "Change Tracking", "Offline Merge"],
   },
@@ -42,7 +46,6 @@ const AppLogo = ({ src, name }: { src: string; name: string }) => {
   const [error, setError] = useState(false);
 
   if (error) {
-    // Fallback: first letter of app name in a gradient box
     return (
       <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-primary/20 to-secondary/20 border-2 border-border flex items-center justify-center">
         <span className="text-3xl font-black text-primary">{name.charAt(0)}</span>
@@ -63,7 +66,7 @@ const AppLogo = ({ src, name }: { src: string; name: string }) => {
 // ─── Page ─────────────────────────────────────────────────────────────────────
 const WindowsApps = () => {
   const [search, setSearch] = useState("");
-  const ref     = useRef(null);
+  const ref      = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   const filtered = apps.filter(
@@ -177,11 +180,9 @@ const WindowsApps = () => {
                     {/* Left: Logo area */}
                     <div className="relative md:w-[200px] lg:w-[240px] flex-shrink-0 flex items-center justify-center p-8 md:p-10 bg-gradient-to-br from-primary/5 to-secondary/5 border-b md:border-b-0 md:border-r border-border">
                       <div className="relative">
-                        {/* Real logo image with fallback */}
                         <div className="glow-sm group-hover:glow-md transition-all duration-500">
                           <AppLogo src={app.logo} name={app.name} />
                         </div>
-                        {/* Version badge */}
                         <div className="absolute -bottom-2 -right-2 px-2 py-0.5 rounded-md bg-primary/15 border border-primary/20 text-[9px] font-display font-semibold text-primary">
                           {app.version}
                         </div>

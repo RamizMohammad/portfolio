@@ -9,12 +9,16 @@ import Achievements from "./pages/Achievements";
 import WindowsApps from "./pages/WindowsApps";
 import NotFound from "./pages/NotFound";
 import SplashScreen from "./components/SplashScreen";
+import { useServiceWorker } from "@/hooks/useServiceWorker";
 
 const queryClient = new QueryClient();
 
 const App = () => {
   const [showSplash, setShowSplash] = useState(true);
   const handleSplashComplete = useCallback(() => setShowSplash(false), []);
+
+  // Registers /sw.js after page load — zero impact on startup perf
+  useServiceWorker();
 
   return (
     <QueryClientProvider client={queryClient}>

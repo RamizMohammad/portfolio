@@ -2,21 +2,33 @@ import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import { motion } from "framer-motion";
 import {
-  AlertTriangle,
   ArrowLeft,
   Award,
   Calendar,
   Code,
   Lightbulb,
-  Loader2,
   Sparkles,
   Star,
   Trophy,
 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { Link } from "react-router-dom";
 
-// ─── Types (must match server's shape exactly) ────────────────────────────────
+// ─── Static image imports ─────────────────────────────────────────────────────
+// Vite resolves these at build time → hashed + optimised in dist/assets/
+// No server needed. Images must live in src/assets/Certificate/
+import imgPatent         from "@/assets/Certificate/patent.png";
+import imgBluestock      from "@/assets/Certificate/bluestock.jpg";
+import imgUdemy          from "@/assets/Certificate/udemy.jpg";
+import imgKRMU           from "@/assets/Certificate/KRMU.jpg";
+import imgSharda         from "@/assets/Certificate/Sharda.jpg";
+import imgIIITD          from "@/assets/Certificate/IIITD.png";
+import imgNHAI           from "@/assets/Certificate/NHAI.jpg";
+import imgBuildWithIndia from "@/assets/Certificate/BuildWithIndia.png";
+import imgAWS            from "@/assets/Certificate/AWS.jpg";
+import imgFlipkart       from "@/assets/Certificate/Flipkart.jpg";
+
+// ─── Types ────────────────────────────────────────────────────────────────────
 interface Achievement {
   category:    string;
   title:       string;
@@ -25,26 +37,115 @@ interface Achievement {
   status:      string;
   emoji:       string;
   photo:       string;
-  accent:      string;
   tags?:       string[];
   location?:   string;
   organizer?:  string;
   link?:       string;
 }
 
-interface Stats {
-  certifications: number;
-  hackathonWins:  number;
-  patents:        number;
-  projects:       number;
-}
+// ─── Static data ──────────────────────────────────────────────────────────────
+const ACHIEVEMENTS: Achievement[] = [
+  {
+    category: "Patent", title: "Patent for Real-Time User Safety During Vehicle Commutes",
+    description: "Filed a patent with the Indian Government for METHOD AND SYSTEM FOR REAL-TIME USER SAFETY DURING VEHICLE COMMUTES. The system monitors commuter behavior using sensor fusion and AI to detect anomalies and trigger emergency alerts in real time. Application No: 202511053637 A, Publication Date: 27 June 2025.",
+    date: "2025", status: "Filed", emoji: "💡",
+    photo: imgPatent,
+    tags: ["AI", "Safety", "Sensor Fusion", "Government", "Innovation"],
+    location: "India", organizer: "Indian Patent Office",
+  },
+  {
+    category: "Work", title: "Moglix — Python & Agentic AI Developer",
+    description: "Working as a Python developer and Agentic AI specialist at Moglix, India's leading B2B e-commerce platform. Building intelligent automation pipelines, supplier invoice accuracy systems, and an AI-powered customer support chatbot using LLMs and agentic workflows.",
+    date: "2026", status: "Current", emoji: "🚀",
+    photo: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop",
+    tags: ["Python", "Agentic AI", "LLM", "FastAPI", "OCR", "B2B"],
+    location: "Noida, India", organizer: "Moglix",
+  },
+  {
+    category: "Internship", title: "Bluestock Fintech — SDE Intern",
+    description: "Worked as Software Development Engineer (SDE) at Bluestock Fintech. Led development of the internal admin panel using Flask and Python, built REST APIs, and collaborated with a cross-functional team across design, product, and backend engineering.",
+    date: "2025", status: "Completed", emoji: "💼",
+    photo: imgBluestock,
+    tags: ["Flask", "Python", "REST API", "FinTech", "Admin Panel"],
+    location: "Remote, India", organizer: "Bluestock Fintech",
+  },
+  {
+    category: "Certification", title: "Machine Learning A-Z (Udemy)",
+    description: "Completed the comprehensive Machine Learning A-Z course on Udemy, covering supervised and unsupervised learning, deep learning fundamentals, model evaluation, and real-world ML pipelines using both Python (scikit-learn, TensorFlow) and R.",
+    date: "2024", status: "Certified", emoji: "🤖",
+    photo: imgUdemy,
+    tags: ["Python", "R", "ML", "scikit-learn", "Deep Learning"],
+    organizer: "Udemy",
+  },
+  {
+    category: "Hackathon", title: "56 Hours Hackathon — KRMU University",
+    description: "Finalist in a grueling 56-hour hackathon at K.R. Mangalam University, Gurgaon. Competed against 200+ teams from across India, surviving four rounds of judging before reaching the final stage.",
+    date: "2024", status: "Finalist", emoji: "🏆",
+    photo: imgKRMU,
+    tags: ["56hrs", "Finalist", "200+ Teams"],
+    location: "Gurgaon, Haryana", organizer: "K.R. Mangalam University",
+  },
+  {
+    category: "Hackathon", title: "24 Hours Hackathon — Sharda University",
+    description: "Placed 6th in a 24-hour intensive hackathon at Sharda University, Greater Noida. Ranked in the top 10 out of 150+ teams, designing and building a working prototype under extreme time pressure.",
+    date: "2024", status: "6th Place", emoji: "🥇",
+    photo: imgSharda,
+    tags: ["24hrs", "Top-10", "150+ Teams"],
+    location: "Greater Noida, UP", organizer: "Sharda University",
+  },
+  {
+    category: "Hackathon", title: "Hack For Impact — IIIT Delhi E-Summit 2025",
+    description: "Participated in Hack For Impact at E-Summit 2025, hosted by IIIT Delhi. The challenge focused on building tech solutions with measurable social impact in education, healthcare, and sustainability.",
+    date: "2025", status: "Participant", emoji: "⚡",
+    photo: imgIIITD,
+    tags: ["Social Impact", "E-Summit", "IIIT"],
+    location: "New Delhi, India", organizer: "IIIT Delhi",
+  },
+  {
+    category: "Hackathon", title: "Infrastructure Innovation — NHAI & HOAI",
+    description: "Participated in a government-backed hackathon by the National Highway Authority of India and HOAI. Proposed an AI-assisted highway monitoring solution for real-time pothole detection and commuter safety.",
+    date: "2024", status: "Participant", emoji: "🛣️",
+    photo: imgNHAI,
+    tags: ["Government", "AI", "Infrastructure", "Safety"],
+    location: "India", organizer: "NHAI & HOAI",
+  },
+  {
+    category: "Hackathon", title: "Build With India — Google Office",
+    description: "Selected to participate in the Build With India Hackathon at Google's India headquarters. Worked on a solution leveraging Google Maps SDK, Firebase, and Vertex AI to solve a hyperlocal logistics problem for Indian small businesses.",
+    date: "2025", status: "Participant", emoji: "🏢",
+    photo: imgBuildWithIndia,
+    tags: ["Google", "Firebase", "Vertex AI", "Maps SDK"],
+    location: "Google India, Gurugram", organizer: "Google India",
+  },
+  {
+    category: "Certification", title: "Deep Dive on AWS",
+    description: "Completed Amazon's Deep Dive on AWS certification, gaining hands-on expertise in EC2, S3, CloudWatch, Lambda, IAM, and VPC networking. Applied directly to production deployments for portfolio backend.",
+    date: "2024", status: "Certified", emoji: "☁️",
+    photo: imgAWS,
+    tags: ["AWS", "EC2", "S3", "Lambda", "CloudWatch", "IAM"],
+    organizer: "Amazon AWS",
+  },
+  {
+    category: "Competition", title: "Flipkart GRiD 6.0 — Software Development Track",
+    description: "Competed in Flipkart GRiD 6.0 with 300,000+ registrations nationwide. Cleared Level 1 in the Software Development Track, demonstrating strong fundamentals in system design, data structures, and e-commerce engineering.",
+    date: "2024", status: "Level 1 Cleared", emoji: "🛒",
+    photo: imgFlipkart,
+    tags: ["E-Commerce", "System Design", "300K+ Teams", "Flipkart"],
+    organizer: "Flipkart",
+  },
+];
 
-interface ApiResponse {
-  achievements: Achievement[];
-  stats:        Stats;
-  total:        number;
-  lastUpdated:  string;
-}
+// ─── Derived stats ────────────────────────────────────────────────────────────
+const STATS = {
+  certifications: ACHIEVEMENTS.filter((a) => a.category === "Certification").length + 9,
+  hackathonWins:  ACHIEVEMENTS.filter(
+    (a) =>
+      a.category === "Hackathon" &&
+      ["Finalist", "6th Place", "1st", "2nd", "3rd"].some((s) => a.status.includes(s))
+  ).length,
+  patents:  ACHIEVEMENTS.filter((a) => a.category === "Patent").length,
+  projects: 15,
+};
 
 // ─── Animation variants ───────────────────────────────────────────────────────
 const container = {
@@ -60,36 +161,7 @@ const itemVariant = {
   },
 };
 
-// ─── Skeleton card ────────────────────────────────────────────────────────────
-const SkeletonCard = ({ i }: { i: number }) => {
-  const isEven = i % 2 === 0;
-  return (
-    <div className="rounded-3xl border border-border/50 bg-card overflow-hidden animate-pulse">
-      <div className={`flex flex-col ${isEven ? "md:flex-row" : "md:flex-row-reverse"}`}>
-        <div className="md:w-[45%] aspect-[16/10] md:aspect-auto bg-muted/40" />
-        <div className="flex-1 p-8 md:p-12 space-y-4">
-          <div className="flex gap-3">
-            <div className="h-6 w-24 rounded-full bg-muted/40" />
-            <div className="h-6 w-16 rounded-full bg-muted/30" />
-          </div>
-          <div className="h-8 w-3/4 rounded-xl bg-muted/40" />
-          <div className="space-y-2">
-            <div className="h-4 w-full rounded bg-muted/30" />
-            <div className="h-4 w-5/6 rounded bg-muted/30" />
-            <div className="h-4 w-4/6 rounded bg-muted/30" />
-          </div>
-          <div className="flex gap-2 pt-2">
-            {[1, 2, 3].map(j => (
-              <div key={j} className="h-6 w-16 rounded-lg bg-muted/30" />
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// ─── Achievement Card ─────────────────────────────────────────────────────────
+// ─── Achievement Card (UI unchanged) ─────────────────────────────────────────
 const AchievementCard = ({ a, i }: { a: Achievement; i: number }) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const isEven  = i % 2 === 0;
@@ -97,8 +169,6 @@ const AchievementCard = ({ a, i }: { a: Achievement; i: number }) => {
   return (
     <motion.div variants={itemVariant} className="group">
       <div ref={cardRef} className="relative rounded-3xl overflow-hidden">
-
-        {/* Animated gradient border on hover */}
         <div className="absolute inset-0 rounded-3xl p-[1.5px]">
           <div
             className="absolute inset-[-50%] opacity-0 group-hover:opacity-100 transition-opacity duration-700"
@@ -112,27 +182,18 @@ const AchievementCard = ({ a, i }: { a: Achievement; i: number }) => {
         <div className="relative rounded-3xl bg-card border border-border/50 overflow-hidden group-hover:border-transparent transition-colors duration-500">
           <div className={`flex flex-col ${isEven ? "md:flex-row" : "md:flex-row-reverse"}`}>
 
-            {/* ── Photo ──────────────────────────────────────────────────── */}
+            {/* Photo */}
             <div className="relative md:w-[45%] flex-shrink-0 overflow-hidden">
               <div className="aspect-[16/10] md:aspect-auto md:h-full relative">
                 <img
                   src={a.photo}
                   alt={a.title}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 ease-out"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).style.display = "none";
-                  }}
+                  onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-card via-card/20 to-transparent md:bg-none" />
-                <div
-                  className={`absolute inset-0 hidden md:block ${
-                    isEven
-                      ? "bg-gradient-to-r from-transparent via-transparent to-card"
-                      : "bg-gradient-to-l from-transparent via-transparent to-card"
-                  }`}
-                />
+                <div className={`absolute inset-0 hidden md:block ${isEven ? "bg-gradient-to-r from-transparent via-transparent to-card" : "bg-gradient-to-l from-transparent via-transparent to-card"}`} />
 
-                {/* Emoji badge */}
                 <motion.div
                   initial={{ scale: 0, rotate: -20 }}
                   animate={{ scale: 1, rotate: 0 }}
@@ -147,32 +208,25 @@ const AchievementCard = ({ a, i }: { a: Achievement; i: number }) => {
                   </div>
                 </motion.div>
 
-                {/* Year mobile watermark */}
                 <div className="absolute bottom-4 left-5 md:hidden">
                   <span className="font-display text-5xl font-black text-foreground/10">{a.date}</span>
                 </div>
               </div>
             </div>
 
-            {/* ── Content ─────────────────────────────────────────────────── */}
+            {/* Content */}
             <div className="flex-1 p-7 md:p-10 lg:p-12 flex flex-col justify-center relative">
-              {/* Year watermark desktop */}
               <div className="absolute top-4 right-6 hidden md:block">
-                <span className="font-display text-7xl lg:text-8xl font-black text-foreground/[0.03] select-none leading-none">
-                  {a.date}
-                </span>
+                <span className="font-display text-7xl lg:text-8xl font-black text-foreground/[0.03] select-none leading-none">{a.date}</span>
               </div>
 
-              {/* Category + date + location */}
               <div className="flex items-center gap-3 mb-4 flex-wrap">
                 <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold tracking-[0.15em] uppercase">
-                  <Sparkles size={10} />
-                  {a.category}
+                  <Sparkles size={10} />{a.category}
                 </span>
                 <div className="h-4 w-px bg-border" />
                 <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground font-medium">
-                  <Calendar size={11} />
-                  {a.date}
+                  <Calendar size={11} />{a.date}
                 </span>
                 {a.location && (
                   <>
@@ -182,39 +236,29 @@ const AchievementCard = ({ a, i }: { a: Achievement; i: number }) => {
                 )}
               </div>
 
-              {/* Organizer */}
               {a.organizer && (
-                <p className="text-[11px] text-muted-foreground/50 font-medium mb-3 tracking-wide uppercase">
-                  {a.organizer}
-                </p>
+                <p className="text-[11px] text-muted-foreground/50 font-medium mb-3 tracking-wide uppercase">{a.organizer}</p>
               )}
 
-              {/* Title */}
               <h3 className="font-display text-2xl md:text-3xl font-extrabold mb-4 leading-tight group-hover:text-gradient transition-all duration-500">
                 {a.title}
               </h3>
 
-              {/* Description */}
               <div className="flex gap-4 mb-5">
                 <div className="w-[3px] rounded-full bg-gradient-to-b from-primary via-secondary to-transparent flex-shrink-0 mt-1" />
                 <p className="text-sm text-muted-foreground leading-relaxed">{a.description}</p>
               </div>
 
-              {/* Tags */}
               {a.tags && a.tags.length > 0 && (
                 <div className="flex flex-wrap gap-2 mb-5">
                   {a.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="px-2.5 py-1 rounded-lg bg-primary/5 border border-primary/10 text-[10px] font-semibold text-primary/70 tracking-wide"
-                    >
+                    <span key={tag} className="px-2.5 py-1 rounded-lg bg-primary/5 border border-primary/10 text-[10px] font-semibold text-primary/70 tracking-wide">
                       {tag}
                     </span>
                   ))}
                 </div>
               )}
 
-              {/* Status + decorative dots */}
               <div className="flex items-center justify-between">
                 <motion.div
                   whileHover={{ scale: 1.05 }}
@@ -224,20 +268,12 @@ const AchievementCard = ({ a, i }: { a: Achievement; i: number }) => {
                     <div className="w-2.5 h-2.5 rounded-full bg-primary" />
                     <div className="absolute inset-0 w-2.5 h-2.5 rounded-full bg-primary animate-ping opacity-40" />
                   </div>
-                  <span className="text-xs font-display font-bold tracking-wide text-primary">
-                    {a.status}
-                  </span>
+                  <span className="text-xs font-display font-bold tracking-wide text-primary">{a.status}</span>
                 </motion.div>
 
                 <div className="hidden md:flex items-center gap-1.5">
                   {[...Array(3)].map((_, j) => (
-                    <motion.div
-                      key={j}
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      transition={{ delay: 0.5 + j * 0.1 }}
-                      className="w-1.5 h-1.5 rounded-full bg-primary/20"
-                    />
+                    <motion.div key={j} initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.5 + j * 0.1 }} className="w-1.5 h-1.5 rounded-full bg-primary/20" />
                   ))}
                 </div>
               </div>
@@ -253,39 +289,12 @@ const AchievementCard = ({ a, i }: { a: Achievement; i: number }) => {
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 const Achievements = () => {
-  const [achievements, setAchievements] = useState<Achievement[]>([]);
-  const [stats, setStats]               = useState<Stats | null>(null);
-  const [loading, setLoading]           = useState(true);
-  const [error, setError]               = useState<string | null>(null);
-
-  useEffect(() => {
-    setLoading(true);
-    setError(null);
-
-    fetch("/api/achievements")
-      .then((r) => {
-        if (!r.ok) throw new Error(`Server returned ${r.status}`);
-        return r.json() as Promise<ApiResponse>;
-      })
-      .then((data) => {
-        setAchievements(data.achievements);
-        setStats(data.stats);
-      })
-      .catch((err) => {
-        console.error("[Achievements] fetch failed:", err);
-        setError("Could not load achievements from server. Please try again.");
-      })
-      .finally(() => setLoading(false));
-  }, []);
-
-  const statCards = stats
-    ? [
-        { icon: Award,     number: `${stats.certifications}+`, label: "Certifications",  gradient: "from-primary to-primary/60"     },
-        { icon: Trophy,    number: `${stats.hackathonWins}`,   label: "Hackathon Wins",  gradient: "from-secondary to-secondary/60" },
-        { icon: Lightbulb, number: `${stats.patents}`,         label: "Patent Filed",    gradient: "from-accent to-accent/60"       },
-        { icon: Code,      number: `${stats.projects}+`,       label: "Projects Built",  gradient: "from-primary to-secondary"      },
-      ]
-    : [];
+  const statCards = [
+    { icon: Award,     number: `${STATS.certifications}+`, label: "Certifications",  gradient: "from-primary to-primary/60"     },
+    { icon: Trophy,    number: `${STATS.hackathonWins}`,   label: "Hackathon Wins",  gradient: "from-secondary to-secondary/60" },
+    { icon: Lightbulb, number: `${STATS.patents}`,         label: "Patent Filed",    gradient: "from-accent to-accent/60"       },
+    { icon: Code,      number: `${STATS.projects}+`,       label: "Projects Built",  gradient: "from-primary to-secondary"      },
+  ];
 
   return (
     <div className="relative min-h-screen">
@@ -296,29 +305,19 @@ const Achievements = () => {
       <section className="pt-32 pb-20 section-padding relative z-10 overflow-hidden">
         <div className="absolute top-20 left-1/4 w-[400px] h-[400px] rounded-full bg-primary/5 blur-[120px] pointer-events-none" />
         <div className="absolute top-40 right-1/4 w-[300px] h-[300px] rounded-full bg-secondary/5 blur-[100px] pointer-events-none" />
-
         <div className="max-w-5xl mx-auto text-center relative">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          >
+          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}>
             <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
+              initial={{ scale: 0 }} animate={{ scale: 1 }}
               transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-primary/20 bg-primary/5 backdrop-blur-sm text-primary text-sm font-display font-semibold mb-8"
             >
               <Trophy size={16} />
               <span className="tracking-[0.1em] text-xs">HALL OF HONORS</span>
             </motion.div>
-
             <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-extrabold mb-6 leading-[0.9]">
-              Built with
-              <br />
-              <span className="text-gradient">Dedication</span>
+              Built with<br /><span className="text-gradient">Dedication</span>
             </h1>
-
             <p className="text-muted-foreground max-w-lg mx-auto text-base md:text-lg leading-relaxed">
               Every milestone here represents countless hours of learning, building, and pushing boundaries.
             </p>
@@ -326,40 +325,34 @@ const Achievements = () => {
         </div>
       </section>
 
-      {/* Stats — only render when loaded */}
-      {statCards.length > 0 && (
-        <section className="relative z-10 px-6 -mt-4">
-          <div className="max-w-4xl mx-auto">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-              {statCards.map((stat, i) => (
-                <motion.div
-                  key={stat.label}
-                  initial={{ opacity: 0, y: 30, scale: 0.9 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  transition={{ delay: 0.3 + i * 0.08, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                  whileHover={{ y: -6, transition: { duration: 0.3 } }}
-                  className="relative group/stat"
-                >
-                  <div className="relative rounded-2xl border border-border/50 bg-card/80 backdrop-blur-sm p-6 text-center overflow-hidden">
-                    <div className="absolute inset-0 opacity-0 group-hover/stat:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-primary/5 to-transparent" />
-                    <div className="relative z-10">
-                      <div className={`inline-flex p-2.5 rounded-xl bg-gradient-to-br ${stat.gradient} mb-3`}>
-                        <stat.icon className="text-primary-foreground" size={20} />
-                      </div>
-                      <p className="font-display text-3xl md:text-4xl font-extrabold bg-gradient-to-b from-foreground to-foreground/60 bg-clip-text text-transparent">
-                        {stat.number}
-                      </p>
-                      <p className="text-[11px] text-muted-foreground mt-1 font-medium tracking-wide uppercase">
-                        {stat.label}
-                      </p>
+      {/* Stats */}
+      <section className="relative z-10 px-6 -mt-4">
+        <div className="max-w-4xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            {statCards.map((stat, i) => (
+              <motion.div
+                key={stat.label}
+                initial={{ opacity: 0, y: 30, scale: 0.9 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ delay: 0.3 + i * 0.08, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                whileHover={{ y: -6, transition: { duration: 0.3 } }}
+                className="relative group/stat"
+              >
+                <div className="relative rounded-2xl border border-border/50 bg-card/80 backdrop-blur-sm p-6 text-center overflow-hidden">
+                  <div className="absolute inset-0 opacity-0 group-hover/stat:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-primary/5 to-transparent" />
+                  <div className="relative z-10">
+                    <div className={`inline-flex p-2.5 rounded-xl bg-gradient-to-br ${stat.gradient} mb-3`}>
+                      <stat.icon className="text-primary-foreground" size={20} />
                     </div>
+                    <p className="font-display text-3xl md:text-4xl font-extrabold bg-gradient-to-b from-foreground to-foreground/60 bg-clip-text text-transparent">{stat.number}</p>
+                    <p className="text-[11px] text-muted-foreground mt-1 font-medium tracking-wide uppercase">{stat.label}</p>
                   </div>
-                </motion.div>
-              ))}
-            </div>
+                </div>
+              </motion.div>
+            ))}
           </div>
-        </section>
-      )}
+        </div>
+      </section>
 
       {/* Divider */}
       <div className="max-w-5xl mx-auto px-6 py-16">
@@ -374,48 +367,16 @@ const Achievements = () => {
         </div>
       </div>
 
-      {/* Achievement Cards */}
+      {/* Cards */}
       <section className="px-6 md:px-12 lg:px-20 pb-20 relative z-10">
         <div className="max-w-5xl mx-auto">
-
-          {/* Loading state */}
-          {loading && (
+          <motion.div variants={container} initial="hidden" animate="show">
             <div className="space-y-8">
-              <div className="flex items-center justify-center gap-3 py-8 text-muted-foreground">
-                <Loader2 className="animate-spin text-primary" size={20} />
-                <span className="text-sm font-display">Loading achievements...</span>
-              </div>
-              {[...Array(3)].map((_, i) => <SkeletonCard key={i} i={i} />)}
+              {ACHIEVEMENTS.map((a, i) => (
+                <AchievementCard key={`${a.title}-${i}`} a={a} i={i} />
+              ))}
             </div>
-          )}
-
-          {/* Error state */}
-          {!loading && error && (
-            <div className="flex flex-col items-center justify-center gap-4 py-20 text-center">
-              <div className="p-4 rounded-2xl bg-destructive/10 border border-destructive/20">
-                <AlertTriangle className="text-destructive" size={28} />
-              </div>
-              <p className="text-sm text-muted-foreground max-w-sm">{error}</p>
-              <button
-                onClick={() => window.location.reload()}
-                className="px-6 py-2.5 rounded-xl border border-border text-sm font-display font-semibold hover:bg-primary/5 transition-colors"
-              >
-                Try Again
-              </button>
-            </div>
-          )}
-
-          {/* Loaded state */}
-          {!loading && !error && achievements.length > 0 && (
-            <motion.div variants={container} initial="hidden" animate="show">
-              <div className="space-y-8">
-                {achievements.map((a, i) => (
-                  <AchievementCard key={`${a.title}-${i}`} a={a} i={i} />
-                ))}
-              </div>
-            </motion.div>
-          )}
-
+          </motion.div>
           <div className="text-center mt-16">
             <Link to="/" className="inline-flex items-center gap-2 px-8 py-3.5 btn-premium">
               <ArrowLeft size={16} /> Back to Home
