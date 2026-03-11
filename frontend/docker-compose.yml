@@ -1,0 +1,41 @@
+version: "3.9"
+
+services:
+  portfolio:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+
+    container_name: ramiz-portfolio
+    restart: unless-stopped
+
+    ports:
+      - "8004:8004"   # Nginx proxies all 3 domains → localhost:8004
+
+    env_file:
+      - .env          # EMAIL_ADDRESS, APP_PASS — never baked into image
+
+    environment:
+      NODE_ENV: production
+      PORT:     8004
+
+    # Mount asset folders as volumes →
+    # swap images on host + `docker compose restart` = no rebuild needed
+    volumes:
+      - ./src/assets/Certificate:/app/src/assets/Certificate:ro
+      - ./src/assets/AppLogos:/app/src/assets/AppLogos:ro
+      - ./policies.json:/app/policies.json:ro
+
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8004/health"]
+      interval: 30s
+      timeout:  5s
+      retries:  3
+      start_period: 15s
+
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
